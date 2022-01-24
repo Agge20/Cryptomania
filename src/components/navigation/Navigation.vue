@@ -151,7 +151,7 @@ export default {
   min-width: 80px;
 }
 .expand-enter-active {
-  transition: 1s ease-out;
+  transition: 0.5s ease-out;
 }
 .expand-leave-from {
   min-width: 80px;
