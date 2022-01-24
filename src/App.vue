@@ -1,5 +1,5 @@
 <template>
-  <main data-server-rendered="true">
+  <main data-server-rendered="true" class="flex flex-col">
     <Navigation />
     <router-view />
   </main>
