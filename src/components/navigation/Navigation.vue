@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed w-full">
+  <div class="fixed w-screen">
     <nav class="bg-theme_black h-20 p-5 flex lg:items-center z-10">
       <div
         class="w-sm h-20 absolute top-0 flex justify-center items-center uppercase text-theme_white font-montserrat font-medium text-xl z-10"
@@ -34,7 +34,10 @@
       </div>
       <div class="hidden lg:block mx-auto">
         <ul class="flex flex-col justify-center items-center lg:flex-row">
-          <li class="nav-links">Home</li>
+          <router-link :to="{ name: 'Home' }">
+            <li class="nav-links">Home</li>
+          </router-link>
+
           <li class="nav-links">Search</li>
           <li class="nav-links">News</li>
           <li class="nav-links">Watchlist</li>
@@ -42,6 +45,7 @@
         </ul>
       </div>
     </nav>
+    <TickerTape />
   </div>
 </template>
 
@@ -50,11 +54,14 @@
 import Burger from "../../svg/Burger.vue";
 import Close from "../../svg/Close.vue";
 
+// components
+import TickerTape from "../TickerTape.vue";
+
 // vue imports
 import { ref, watchEffect } from "vue";
 
 export default {
-  components: { Burger, Close },
+  components: { Burger, Close, TickerTape },
   setup() {
     const showNavbar = ref(false);
 
