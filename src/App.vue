@@ -1,6 +1,8 @@
 <template>
-  <Navigation />
-  <router-view />
+  <main data-server-rendered="true">
+    <Navigation />
+    <router-view />
+  </main>
 </template>
 
 <script>
@@ -11,4 +13,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+main {
+  max-width: 2000px;
+}
+</style>
