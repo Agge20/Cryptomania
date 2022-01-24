@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex flex-wrap justify-center items-center custom-shadow h-10 bg-theme_gray overflow-hidden min-w-screen"
+    class="flex justify-center items-center custom-shadow h-10 bg-theme_gray min-w-screen"
   >
     <transition-group name="tickerTape">
       <div
         :key="coin.symbol"
         v-if="coinData.length"
-        class="sm:border-r-2 last:border-r-0 border-neutral-300 flex justify-start items-center p-2 w-auto font-montserrat font-medium"
+        class="sm:border-r-2 last:border-r-0 border-neutral-300 inline-block p-2 w-auto font-montserrat font-medium"
         v-for="coin in coinData"
       >
         <div class="flex justify-center items-center">
@@ -47,8 +47,8 @@ export default {
 
     // fetch the data every 5 seconds
     setInterval(() => {
-      getCoins();
-    }, 5000);
+      //getCoins();
+    }, 12000);
 
     return { coinData, loading };
   },
@@ -56,11 +56,26 @@ export default {
 </script>
 
 <style scoped>
-.tickerTape-enter-from {
-  background-color: #cccccc !important;
+.tickerTape-enter-active {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: tickerslide;
+  animation-name: tickerslide;
+  -webkit-animation-duration: 30s;
+  animation-duration: 30s;
 }
 
-.tickerTape-enter-active {
-  transition: all 2s ease;
+@keyframes tickerslide {
+  0% {
+    -webkit-transform: translate3d(+100vw, 0, 0);
+    transform: translate3d(+100vw, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(-200vw, 0, 0);
+    transform: translate3d(-200vw, 0, 0);
+  }
 }
 </style>
