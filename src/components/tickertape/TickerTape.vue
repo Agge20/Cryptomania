@@ -10,7 +10,6 @@
         v-if="coinData.length && showTickerslide"
         class="w-64 shrink-0 sm:border-r-2 last:border-r-0 border-neutral-300 inline-block p-2 font-montserrat font-medium"
         v-for="coin in coinData"
-        @mouseleave="getCoins"
       >
         <TickerTapeCoin :coin="coin" />
       </div>
@@ -41,7 +40,7 @@ export default {
       getCoins();
     }, 35000);
 
-    return { coinData, loading, showTickerslide, getCoins };
+    return { coinData, loading, showTickerslide };
   },
 };
 </script>
@@ -55,11 +54,6 @@ export default {
   animation: tickertape-animation 35s linear infinite 0s;
 }
 
-.tickertape:hover {
-  animation-play-state: paused;
-  cursor: help;
-}
-
 @keyframes tickertape-animation {
   0% {
     -webkit-transform: translate3d(100vw, 0, 0);
@@ -68,8 +62,8 @@ export default {
   }
   /* each ticker-tab is 256px wide */
   100% {
-    -webkit-transform: translate3d(calc(-256px * 20), 0, 0);
-    transform: translate3d(calc(-256px * 20), 0, 0);
+    -webkit-transform: translate3d(calc(-256px * 15), 0, 0);
+    transform: translate3d(calc(-256px * 15), 0, 0);
   }
 }
 </style>
