@@ -32,7 +32,7 @@ const useGetTickerTapeCoins = () => {
           // cut the 24_hour_change_percentage to 2 decimals
           let priceChange = coinData.value[i].price_change_percentage_24h;
           priceChange = priceChange.toString();
-          let priceChangeSubstr = priceChange.substring(0, 5);
+          let priceChangeSubstr = priceChange.substring(0, 4);
 
           modifiedCoinData.value.push({
             ...coinData.value[i],
