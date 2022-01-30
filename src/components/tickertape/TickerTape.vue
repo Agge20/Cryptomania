@@ -38,7 +38,7 @@ export default {
     // fetch the data every 12 seconds
     setInterval(() => {
       getCoins();
-    }, 35000);
+    }, 45000);
 
     return { coinData, loading, showTickerslide };
   },
@@ -47,11 +47,11 @@ export default {
 
 <style scoped>
 .tickertape {
-  -webkit-animation: tickertape-animation 35s linear infinite 0s;
-  -moz-animation: tickertape-animation 35s linear infinite 0s;
-  -o-animation: tickertape-animation 35s linear infinite 0s;
-  -ms-animation: tickertape-animation 35s linear infinite 0s;
-  animation: tickertape-animation 35s linear infinite 0s;
+  -webkit-animation: tickertape-animation 45s linear infinite 0s;
+  -moz-animation: tickertape-animation 45s linear infinite 0s;
+  -o-animation: tickertape-animation 45s linear infinite 0s;
+  -ms-animation: tickertape-animation 45s linear infinite 0s;
+  animation: tickertape-animation 45s linear infinite 0s;
 }
 
 @keyframes tickertape-animation {
