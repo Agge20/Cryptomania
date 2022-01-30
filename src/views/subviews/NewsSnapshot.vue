@@ -1,12 +1,12 @@
 <template>
   <section class="mt-64 flex flex-col items-center justify-center">
-    <h2 class="header-lg">Latest News</h2>
+    <h2 class="header-lg mb-8">Latest News</h2>
     <span v-if="error" class="mx-auto text-theme_red text-2xl">{{
       error
     }}</span>
     <div v-if="loading">loading articles...</div>
-    <div class="flex">
-      <div v-if="!loading" v-for="article in newsData[0]">
+    <div class="flex flex-wrap content-start">
+      <div v-if="!loading" v-for="article in newsData" class="m-4">
         <NewsCard :article="article" />
       </div>
     </div>
@@ -26,15 +26,24 @@ export default {
     NewsCard,
   },
   setup() {
-    const { news, loading, error, getNews } = useGetNews();
+    const { newsSnapshot, getNewsSnapshot, loading, error } = useGetNews();
 
     const newsData = ref([]);
     // fetch news-snapshot data
-    getNews();
+    getNewsSnapshot();
 
     watchEffect(() => {
-      newsData.value = news.value;
-      console.log("newsData: ", newsData.value);
+      // when news data i fetched
+      if (newsSnapshot.value.length) {
+        // push one article from each news source
+        newsSnapshot.value.forEach((article, index) => {
+          if (index < 4) {
+            newsData.value.push(article);
+          } else {
+            return;
+          }
+        });
+      }
     });
     return { newsData, loading, error };
   },

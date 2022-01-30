@@ -16,5 +16,6 @@ export default {
 <style scoped>
 main {
   max-width: 2000px;
+  overflow: hidden;
 }
 </style>
