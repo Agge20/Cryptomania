@@ -15,7 +15,7 @@
       >
         <div
           v-if="showNavbar"
-          class="bg-theme_black flex justify-center lg:min-h-0 lg:h-20 min-h-screen absolute right-0 lg:hidden"
+          class="bg-theme_black flex justify-center lg:min-h-0 lg:h-20 min-h-screen absolute right-0 lg:hidden z-10"
         >
           <ul class="flex flex-col justify-center items-center lg:flex-row">
             <router-link :to="{ name: 'Home' }">
@@ -47,7 +47,7 @@
         </div>
       </transition>
       <div
-        class="w-12 text-theme_white absolute top-4 right-2 transition duration-150 cursor-pointer lg:hidden"
+        class="w-12 text-theme_white absolute top-4 right-2 transition duration-150 cursor-pointer lg:hidden z-20"
         @click="toggleNavbar"
       >
         <Burger v-if="!showNavbar" />
@@ -84,7 +84,7 @@ import Watchlist from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 
 // components
-import TickerTape from "../TickerTape.vue";
+import TickerTape from "../tickertape/TickerTape.vue";
 
 // vue imports
 import { ref, watchEffect } from "vue";
@@ -151,7 +151,7 @@ export default {
   min-width: 80px;
 }
 .expand-enter-active {
-  transition: 1s ease-out;
+  transition: 0.5s ease-out;
 }
 .expand-leave-from {
   min-width: 80px;
@@ -160,6 +160,6 @@ export default {
   min-width: 0;
 }
 .expand-leave-active {
-  transition: 0.5s ease-in;
+  transition: 0.5s ease-out;
 }
 </style>
