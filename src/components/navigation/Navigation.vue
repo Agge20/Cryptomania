@@ -69,7 +69,7 @@
         </ul>
       </div>
     </nav>
-    <TickerTape />
+    <!-- <TickerTape /> -->
   </div>
 </template>
 
