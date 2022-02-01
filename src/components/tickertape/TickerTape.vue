@@ -1,19 +1,24 @@
 <template>
-  <div class="bg-theme_gray flex">
-    <!-- slider-wrapper -->
+  <!-- slider-wrapper -->
+  <div v-if="loading" class="h-10 mx-auto flex items-center justify-center">
+    <DotsLoader />
+  </div>
+  <div
+    v-if="!loading"
+    class="tickertape flex justify-center items-center custom-shadow h-10 min-w-screen"
+  >
+    <!-- refetch coin data after tickertape has been stopped from hover -->
     <div
-      class="tickertape flex justify-center items-center custom-shadow h-10 min-w-screen"
+      :key="coin.symbol"
+      v-if="coinsData.length"
+      class="w-64 shrink-0 sm:border-r-2 border-neutral-300 inline-block p-2 font-montserrat font-medium"
+      v-for="coin in coinsData"
     >
-      <!-- refetch coin data after tickertape has been stopped from hover -->
-      <div
-        :key="coin.symbol"
-        v-if="coinData.length && showTickerslide"
-        class="w-64 shrink-0 sm:border-r-2 last:border-r-0 border-neutral-300 inline-block p-2 font-montserrat font-medium"
-        v-for="coin in coinData"
-      >
-        <TickerTapeCoin :coin="coin" />
-      </div>
+      <TickertapeCoin :coin="coin" />
     </div>
+  </div>
+  <div class="mx-auto" v-if="error">
+    <Error :msg="error" />
   </div>
 </template>
 
@@ -25,22 +30,32 @@ import useGetTickerTapeCoins from "../../hooks/get/useGetTickerTapeCoins";
 import { ref, watchEffect } from "vue";
 
 // components
-import TickerTapeCoin from "../tickertape/TickerTapeCoin.vue";
+import TickertapeCoin from "./TickertapeCoin.vue";
+import DotsLoader from "../loader/DotsLoader.vue";
+import Error from "../error/Error.vue";
 
 export default {
-  components: { TickerTapeCoin },
-  setup() {
-    const { getCoins, coinData, loading } = useGetTickerTapeCoins();
-    const showTickerslide = ref(true);
+  // initial prop-state decides if its the first tickertape that is rendered on page load
+  props: ["initial"],
+  components: { TickertapeCoin, DotsLoader, Error },
+  setup({ initial }) {
+    // interval milliseconds
+    const SPEED = 45000;
+    const { getCoins, coinsData, loading, error } = useGetTickerTapeCoins();
 
-    getCoins();
-
-    // fetch the data every 12 seconds
-    setInterval(() => {
+    if (initial) {
+      // if initial tickertape fetch coin-data immediately
       getCoins();
-    }, 45000);
+      // declare that the initial has already been rendered
+      initial = false;
+    } else {
+      // fetch the data every 45 seconds
+      setInterval(() => {
+        getCoins();
+      }, SPEED / 2);
+    }
 
-    return { coinData, loading, showTickerslide };
+    return { coinsData, loading, error };
   },
 };
 </script>
@@ -56,8 +71,8 @@ export default {
 
 @keyframes tickertape-animation {
   0% {
-    -webkit-transform: translate3d(100vw, 0, 0);
-    transform: translate3d(100vw, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     visibility: visible;
   }
   /* each ticker-tab is 256px wide */

@@ -69,7 +69,10 @@
         </ul>
       </div>
     </nav>
-    <TickerTape />
+    <div class="flex bg-theme_gray">
+      <Tickertape :initial="true" />
+      <Tickertape :initial="false" />
+    </div>
   </div>
 </template>
 
@@ -84,7 +87,7 @@ import Watchlist from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 
 // components
-import TickerTape from "../tickertape/TickerTape.vue";
+import Tickertape from "../tickertape/Tickertape.vue";
 
 // vue imports
 import { ref, watchEffect } from "vue";
@@ -98,7 +101,7 @@ export default {
     News,
     Watchlist,
     QuestionMark,
-    TickerTape,
+    Tickertape,
   },
 
   setup() {

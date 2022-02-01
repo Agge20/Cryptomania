@@ -1,45 +1,43 @@
 import { ref } from "vue";
 
 const useGetTickerTapeCoins = () => {
-  const coinData = ref([]);
+  const coinsData = ref([]);
   const modifiedCoinData = ref([]);
   const error = ref(null);
   const loading = ref(false);
 
+  // get data
   const getCoins = async () => {
-    console.log("getCoins ran!");
-    // this url returns 20 of highest ranking coins
+    // this url returns 15 of highest ranking coins
     const URL =
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=1&sparkline=false";
+    // simulate delay
 
     try {
-      // reset coinData
-      coinData.value = [];
+      // reset modified coin data
       modifiedCoinData.value = [];
       loading.value = true;
-      console.log("fetched coin-data");
       error.value = null;
 
       const res = await fetch(URL);
       const data = await res.json();
       if (res.ok) {
         error.value = null;
-        loading.value = false;
+        coinsData.value = data;
 
-        coinData.value = data;
-
-        for (let i = 0; i < coinData.value.length; i++) {
+        for (let i = 0; i < coinsData.value.length; i++) {
           // cut the 24_hour_change_percentage to 2 decimals
-          let priceChange = coinData.value[i].price_change_percentage_24h;
+          let priceChange = coinsData.value[i].price_change_percentage_24h;
           priceChange = priceChange.toString();
           let priceChangeSubstr = priceChange.substring(0, 4);
 
           modifiedCoinData.value.push({
-            ...coinData.value[i],
+            ...coinsData.value[i],
             price_change_percentage_24h: priceChangeSubstr,
           });
         }
-        coinData.value = modifiedCoinData.value;
+        coinsData.value = modifiedCoinData.value;
+        loading.value = false;
       } else {
         error.value =
           "We apologize as we could unfortunately not fetch the data.";
@@ -53,8 +51,9 @@ const useGetTickerTapeCoins = () => {
 
   return {
     getCoins,
-    coinData,
+    coinsData,
     loading,
+    error,
   };
 };
 
