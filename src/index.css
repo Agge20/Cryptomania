@@ -14,6 +14,15 @@
   }
 }
 
+/* css vars(where tailwind vars can't be applied) */
+:root {
+  --theme_gray: #e2e2e2;
+  --theme_white: #f8f8f8;
+  --theme_black: #0d0d0d;
+  --theme_red: #f63659;
+  --theme_green: #33d33f;
+}
+
 .custom-shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
