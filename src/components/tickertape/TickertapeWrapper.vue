@@ -7,7 +7,7 @@
 
 <script>
 // components
-import Tickertape from "../tickertape/Tickertape.vue";
+import Tickertape from "./TickertapeCoin.vue";
 export default {
   components: {
     Tickertape,
