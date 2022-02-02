@@ -9,7 +9,7 @@
       class="w-64 shrink-0 inline-block p-2 font-montserrat font-medium"
       v-for="coin in coinsData"
     >
-      <TickertapeCoin :coin="coin" />
+      <TickerTapeCoin :coin="coin" />
     </div>
   </div>
   <div class="mx-auto" v-if="error">
@@ -25,14 +25,14 @@ import useGetTickerTapeCoins from "../../hooks/get/useGetTickerTapeCoins";
 import { ref, watchEffect } from "vue";
 
 // components
-import TickertapeCoin from "./TickertapeCoin.vue";
+import TickerTapeCoin from "./TickerTapeCoin.vue";
 import DotsLoader from "../loader/DotsLoader.vue";
 import Error from "../error/Error.vue";
 
 export default {
   // initial prop-state decides if its the first tickertape that is rendered on page load
   props: ["initial"],
-  components: { TickertapeCoin, DotsLoader, Error },
+  components: { TickerTapeCoin, DotsLoader, Error },
   setup({ initial }) {
     // interval milliseconds
     const SPEED = 45000;
