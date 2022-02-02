@@ -1,17 +1,12 @@
 <template>
   <!-- slider-wrapper -->
-  <div v-if="loading" class="h-10 mx-auto flex items-center justify-center">
-    <DotsLoader />
-  </div>
   <div
-    v-if="!loading"
     class="tickertape flex justify-center items-center custom-shadow h-10 min-w-screen"
   >
     <!-- refetch coin data after tickertape has been stopped from hover -->
     <div
       :key="coin.symbol"
-      v-if="coinsData.length"
-      class="w-64 shrink-0 sm:border-r-2 border-neutral-300 inline-block p-2 font-montserrat font-medium"
+      class="w-64 shrink-0 inline-block p-2 font-montserrat font-medium"
       v-for="coin in coinsData"
     >
       <TickertapeCoin :coin="coin" />
@@ -41,21 +36,13 @@ export default {
   setup({ initial }) {
     // interval milliseconds
     const SPEED = 45000;
-    const { getCoins, coinsData, loading, error } = useGetTickerTapeCoins();
+    const { getCoins, coinsData, error } = useGetTickerTapeCoins();
 
-    if (initial) {
-      // if initial tickertape fetch coin-data immediately
+    getCoins();
+    setInterval(() => {
       getCoins();
-      // declare that the initial has already been rendered
-      initial = false;
-    } else {
-      // fetch the data every 45 seconds
-      setInterval(() => {
-        getCoins();
-      }, SPEED / 2);
-    }
-
-    return { coinsData, loading, error };
+    }, SPEED / 2);
+    return { coinsData, error };
   },
 };
 </script>
