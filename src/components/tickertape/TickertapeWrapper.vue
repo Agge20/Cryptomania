@@ -1,16 +1,16 @@
 <template>
   <div class="flex bg-theme_dark_purple">
-    <Tickertape :initial="true" />
-    <Tickertape :initial="false" />
+    <TickerTape :initial="true" />
+    <TickerTape :initial="false" />
   </div>
 </template>
 
 <script>
 // components
-import Tickertape from "../tickertape/Tickertape.vue";
+import TickerTape from "./TickerTape.vue";
 export default {
   components: {
-    Tickertape,
+    TickerTape,
   },
 };
 </script>
