@@ -6,8 +6,6 @@ const useGetNews = () => {
   const error = ref(null);
   const URL = "https://crypto-news14.p.rapidapi.com/news/";
 
-  const sources = ["theblockcrypto", "coindesk", "cointelegraph"];
-
   // get articles from cointelegraph for homepage
   const getNewsSnapshot = async () => {
     loading.value = true;
