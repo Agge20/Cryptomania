@@ -1,6 +1,6 @@
 <template>
   <div class="fixed w-screen">
-    <nav class="bg-theme_black h-20 p-5 flex lg:items-center z-10">
+    <nav class="bg-theme_dark_purple h-20 p-5 flex lg:items-center z-10">
       <div
         class="h-20 absolute top-0 flex justify-center items-center uppercase text-theme_white font-montserrat font-medium text-xl z-10"
       >
@@ -15,7 +15,7 @@
       >
         <div
           v-if="showNavbar"
-          class="bg-theme_black flex justify-center lg:min-h-0 lg:h-20 min-h-screen absolute right-0 lg:hidden z-10"
+          class="bg-theme_dark_purple flex justify-center lg:min-h-0 lg:h-20 min-h-screen absolute right-0 lg:hidden z-10"
         >
           <ul class="flex flex-col justify-center items-center lg:flex-row">
             <router-link :to="{ name: 'Home' }">
@@ -69,7 +69,7 @@
         </ul>
       </div>
     </nav>
-    <!-- <TickerTape /> -->
+    <TickertapeWrapper />
   </div>
 </template>
 
@@ -84,7 +84,8 @@ import Watchlist from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 
 // components
-import TickerTape from "../tickertape/TickerTape.vue";
+
+import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
 // vue imports
 import { ref, watchEffect } from "vue";
@@ -98,7 +99,8 @@ export default {
     News,
     Watchlist,
     QuestionMark,
-    TickerTape,
+
+    TickertapeWrapper,
   },
 
   setup() {
