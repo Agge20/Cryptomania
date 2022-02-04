@@ -43,7 +43,10 @@ export default {
     const { newsSnapshot, getNewsSnapshot, loading, error } = useGetNews();
     const newsData = ref([]);
     // fetch news-snapshot data
-    getNewsSnapshot();
+    /*
+    DISABLED: getNewsSnapshot();
+    */
+
     watchEffect(() => {
       // when news data i fetched
       if (newsSnapshot.value.length) {
