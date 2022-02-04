@@ -23,6 +23,13 @@
   --theme_green: #38c242;
 }
 
+/* custom tailwind classes */
 .custom-shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+@layer components {
+  /* headers */
+  .header-lg {
+    @apply text-5xl text-center font-montserrat font-semibold uppercase my-2;
+  }
 }
