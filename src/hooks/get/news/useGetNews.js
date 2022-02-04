@@ -19,11 +19,11 @@ const useGetNews = () => {
         headers: {
           "x-rapidapi-host": "crypto-news14.p.rapidapi.com",
           //temporary api-key steal if u want lol
-          "x-rapidapi-key": "",
+          "x-rapidapi-key": "API KEY HERE",
         },
       });
       const data = await res.json();
-      console.log("data: ", data);
+
       if (res.ok) {
         newsSnapshot.value = data;
       } else {
@@ -34,7 +34,6 @@ const useGetNews = () => {
       error.value = err;
       loading.value = false;
     }
-
     loading.value = false;
   };
 

@@ -3,7 +3,7 @@
     <div class="w-5 mr-1">
       <img :src="coin.image" :alt="coin.name" class="w-full" />
     </div>
-    <span class="mr-1 text-theme_white">{{ coin.symbol }}</span>
+    <span class="mr-1 text-theme_white uppercase">{{ coin.symbol }}</span>
     <span class="mr-1 text-theme_white">${{ coin.current_price }}</span>
     <span
       class="mr-1"

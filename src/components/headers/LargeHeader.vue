@@ -1,25 +1,24 @@
 <template>
-  <transition name="fade-in">
-    <h2 class="header-lg mb-8">{{ text.data }}</h2>
-  </transition>
+  <h2 class="header-lg mb-8" :class="{ dark: color.dark, white: color.white }">
+    {{ text.data }}
+  </h2>
 </template>
 
 <script>
 export default {
-  props: ["text", "animate"],
+  props: ["text", "animate", "color"],
 };
 </script>
 
 <style scoped>
-.fade-in-enter-from {
-  opacity: 0;
-  transform: scale(0.6);
-}
-.fade-in-enter-to {
-  opacity: 1;
-  transform: scale(1);
-}
-.fade-in-enter-active {
-  transition: all 2s ease;
+@import url("../../index.css");
+
+@layer components {
+  .dark {
+    @apply text-theme_dark_purple;
+  }
+  .white {
+    @apply text-theme_white;
+  }
 }
 </style>

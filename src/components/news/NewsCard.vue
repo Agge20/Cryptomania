@@ -1,12 +1,12 @@
 <template>
   <div
-    class="p-4 w-72 border-2 min-h-full h-auto flex flex-col justify-between bg-theme_dark_purple text-theme_white"
+    class="p-4 w-72 rounded-md min-h-full h-auto flex flex-col justify-between bg-theme_dark_purple text-theme_white"
   >
     <div class="-mt-8 flex justify-center">
       <img
-        class="w-full mb-4 rounded-md shadow-xl transition duration-150"
+        class="w-full mb-4 rounded-md shadow-xl"
         :src="article.image"
-        alt=""
+        :alt="article.title"
       />
     </div>
     <div>
@@ -15,7 +15,6 @@
         {{ article.title }}
       </h4>
     </div>
-
     <a
       :href="article.url"
       target="_blank"
