@@ -84,7 +84,6 @@ import Watchlist from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 
 // components
-
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
 // vue imports
@@ -99,7 +98,6 @@ export default {
     News,
     Watchlist,
     QuestionMark,
-
     TickertapeWrapper,
   },
 
