@@ -19,8 +19,7 @@ const useGetNews = () => {
         headers: {
           "x-rapidapi-host": "crypto-news14.p.rapidapi.com",
           //temporary api-key steal if u want lol
-          "x-rapidapi-key":
-            "c487dde6b3mshdc8076bdf6a64a4p1fd915jsn25613cce8b84",
+          "x-rapidapi-key": "",
         },
       });
       const data = await res.json();
