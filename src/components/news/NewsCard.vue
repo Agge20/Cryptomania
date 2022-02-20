@@ -1,20 +1,22 @@
 <template>
   <div
-    class="p-4 w-72 rounded-md min-h-full h-auto flex flex-col justify-between bg-theme_dark_purple text-theme_white"
+    class="newscard p-4 w-72 rounded-md h-auto min-h-full flex flex-col justify-between bg-theme_dark_purple text-theme_white xl:w-96"
   >
-    <div class="-mt-8 flex justify-center">
+    <div class="-mt-8 flex justify-center items-center">
       <img
-        class="w-full mb-4 rounded-md shadow-xl"
+        class="mb-4 rounded-md shadow-xl"
         :src="article.image"
         :alt="article.title"
       />
     </div>
+
     <div>
       <span class="text-xs">Source: cointelegraph</span>
       <h4 class="text-xl text-theme_gold font-montserrat">
         {{ article.title }}
       </h4>
     </div>
+
     <a
       :href="article.url"
       target="_blank"
@@ -31,4 +33,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* On screens that are 600px or more */
+@media screen and (min-width: 1536px) {
+  .newscard {
+    min-width: 435px;
+  }
+}
+</style>

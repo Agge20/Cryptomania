@@ -26,13 +26,13 @@ import { ref, watchEffect } from "vue";
 
 // components
 import TickertapeCoin from "./TickertapeCoin.vue";
-import DotsLoader from "../loader/DotsLoader.vue";
+
 import Error from "../error/Error.vue";
 
 export default {
   // initial prop-state decides if its the first tickertape that is rendered on page load
   props: ["initial"],
-  components: { TickertapeCoin, DotsLoader, Error },
+  components: { TickertapeCoin, Error },
   setup({ initial }) {
     // interval milliseconds
     const SPEED = 45000;

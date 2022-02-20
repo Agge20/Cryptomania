@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed w-screen">
+  <div class="fixed w-screen z-50">
     <nav class="bg-theme_dark_purple h-20 p-5 flex lg:items-center z-10">
       <div
         class="h-20 absolute top-0 flex justify-center items-center uppercase text-theme_white font-montserrat font-medium text-xl z-10"
