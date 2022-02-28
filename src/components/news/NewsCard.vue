@@ -23,7 +23,7 @@
         The news from TMX Group arrives as cryptocurrencies are increasingly
         gaining interest from investors and companies.
       </p>
-      <div class="w-1/2">
+      <div class="btn-wrapper">
         <LinkButton :text="{ data: 'Read More' }" />
       </div>
     </div>
@@ -55,12 +55,22 @@ export default {
   animation: border-animation-out 0.3s ease-out;
 }
 
+.btn-wrapper {
+  width: 50%;
+}
+
 @keyframes border-animation-out {
   0% {
     outline: solid var(--theme-gold) 4px;
   }
   100% {
     outline: solid var(--theme-gold) 0px;
+  }
+}
+@media screen and (max-width: 1600px) {
+  /* Link button wrapper */
+  .btn-wrapper {
+    width: 65% !important;
   }
 }
 </style>

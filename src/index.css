@@ -26,6 +26,26 @@
   --theme-gold: #ffba49;
 }
 
+/* base styling */
+
+.background-theme-color {
+  position: absolute;
+  width: 50vw;
+  min-height: 100vh;
+  background: var(--theme_dark_purple);
+  z-index: -1;
+}
+
+main {
+  min-height: 100vh;
+  z-index: 0;
+}
+
+body,
+html {
+  background-color: var(--theme_white);
+  z-index: -10;
+}
 /* custom tailwind classes */
 .custom-shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;

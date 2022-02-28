@@ -1,7 +1,7 @@
 <template>
-  <section class="flex justify-between overflow-hidden margin-top-nav-h">
+  <section class="overflow-hidden margin-top-nav-h">
     <div
-      class="py-96 w-96 bg-theme_dark_purple flex items-center justify-center whitespace-nowrap"
+      class="py-96 w-96 bg-theme_dark_purple flex items-center justify-center whitespace-nowrap absolute left-0"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
@@ -9,7 +9,13 @@
         class="rotate-90"
       />
     </div>
-    <div class="w-full h-auto">
+
+    <div class="news-wrapper">
+      <LargeHeader
+        :text="{ data: 'LATEST NEWS' }"
+        :color="{ dark: true }"
+        class="hidden mt-8"
+      />
       <div class="w-full flex mt-12">
         <NewsCard class="basis-1/3" />
         <NewsCard class="basis-1/3" />
@@ -70,25 +76,38 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
+.news-wrapper {
+  width: calc(100% - 384px);
+  margin-left: 384px;
+}
+
 @layer components {
   @media screen and (max-width: 1600px) {
     /* news card inner wrapper */
     section > div:last-child div {
-      @apply flex-row flex-wrap;
+      @apply flex-row flex-wrap justify-center;
     }
     /*  news cards */
     section > div:last-child div > div {
       @apply w-1/2;
     }
+    
   }
   @media screen and (max-width: 1400px) {
     /* column header */
     section > div:first-child {
       @apply hidden;
     }
+    .news-wrapper {
+      width: 100% !important;
+      margin-left: 0px !important;
+    }
+    h2 {
+      display: block !important;
+    }
     /* news card inner wrapper */
     section > div:last-child div {
-      @apply flex-col items-center;
+      @apply items-center;
     }
     /*  news cards */
     section > div:last-child div > div {
@@ -96,10 +115,6 @@ export default {
     }
   }
   @media screen and (max-width: 980px) {
-    /* column header */
-    section > div:first-child {
-      @apply hidden;
-    }
     /* news card inner wrapper */
     section > div:last-child div {
       @apply flex-col items-center;
