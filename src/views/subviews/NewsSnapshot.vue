@@ -71,6 +71,46 @@ export default {
 @import url("../../index.css");
 
 @layer components {
+  @media screen and (max-width: 1600px) {
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply flex-row flex-wrap;
+    }
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply w-1/2;
+    }
+  }
+  @media screen and (max-width: 1400px) {
+    /* column header */
+    section > div:first-child {
+      @apply hidden;
+    }
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply flex-col items-center;
+    }
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply w-96;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    /* column header */
+    section > div:first-child {
+      @apply hidden;
+    }
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply flex-col items-center;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply m-0 mb-16 w-11/12;
+    }
+  }
 }
 
 .margin-top-nav-h {

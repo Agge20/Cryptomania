@@ -63,10 +63,4 @@ export default {
     outline: solid var(--theme-gold) 0px;
   }
 }
-
-@media screen and (min-width: 1536px) {
-  .newscard {
-    min-width: 435px;
-  }
-}
 </style>
