@@ -1,40 +1,69 @@
 <template>
   <div
-    class="newscard p-4 w-72 rounded-md h-auto min-h-full flex flex-col justify-between bg-theme_dark_purple text-theme_white xl:w-96"
+    class="w-full bg-theme_dark_purple flex flex-col items-start justify-between px-4 m-6"
   >
-    <div class="-mt-8 flex justify-center items-center">
+    <!-- image wrapper -->
+    <div
+      @mouseenter="leaveBorderAnimation(false)"
+      @mouseleave="leaveBorderAnimation(true)"
+      :class="{ border_animation_leave: playLeaveBorder }"
+      class="-mt-6 overflow-hidden rounded-lg hover:outline-4 hover:outline hover:outline-theme_gold transition-all duration-300"
+    >
       <img
-        class="mb-4 rounded-md shadow-xl"
-        :src="article.image"
-        :alt="article.title"
+        class="h-full hover:scale-110 transition-all duration-300"
+        src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
       />
     </div>
-
-    <div>
-      <span class="text-xs">Source: cointelegraph</span>
-      <h4 class="text-xl text-theme_gold font-montserrat">
-        {{ article.title }}
-      </h4>
+    <!-- content -->
+    <div class="m-1 mt-4">
+      <h3 class="text-theme_gold text-2xl font-montserrat">
+        Nifty News: Olympic Games Beijing 2022 edition
+      </h3>
+      <p class="text-theme_white font-roboto mt-2">
+        The news from TMX Group arrives as cryptocurrencies are increasingly
+        gaining interest from investors and companies.
+      </p>
+      <div class="w-1/2">
+        <LinkButton :text="{ data: 'Read More' }" />
+      </div>
     </div>
-
-    <a
-      :href="article.url"
-      target="_blank"
-      class="font-montserrat w-2/3 uppercase py-2 px-4 mt-2 rounded-md bg-theme_gold text-theme_dark_purple font-bold text-xl text-center hover:scale-95 transiton duration-150"
-    >
-      Read More
-    </a>
   </div>
 </template>
 
 <script>
+import { ref } from "@vue/reactivity";
+import LinkButton from "../LinkButton.vue";
 export default {
   props: ["article"],
+  setup() {
+    const playLeaveBorder = ref(false);
+    const leaveBorderAnimation = (p) => {
+      playLeaveBorder.value = p;
+    };
+    return {
+      playLeaveBorder,
+      leaveBorderAnimation,
+    };
+  },
+  components: { LinkButton },
 };
 </script>
 
 <style scoped>
 /* On screens that are 600px or more */
+.border_animation_leave {
+  animation: border-animation-out 0.3s ease-out;
+}
+
+@keyframes border-animation-out {
+  0% {
+    outline: solid var(--theme-gold) 4px;
+  }
+  100% {
+    outline: solid var(--theme-gold) 0px;
+  }
+}
+
 @media screen and (min-width: 1536px) {
   .newscard {
     min-width: 435px;
