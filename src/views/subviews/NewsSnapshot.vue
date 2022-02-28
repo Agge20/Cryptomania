@@ -1,7 +1,7 @@
 <template>
   <section class="overflow-hidden margin-top-nav-h">
     <div
-      class="py-96 w-96 bg-theme_dark_purple flex items-center justify-center whitespace-nowrap absolute left-0"
+      class="pt-96 w-96 bg-theme_dark_purple flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
@@ -91,7 +91,6 @@ export default {
     section > div:last-child div > div {
       @apply w-1/2;
     }
-    
   }
   @media screen and (max-width: 1400px) {
     /* column header */
