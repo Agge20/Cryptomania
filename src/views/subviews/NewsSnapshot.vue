@@ -1,43 +1,25 @@
 <template>
-  <section class="flex justify-between min-h-screen overflow-hidden">
+  <section class="overflow-hidden margin-top-nav-h">
     <div
-      class="hidden bg-theme_dark_purple w-96 text-theme_white xl:flex justify-center items-center font-montserrat font-semibold text-7xl"
+      class="py-96 w-96 bg-theme_dark_purple flex items-center justify-center whitespace-nowrap absolute left-0"
     >
-      <div class="h-screen flex items-center justify-center">
-        <h2 class="uppercase rotate-90 whitespace-nowrap animate-fadeInFast">
-          Latest News
-        </h2>
-      </div>
+      <LargeHeader
+        :text="{ data: 'LATEST NEWS' }"
+        :color="{ white: true }"
+        class="rotate-90"
+      />
     </div>
-    <div class="flex flex-col items-center justify-center mt-36">
-      <span v-if="error" class="mx-auto text-theme_red text-2xl">{{
-        error
-      }}</span>
-      <div v-if="loading">
-        <div
-          class="flex flex-wrap content-start flex-col lg:flex-row justify-end"
-        >
-          <div
-            v-for="article in fakeNewsData"
-            class="m-4 last:hidden xl:last:flex"
-          >
-            <NewsCardSkeleton :article="article" />
-          </div>
-        </div>
-      </div>
-      <div
-        v-if="!loading"
-        class="flex flex-wrap content-start flex-col lg:flex-row justify-end"
-      >
-        <div v-for="article in newsData" class="m-4 last:hidden xl:last:flex">
-          <NewsCard :article="article" />
-        </div>
-      </div>
-      <div class="w-full flex justify-end pr-4">
-        <LinkButton
-          :text="{ data: 'More News' }"
-          class="w-56 h-3/4 flex justify-center"
-        />
+
+    <div class="news-wrapper">
+      <LargeHeader
+        :text="{ data: 'LATEST NEWS' }"
+        :color="{ dark: true }"
+        class="hidden mt-8"
+      />
+      <div class="w-full flex mt-12">
+        <NewsCard class="basis-1/3" />
+        <NewsCard class="basis-1/3" />
+        <NewsCard class="basis-1/3" />
       </div>
     </div>
   </section>
@@ -50,9 +32,6 @@ import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import LinkButton from "../../components/LinkButton.vue";
 
-// skeletons
-import NewsCardSkeleton from "../../components/skeletons/news/NewsCardSkeleton.vue";
-
 // loaders
 import DotsLoader from "../../components/loader/DotsLoader.vue";
 
@@ -62,7 +41,6 @@ import useGetNews from "../../hooks/get/news/useGetNews";
 export default {
   components: {
     NewsCard,
-    NewsCardSkeleton,
     LargeHeader,
     DotsLoader,
     LinkButton,
@@ -98,6 +76,59 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
+.news-wrapper {
+  width: calc(100% - 384px);
+  margin-left: 384px;
+}
+
 @layer components {
+  @media screen and (max-width: 1600px) {
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply flex-row flex-wrap justify-center;
+    }
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply w-1/2;
+    }
+    
+  }
+  @media screen and (max-width: 1400px) {
+    /* column header */
+    section > div:first-child {
+      @apply hidden;
+    }
+    .news-wrapper {
+      width: 100% !important;
+      margin-left: 0px !important;
+    }
+    h2 {
+      display: block !important;
+    }
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply items-center;
+    }
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply w-96;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    /* news card inner wrapper */
+    section > div:last-child div {
+      @apply flex-col items-center;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    /*  news cards */
+    section > div:last-child div > div {
+      @apply m-0 mb-16 w-11/12;
+    }
+  }
+}
+
+.margin-top-nav-h {
+  margin-top: 120px;
 }
 </style>

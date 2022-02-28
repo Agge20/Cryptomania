@@ -1,6 +1,10 @@
 <template>
-  <main data-server-rendered="true" class="flex flex-col">
-    <Navigation />
+  <Navigation />
+  <div class="background-theme-color"></div>
+  <main
+    data-server-rendered="true"
+    class="flex flex-col mx-auto bg-theme_white"
+  >
     <router-view />
   </main>
 </template>

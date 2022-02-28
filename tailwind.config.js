@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         montserrat: ["Montserrat"],
+        roboto: ["Roboto"],
       },
       width: { 128: "32rem" },
       screens: {},
@@ -22,7 +23,6 @@ module.exports = {
         fadeInSlow: "fadeIn 1.5s ease-in",
       },
 
-      // that is actual animation
       keyframes: () => ({
         fadeIn: {
           "0%": { opacity: 0 },

@@ -1,5 +1,7 @@
-/* Montserrat import from Google fonts */
+/* Montserrat font import from Google fonts */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* Roboto font import from Google fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -21,8 +23,29 @@
   --theme_dark_purple: #0c0216;
   --theme_red: #f63659;
   --theme_green: #38c242;
+  --theme-gold: #ffba49;
 }
 
+/* base styling */
+
+.background-theme-color {
+  position: absolute;
+  width: 50vw;
+  min-height: 100vh;
+  background: var(--theme_dark_purple);
+  z-index: -1;
+}
+
+main {
+  min-height: 100vh;
+  z-index: 0;
+}
+
+body,
+html {
+  background-color: var(--theme_white);
+  z-index: -10;
+}
 /* custom tailwind classes */
 .custom-shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
@@ -30,6 +53,6 @@
 @layer components {
   /* headers */
   .header-lg {
-    @apply text-5xl text-center font-montserrat font-semibold uppercase my-2;
+    @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
   }
 }
