@@ -1,7 +1,7 @@
 <template>
   <section class="overflow-hidden margin-top-nav-h">
     <div
-      class="pt-96 w-96 bg-theme_dark_purple flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
+      class="pt-96 w-96 flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
@@ -9,24 +9,34 @@
         class="rotate-90"
       />
     </div>
-
-    <div class="news-wrapper">
-      <LargeHeader
-        :text="{ data: 'LATEST NEWS' }"
-        :color="{ dark: true }"
-        class="hidden mt-8"
-      />
-      <div class="w-full flex mt-12">
-        <NewsCard class="basis-1/3" />
-        <NewsCard class="basis-1/3" />
-        <NewsCard class="basis-1/3" />
+    <div class="flex justify-center items-flex flex-col">
+      <div class="news-wrapper">
+        <LargeHeader
+          :text="{ data: 'LATEST NEWS' }"
+          :color="{ dark: true }"
+          class="hidden mt-8"
+        />
+        <div
+          class="flex mt-12 news-wrapper-inner border-2 border-red-600"
+          ref="newsWrapperInner"
+        >
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+        </div>
+      </div>
+      <div class="h-24 flex justify-center more-news-wrapper">
+        <LinkButton :text="{ data: 'More News' }" class="m-3" />
       </div>
     </div>
   </section>
 </template>
 
 <script>
+// vue imports
 import { watchEffect, ref } from "@vue/runtime-core";
+
 // components
 import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
@@ -68,7 +78,12 @@ export default {
         });
       }
     });
-    return { newsData, fakeNewsData, loading, error };
+    return {
+      newsData,
+      fakeNewsData,
+      loading,
+      error,
+    };
   },
 };
 </script>
@@ -80,11 +95,20 @@ export default {
   width: calc(100% - 384px);
   margin-left: 384px;
 }
+.more-news-wrapper {
+  margin-left: 384px;
+}
 
 @layer components {
+  @media screen and (max-width: 2000px) {
+    /* news card inner wrapper */
+    .news-wrapper-inner {
+      @apply flex-wrap justify-center;
+    }
+  }
   @media screen and (max-width: 1600px) {
     /* news card inner wrapper */
-    section > div:last-child div {
+    .news-wrapper-inner {
       @apply flex-row flex-wrap justify-center;
     }
     /*  news cards */
@@ -115,8 +139,8 @@ export default {
   }
   @media screen and (max-width: 980px) {
     /* news card inner wrapper */
-    section > div:last-child div {
-      @apply flex-col items-center;
+    .news-wrapper-inner {
+      @apply flex-col items-center m-0;
     }
   }
   @media screen and (max-width: 450px) {

@@ -1,13 +1,13 @@
 <template>
   <div
-    class="w-full bg-theme_dark_purple flex flex-col items-start justify-between px-4 m-6"
+    class="w-full bg-theme_dark_purple flex flex-col items-start justify-between px-4 m-6 rounded-xl card"
   >
     <!-- image wrapper -->
     <div
       @mouseenter="leaveBorderAnimation(false)"
       @mouseleave="leaveBorderAnimation(true)"
       :class="{ border_animation_leave: playLeaveBorder }"
-      class="-mt-6 overflow-hidden rounded-lg hover:outline-4 hover:outline hover:outline-theme_gold transition-all duration-300"
+      class="-mt-6 overflow-hidden rounded-xl hover:outline-4 hover:outline hover:outline-theme_gold transition-all duration-300"
     >
       <img
         class="h-full hover:scale-110 transition-all duration-300"
@@ -50,13 +50,18 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  min-width: 350px;
+  max-width: 500px;
+}
+
 /* On screens that are 600px or more */
 .border_animation_leave {
   animation: border-animation-out 0.3s ease-out;
 }
 
 .btn-wrapper {
-  width: 50%;
+  width: 65%;
 }
 
 @keyframes border-animation-out {
@@ -67,10 +72,26 @@ export default {
     outline: solid var(--theme-gold) 0px;
   }
 }
+
+@media screen and (max-width: 2000px) {
+  .card {
+    flex-basis: 45% !important;
+  }
+}
+
 @media screen and (max-width: 1600px) {
   /* Link button wrapper */
   .btn-wrapper {
-    width: 65% !important;
+    width: 75% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  /*  news cards */
+  .card {
+    width: 95% !important;
+    margin: 0 !important;
+    margin-bottom: 64px !important;
   }
 }
 </style>
