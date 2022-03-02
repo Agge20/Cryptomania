@@ -9,26 +9,25 @@
         class="rotate-90"
       />
     </div>
-    <div class="flex justify-center items-flex flex-col">
-      <div class="news-wrapper">
-        <LargeHeader
-          :text="{ data: 'LATEST NEWS' }"
-          :theme="{ dark: true }"
-          class="hidden mt-8"
-        />
-        <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
-          <NewsCard class="basis-1/4" />
-          <NewsCard class="basis-1/4" />
-          <NewsCard class="basis-1/4" />
-          <NewsCard class="basis-1/4" />
-        </div>
+
+    <div class="news-wrapper">
+      <LargeHeader
+        :text="{ data: 'LATEST NEWS' }"
+        :theme="{ dark: true }"
+        class="hidden mt-8"
+      />
+      <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
       </div>
-      <div class="h-24 flex justify-center more-news-wrapper m-16">
-        <PushButton
-          :data="{ text: 'More News?', url: 'reddit.com' }"
-          :theme="{ dark: true }"
-        />
-      </div>
+    </div>
+    <div class="h-24 flex justify-center more-news-wrapper m-16">
+      <PushButton
+        :data="{ text: 'More News?', url: 'reddit.com' }"
+        :theme="{ dark: true }"
+      />
     </div>
   </section>
 </template>
@@ -126,6 +125,10 @@ export default {
     .news-wrapper {
       width: 100% !important;
       margin-left: 0px !important;
+    }
+    .more-news-wrapper {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
     }
     h2 {
       display: block !important;

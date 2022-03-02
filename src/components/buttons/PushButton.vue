@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex cursor-pointer transition hover:scale-105 duration-125"
+    class="flex cursor-pointer transition hover:scale-105 duration-125 push-btn"
     :class="{ dark: theme.dark, light: theme.light }"
     @mouseenter="() => animateArrow(true)"
     @mouseleave="() => animateArrow(false)"
@@ -8,7 +8,7 @@
     <div
       class="p-2 flex items-center justify-center border-8 border-theme_dark_purple"
     >
-      <h4 class="text-5xl uppercase font-bold font-montserrat">
+      <h4 class="text-5xl uppercase font-bold font-montserrat text-center">
         {{ data.text }}
       </h4>
     </div>
@@ -65,6 +65,15 @@ export default {
     }
     100% {
       transform: translateX(6px);
+    }
+  }
+  @media screen and (max-width: 480px) {
+    /*  text wrapper */
+    .push-btn div:first-child {
+      @apply p-0;
+    }
+    .push-btn div:first-child > h4 {
+      @apply text-3xl;
     }
   }
 }
