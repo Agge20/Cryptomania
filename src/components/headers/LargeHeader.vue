@@ -1,7 +1,7 @@
 <template>
   <h2
     class="header-lg mb-8 mx-2"
-    :class="{ dark: color.dark, white: color.white }"
+    :class="{ dark: theme.dark, light: theme.light }"
   >
     {{ text.data }}
   </h2>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  props: ["text", "animate", "color"],
+  props: ["text", "animate", "theme"],
 };
 </script>
 
@@ -20,7 +20,7 @@ export default {
   .dark {
     @apply text-theme_dark_purple;
   }
-  .white {
+  .light {
     @apply text-theme_white;
   }
 }

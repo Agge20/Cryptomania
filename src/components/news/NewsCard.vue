@@ -32,7 +32,7 @@
 
 <script>
 import { ref } from "@vue/reactivity";
-import LinkButton from "../LinkButton.vue";
+import LinkButton from "../buttons/LinkButton.vue";
 export default {
   props: ["article"],
   setup() {
