@@ -1,11 +1,11 @@
 <template>
   <section class="overflow-hidden margin-top-nav-h">
     <div
-      class="py-96 w-96 bg-theme_dark_purple flex items-center justify-center whitespace-nowrap absolute left-0"
+      class="pt-96 w-96 flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
-        :color="{ white: true }"
+        :theme="{ light: true }"
         class="rotate-90"
       />
     </div>
@@ -13,24 +13,34 @@
     <div class="news-wrapper">
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
-        :color="{ dark: true }"
+        :theme="{ dark: true }"
         class="hidden mt-8"
       />
-      <div class="w-full flex mt-12">
-        <NewsCard class="basis-1/3" />
-        <NewsCard class="basis-1/3" />
-        <NewsCard class="basis-1/3" />
+      <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
+        <NewsCard class="basis-1/4" />
       </div>
+    </div>
+    <div class="h-24 flex justify-center more-news-wrapper m-16">
+      <PushButton
+        :data="{ text: 'More News?', url: 'reddit.com' }"
+        :theme="{ dark: true }"
+      />
     </div>
   </section>
 </template>
 
 <script>
+// vue imports
 import { watchEffect, ref } from "@vue/runtime-core";
+
 // components
 import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
-import LinkButton from "../../components/LinkButton.vue";
+import LinkButton from "../../components/buttons/LinkButton.vue";
+import PushButton from "../../components/buttons/PushButton.vue";
 
 // loaders
 import DotsLoader from "../../components/loader/DotsLoader.vue";
@@ -44,6 +54,7 @@ export default {
     LargeHeader,
     DotsLoader,
     LinkButton,
+    PushButton,
   },
   setup() {
     const { newsSnapshot, getNewsSnapshot, loading, error } = useGetNews();
@@ -68,7 +79,12 @@ export default {
         });
       }
     });
-    return { newsData, fakeNewsData, loading, error };
+    return {
+      newsData,
+      fakeNewsData,
+      loading,
+      error,
+    };
   },
 };
 </script>
@@ -80,18 +96,26 @@ export default {
   width: calc(100% - 384px);
   margin-left: 384px;
 }
+.more-news-wrapper {
+  margin-left: 384px;
+}
 
 @layer components {
+  @media screen and (max-width: 2000px) {
+    /* news card inner wrapper */
+    .news-wrapper-inner {
+      @apply flex-wrap justify-center;
+    }
+  }
   @media screen and (max-width: 1600px) {
     /* news card inner wrapper */
-    section > div:last-child div {
+    .news-wrapper-inner {
       @apply flex-row flex-wrap justify-center;
     }
     /*  news cards */
     section > div:last-child div > div {
       @apply w-1/2;
     }
-    
   }
   @media screen and (max-width: 1400px) {
     /* column header */
@@ -101,6 +125,10 @@ export default {
     .news-wrapper {
       width: 100% !important;
       margin-left: 0px !important;
+    }
+    .more-news-wrapper {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
     }
     h2 {
       display: block !important;
@@ -116,8 +144,8 @@ export default {
   }
   @media screen and (max-width: 980px) {
     /* news card inner wrapper */
-    section > div:last-child div {
-      @apply flex-col items-center;
+    .news-wrapper-inner {
+      @apply flex-col items-center m-0;
     }
   }
   @media screen and (max-width: 450px) {

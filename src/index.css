@@ -55,4 +55,13 @@ html {
   .header-lg {
     @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
   }
+  .dark_purple_column {
+    @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
+  }
+  @media screen and (max-width: 1400px) {
+    /* hide dark purple column header for smaller devices*/
+    .dark_purple_column {
+      @apply hidden;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 <template>
   <Navigation />
   <div class="background-theme-color"></div>
+  <div class="dark_purple_column"></div>
   <main
     data-server-rendered="true"
     class="flex flex-col mx-auto bg-theme_white"
