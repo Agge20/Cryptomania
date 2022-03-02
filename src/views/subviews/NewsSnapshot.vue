@@ -5,7 +5,7 @@
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
-        :color="{ white: true }"
+        :theme="{ light: true }"
         class="rotate-90"
       />
     </div>
@@ -13,21 +13,21 @@
       <div class="news-wrapper">
         <LargeHeader
           :text="{ data: 'LATEST NEWS' }"
-          :color="{ dark: true }"
+          :theme="{ dark: true }"
           class="hidden mt-8"
         />
-        <div
-          class="flex mt-12 news-wrapper-inner border-2 border-red-600"
-          ref="newsWrapperInner"
-        >
+        <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
           <NewsCard class="basis-1/4" />
           <NewsCard class="basis-1/4" />
           <NewsCard class="basis-1/4" />
           <NewsCard class="basis-1/4" />
         </div>
       </div>
-      <div class="h-24 flex justify-center more-news-wrapper">
-        <LinkButton :text="{ data: 'More News' }" class="m-3" />
+      <div class="h-24 flex justify-center more-news-wrapper m-16">
+        <PushButton
+          :data="{ text: 'More News?', url: 'reddit.com' }"
+          :theme="{ dark: true }"
+        />
       </div>
     </div>
   </section>
@@ -40,7 +40,8 @@ import { watchEffect, ref } from "@vue/runtime-core";
 // components
 import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
-import LinkButton from "../../components/LinkButton.vue";
+import LinkButton from "../../components/buttons/LinkButton.vue";
+import PushButton from "../../components/buttons/PushButton.vue";
 
 // loaders
 import DotsLoader from "../../components/loader/DotsLoader.vue";
@@ -54,6 +55,7 @@ export default {
     LargeHeader,
     DotsLoader,
     LinkButton,
+    PushButton,
   },
   setup() {
     const { newsSnapshot, getNewsSnapshot, loading, error } = useGetNews();

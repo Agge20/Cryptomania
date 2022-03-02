@@ -13,7 +13,7 @@
 import { ref } from "vue";
 
 // svg
-import ChevronRight from "../svg/ChevronRight.vue";
+import ChevronRight from "../../svg/ChevronRight.vue";
 
 export default {
   props: ["text"],
