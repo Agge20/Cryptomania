@@ -9,11 +9,31 @@
         class="rotate-90"
       />
     </div>
-    <div class="border-2 border-theme_dark_purple min-w-full min-h-screen">
-      <div class="h-24 bg-theme_dark_purple"></div>
+    <div
+      class="border-2 border-theme_dark_purple w-full min-h-screen flex flex-col"
+    >
       <div
-        class="bg-theme_dark_purple text-theme_white text-4xl font-montserrat uppercase font-semibold px-8 py-4"
-      ></div>
+        class="bg-theme_dark_purple text-theme_white text-4xl font-montserrat uppercase font-semibold px-8 pb-0 pt-16 flex justify-between"
+      >
+        <p class="market-col-header">Name</p>
+        <p class="market-col-header">Price</p>
+        <div class="flex flex-col items-start justify-start">
+          <p class="market-col-header">Change</p>
+          <span class="text-base">24H</span>
+        </div>
+        <div class="flex flex-col items-start justify-start">
+          <p class="market-col-header">High</p>
+          <span class="text-base">24H</span>
+        </div>
+        <div class="flex flex-col items-start justify-start">
+          <p class="market-col-header">Low</p>
+          <span class="text-base">24H</span>
+        </div>
+        <p class="market-col-header">Marketcap</p>
+        <p class="market-col-header">Rank</p>
+      </div>
+
+      <MarketItem />
     </div>
   </section>
 </template>
@@ -21,9 +41,12 @@
 <script>
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
+import MarketItem from "../../components/market/MarketItem.vue";
+
 export default {
   components: {
     LargeHeader,
+    MarketItem,
   },
   setup() {},
 };
@@ -32,15 +55,10 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
-.news-wrapper {
-  width: calc(100% - 384px);
-  margin-left: 384px;
-}
-.more-news-wrapper {
-  margin-left: 384px;
-}
-
 @layer components {
+  .market-col-header {
+    @apply text-2xl leading-4;
+  }
   @media screen and (max-width: 1400px) {
     /* column header */
     section > div:first-child {
