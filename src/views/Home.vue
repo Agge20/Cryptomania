@@ -1,14 +1,17 @@
 <template>
   <NewsSnapshot />
+  <Market />
 </template>
 
 <script>
-// subviews
-import NewsSnapshot from "../views/subviews/NewsSnapshot.vue";
+// sections
+import NewsSnapshot from "../views/sections/NewsSnapshot.vue";
+import Market from "../views/sections/Market.vue";
 
 export default {
   components: {
     NewsSnapshot,
+    Market,
   },
   setup() {
     return {};
