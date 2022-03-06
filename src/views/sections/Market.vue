@@ -1,7 +1,7 @@
 <template>
   <section class="flex items-center">
     <div
-      class="w-96 flex items-start justify-center whitespace-nowrap border-2 border-red-600"
+      class="w-96 flex items-center justify-center whitespace-nowrap relative left-0 bg-transparent"
     >
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
@@ -10,10 +10,10 @@
       />
     </div>
     <div
-      class="border-2 border-theme_dark_purple w-full min-h-screen flex flex-col"
+      class="border-2 border-theme_dark_purple w-full min-h-screen flex flex-col bg-theme_white"
     >
       <div
-        class="bg-theme_dark_purple text-theme_white text-4xl font-montserrat uppercase font-semibold px-8 pb-0 pt-16 flex justify-between"
+        class="bg-theme_dark_purple text-theme_white text-4xl font-montserrat uppercase font-semibold pl-2 pb-0 pt-16 grid grid-cols-7 auto-cols-min"
       >
         <p class="market-col-header">Name</p>
         <p class="market-col-header">Price</p>

@@ -1,11 +1,6 @@
 <template>
   <Navigation />
-  <div class="background-theme-color"></div>
-  <div class="dark_purple_column"></div>
-  <main
-    data-server-rendered="true"
-    class="flex flex-col mx-auto bg-theme_white"
-  >
+  <main data-server-rendered="true" class="flex flex-col mx-auto">
     <router-view />
   </main>
 </template>
@@ -18,7 +13,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+@import "./index.css";
+
 main {
   max-width: 2000px;
   overflow: hidden;

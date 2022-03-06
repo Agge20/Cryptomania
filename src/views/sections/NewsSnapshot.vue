@@ -1,7 +1,7 @@
 <template>
-  <section class="overflow-hidden margin-top-nav-h">
+  <section class="overflow-hidden margin-top-nav-h bg-theme_white flex">
     <div
-      class="pt-96 w-96 flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
+      class="bg-theme_dark_purple w-96 flex items-center justify-center whitespace-nowrap"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
@@ -9,25 +9,26 @@
         class="rotate-90"
       />
     </div>
-
-    <div class="news-wrapper">
-      <LargeHeader
-        :text="{ data: 'LATEST NEWS' }"
-        :theme="{ dark: true }"
-        class="hidden mt-8"
-      />
-      <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
+    <div>
+      <div class="news-wrapper">
+        <LargeHeader
+          :text="{ data: 'LATEST NEWS' }"
+          :theme="{ dark: true }"
+          class="hidden mt-8"
+        />
+        <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+        </div>
       </div>
-    </div>
-    <div class="h-24 flex justify-center more-news-wrapper m-16">
-      <PushButton
-        :data="{ text: 'More News?', url: 'reddit.com' }"
-        :theme="{ dark: true }"
-      />
+      <div class="h-24 flex justify-center more-news-wrapper m-16">
+        <PushButton
+          :data="{ text: 'More News?', url: 'reddit.com' }"
+          :theme="{ dark: true }"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -92,14 +93,6 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
-.news-wrapper {
-  width: calc(100% - 384px);
-  margin-left: 384px;
-}
-.more-news-wrapper {
-  margin-left: 384px;
-}
-
 @layer components {
   @media screen and (max-width: 2000px) {
     /* news card inner wrapper */
@@ -124,7 +117,6 @@ export default {
     }
     .news-wrapper {
       width: 100% !important;
-      margin-left: 0px !important;
     }
     .more-news-wrapper {
       margin-left: 0px !important;

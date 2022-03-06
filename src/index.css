@@ -43,7 +43,7 @@ main {
 
 body,
 html {
-  background-color: var(--theme_white);
+  background-color: var(--theme_dark_purple);
   z-index: -10;
 }
 /* custom tailwind classes */
