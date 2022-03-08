@@ -1,33 +1,34 @@
 <template>
-  <section class="overflow-hidden margin-top-nav-h">
+  <section class="overflow-hidden margin-top-nav-h bg-theme_white flex">
     <div
-      class="pt-96 w-96 flex items-start justify-center whitespace-nowrap absolute top-28 left-0 min-h-full"
+      class="bg-theme_dark_purple w-96 flex items-start justify-center whitespace-nowrap first-header-wrapper"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
         :theme="{ light: true }"
-        class="rotate-90"
+        class="rotate-90 first-header"
       />
     </div>
-
-    <div class="news-wrapper">
-      <LargeHeader
-        :text="{ data: 'LATEST NEWS' }"
-        :theme="{ dark: true }"
-        class="hidden mt-8"
-      />
-      <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
-        <NewsCard class="basis-1/4" />
+    <div class="news-wrapper-outer">
+      <div class="news-wrapper">
+        <LargeHeader
+          :text="{ data: 'LATEST NEWS' }"
+          :theme="{ dark: true }"
+          class="hidden mt-8"
+        />
+        <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+          <NewsCard class="basis-1/4" />
+        </div>
       </div>
-    </div>
-    <div class="h-24 flex justify-center more-news-wrapper m-16">
-      <PushButton
-        :data="{ text: 'More News?', url: 'reddit.com' }"
-        :theme="{ dark: true }"
-      />
+      <div class="h-24 flex justify-center more-news-wrapper m-16">
+        <PushButton
+          :data="{ text: 'More News?', url: 'reddit.com' }"
+          :theme="{ dark: true }"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -92,12 +93,11 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
-.news-wrapper {
-  width: calc(100% - 384px);
-  margin-left: 384px;
+.first-header-wrapper {
+  padding-top: calc(var(--navbar-height) + 40px);
 }
-.more-news-wrapper {
-  margin-left: 384px;
+.first-header {
+  margin-top: 160px;
 }
 
 @layer components {
@@ -113,7 +113,7 @@ export default {
       @apply flex-row flex-wrap justify-center;
     }
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply w-1/2;
     }
   }
@@ -124,7 +124,6 @@ export default {
     }
     .news-wrapper {
       width: 100% !important;
-      margin-left: 0px !important;
     }
     .more-news-wrapper {
       margin-left: 0px !important;
@@ -133,16 +132,17 @@ export default {
     h2 {
       display: block !important;
     }
-    /* news card inner wrapper */
-    section > div:last-child div {
-      @apply items-center;
-    }
+
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply w-96;
     }
   }
   @media screen and (max-width: 980px) {
+    .news-wrapper-outer {
+      @apply mx-auto;
+    }
+
     /* news card inner wrapper */
     .news-wrapper-inner {
       @apply flex-col items-center m-0;
@@ -150,7 +150,7 @@ export default {
   }
   @media screen and (max-width: 450px) {
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply m-0 mb-16 w-11/12;
     }
   }
