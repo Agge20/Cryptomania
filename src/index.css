@@ -24,6 +24,7 @@
   --theme_red: #f63659;
   --theme_green: #38c242;
   --theme-gold: #ffba49;
+  --navbar-height: 120px;
 }
 
 /* base styling */
@@ -37,18 +38,33 @@
 }
 
 main {
-  min-height: 100vh;
   z-index: 0;
+  min-height: 100vh;
+  max-width: 2000px;
+  overflow: hidden;
+  position: relative;
 }
 
 body,
 html {
-  background-color: var(--theme_dark_purple);
   z-index: -10;
+  background: rgb(12, 2, 22);
+  background: linear-gradient(
+    90deg,
+    rgba(12, 2, 22, 1) 47%,
+    rgba(248, 248, 248, 1) 48%
+  );
 }
 /* custom tailwind classes */
 .custom-shadow {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+@media screen and (min-width: 2250px) {
+  /* Link button wrapper */
+  main {
+    left: -192px;
+  }
 }
 @layer components {
   /* headers */

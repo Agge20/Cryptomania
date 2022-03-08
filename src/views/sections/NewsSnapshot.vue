@@ -1,15 +1,15 @@
 <template>
   <section class="overflow-hidden margin-top-nav-h bg-theme_white flex">
     <div
-      class="bg-theme_dark_purple w-96 flex items-center justify-center whitespace-nowrap"
+      class="bg-theme_dark_purple w-96 flex items-start justify-center whitespace-nowrap first-header-wrapper"
     >
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
         :theme="{ light: true }"
-        class="rotate-90"
+        class="rotate-90 first-header"
       />
     </div>
-    <div>
+    <div class="news-wrapper-outer">
       <div class="news-wrapper">
         <LargeHeader
           :text="{ data: 'LATEST NEWS' }"
@@ -93,6 +93,13 @@ export default {
 <style scoped>
 @import url("../../index.css");
 
+.first-header-wrapper {
+  padding-top: calc(var(--navbar-height) + 40px);
+}
+.first-header {
+  margin-top: 160px;
+}
+
 @layer components {
   @media screen and (max-width: 2000px) {
     /* news card inner wrapper */
@@ -106,7 +113,7 @@ export default {
       @apply flex-row flex-wrap justify-center;
     }
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply w-1/2;
     }
   }
@@ -125,16 +132,17 @@ export default {
     h2 {
       display: block !important;
     }
-    /* news card inner wrapper */
-    section > div:last-child div {
-      @apply items-center;
-    }
+
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply w-96;
     }
   }
   @media screen and (max-width: 980px) {
+    .news-wrapper-outer {
+      @apply mx-auto;
+    }
+
     /* news card inner wrapper */
     .news-wrapper-inner {
       @apply flex-col items-center m-0;
@@ -142,7 +150,7 @@ export default {
   }
   @media screen and (max-width: 450px) {
     /*  news cards */
-    section > div:last-child div > div {
+    .news-wrapper-inner div {
       @apply m-0 mb-16 w-11/12;
     }
   }
