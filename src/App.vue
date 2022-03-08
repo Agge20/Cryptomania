@@ -19,5 +19,13 @@ export default {
 main {
   max-width: 2000px;
   overflow: hidden;
+  position: relative;
+}
+
+@media screen and (min-width: 2250px) {
+  /* Link button wrapper */
+  main {
+    left: -192px;
+  }
 }
 </style>
