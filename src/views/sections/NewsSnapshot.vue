@@ -23,7 +23,7 @@
           <NewsCard class="basis-1/4" />
         </div>
       </div>
-      <div class="h-24 flex justify-center more-news-wrapper m-16">
+      <div class="h-24 flex justify-center more-news-wrapper m-24">
         <PushButton
           :data="{ text: 'More News?', url: 'reddit.com' }"
           :theme="{ dark: true }"

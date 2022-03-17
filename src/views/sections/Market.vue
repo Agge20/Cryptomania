@@ -1,68 +1,95 @@
 <template>
-  <section class="flex items-center">
+  <section class="flex items-start">
     <div
       class="w-96 flex items-center justify-center whitespace-nowrap relative left-0 bg-transparent"
     >
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
         :theme="{ light: true }"
-        class="rotate-90"
+        class="rotate-90 vertical-column-header"
       />
     </div>
-    <div
-      class="border-2 border-theme_dark_purple w-full min-h-screen flex flex-col bg-theme_white"
-    >
-      <div
-        class="bg-theme_dark_purple text-theme_white text-4xl font-montserrat uppercase font-semibold pl-2 pb-0 pt-16 grid grid-cols-7 auto-cols-min"
-      >
-        <p class="market-col-header">Name</p>
-        <p class="market-col-header">Price</p>
-        <div class="flex flex-col items-start justify-start">
-          <p class="market-col-header">Change</p>
-          <span class="text-base">24H</span>
-        </div>
-        <div class="flex flex-col items-start justify-start">
-          <p class="market-col-header">High</p>
-          <span class="text-base">24H</span>
-        </div>
-        <div class="flex flex-col items-start justify-start">
-          <p class="market-col-header">Low</p>
-          <span class="text-base">24H</span>
-        </div>
-        <p class="market-col-header">Marketcap</p>
-        <p class="market-col-header">Rank</p>
-      </div>
-
-      <MarketItem />
+    <div class="bg-theme_white overflow-auto">
+      <table class="w-full table-fixed ml-2">
+        <thead>
+          <tr class="text-left">
+            <th>Name</th>
+            <th>Price</th>
+            <th>Change</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Marketcap</th>
+            <th class="text-right pr-4">Rank</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="coinData in marketData">
+            <MarketItem :coinData="coinData" />
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 </template>
 
 <script>
+// vue imports
+import { ref } from "vue";
+
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import MarketItem from "../../components/market/MarketItem.vue";
+
+// hooks
+import useGetMarketData from "../../hooks/get/market/useGetMarketData";
 
 export default {
   components: {
     LargeHeader,
     MarketItem,
   },
-  setup() {},
+  setup() {
+    const { getMarketData, marketData, loading, error } = useGetMarketData();
+    const PAGE = ref(1);
+
+    getMarketData(PAGE.value);
+    return {
+      marketData,
+    };
+  },
 };
 </script>
 
 <style scoped>
 @import url("../../index.css");
+table {
+  min-width: 800px;
+}
 
+/*  Tailwind */
 @layer components {
   .market-col-header {
     @apply text-2xl leading-4;
+  }
+  th:first-child {
+    @apply pl-2;
+  }
+
+  tr {
+    @apply table-row;
+  }
+  tr:first-of-type th:first-child {
+    @apply bg-theme_white sticky left-0;
   }
   @media screen and (max-width: 1400px) {
     /* column header */
     section > div:first-child {
       @apply hidden;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    tr:first-of-type th:first-child {
+      @apply pl-0;
     }
   }
 }

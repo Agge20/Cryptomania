@@ -60,6 +60,10 @@ html {
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
+.vertical-column-header {
+  margin-top: 312px;
+}
+
 @media screen and (min-width: 2250px) {
   /* Link button wrapper */
   main {

@@ -1,30 +1,46 @@
 <template>
-  <div
-    class="p-0 border-2 border-red-600 m-0 text-2xl grid grid-cols-7 auto-cols-min"
-  >
-    <div class="h-14 flex items-center p-1 border-2 border-red-600">
-      <img
-        class="h-2/3"
-        src="http://assets.stickpng.com/images/5a521fa72f93c7a8d5137fcf.png"
-        alt=""
-      />
-      <p class="ml-2 font-roboto font-medium">Bitcoin - BTC</p>
-    </div>
-    <p class="border-2 border-red-600">$44328</p>
-    <p class="border-2 border-red-600">+6.8%</p>
-    <p class="border-2 border-red-600">$45390</p>
-    <p class="border-2 border-red-600">$43390</p>
-    <p class="border-2 border-red-600">$837312729282</p>
-    <p class="border-2 border-red-600">No. 1</p>
-  </div>
+  <td class="h-14 flex items-center p-2">
+    <img class="h-2/3" :src="coinData.image" alt="" />
+    <p class="ml-2 font-roboto font-medium">{{ coinData.name }}</p>
+  </td>
+  <td class="market-column-item font-roboto">{{ coinData.current_price }}</td>
+  <td class="market-column-item font-roboto">
+    {{ coinData.price_change_24h }}
+  </td>
+  <td class="market-column-item font-roboto">$45390</td>
+  <td class="market-column-item font-roboto">$43390</td>
+  <td class="market-column-item font-roboto">$837312729282</td>
+  <td class="market-column-item font-roboto text-right pr-4">No. 1</td>
 </template>
 
 <script>
 export default {
+  props: ["coinData"],
   setup() {
     return {};
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url("../../index.css");
+
+@layer components {
+  td:first-child {
+    @apply bg-theme_white sticky left-0;
+  }
+  td {
+    @apply min-w-full;
+  }
+
+  .market-column-item {
+    @apply my-auto;
+  }
+  @media screen and (max-width: 800px) {
+    /*  news cards */
+    td:first-child {
+      @apply pl-0;
+    }
+  }
+}
+</style>

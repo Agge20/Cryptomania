@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full bg-theme_dark_purple flex flex-col items-start justify-between px-4 m-6 card"
+    class="w-full bg-theme_dark_purple flex flex-col items-start justify-between px-4 mx-6 mt-6 card"
   >
     <!-- image wrapper -->
     <div
