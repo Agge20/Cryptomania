@@ -4,7 +4,7 @@
     <p>{{ coinData.name }}</p>
   </td>
   <td class="col-item">${{ coinData.current_price }}</td>
-  <td class="col-item">${{ coinData.price_change_24h }}</td>
+  <td class="col-item">{{ coinData.price_change_percentage_24h }}%</td>
   <td class="col-item">${{ coinData.high_24h }}</td>
   <td class="col-item">${{ coinData.low_24h }}/td></td>
   <td class="col-item">${{ coinData.market_cap }}</td>
@@ -33,8 +33,9 @@ td:first-child {
     @apply ml-2 font-medium;
   }
 }
+// rank
 td:last-child {
-  @apply text-right pr-4;
+  @apply text-left font-medium;
 }
 .col-item {
   @apply my-auto;
@@ -44,6 +45,12 @@ td:last-child {
   /*  news cards */
   td:first-child {
     @apply pl-0;
+  }
+}
+@media screen and (max-width: 1200px) {
+  // rank
+  td:last-child {
+    @apply text-right pr-12;
   }
 }
 </style>

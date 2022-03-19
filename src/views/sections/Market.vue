@@ -49,8 +49,14 @@ export default {
   setup() {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
-
     getMarketData(PAGE.value);
+
+    // get market data every 20 seconds
+    setInterval(() => {
+      getMarketData(PAGE.value);
+      console.log("fetched market data");
+    }, 20000);
+
     return {
       marketData,
     };
@@ -82,9 +88,9 @@ table {
       @apply w-full table-fixed ml-2;
       tr:first-of-type {
         @apply text-left;
-        // rank 
+        // rank
         th:last-child {
-          @apply text-right pr-4;
+          @apply text-left;
         }
       }
       tr {
@@ -106,7 +112,29 @@ table {
     @apply hidden;
   }
 }
+
+@media screen and (max-width: 1200px) {
+  th:last-child {
+    @apply text-right pr-12;
+  }
+  .market__table {
+    table {
+      tr:first-of-type {
+        // rank
+        th:last-child {
+          @apply text-right;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 800px) {
+  .market__table {
+    table {
+      @apply table-auto;
+    }
+  }
   tr:first-of-type th:first-child {
     @apply pl-0;
   }
