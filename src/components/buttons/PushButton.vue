@@ -57,9 +57,7 @@ export default {
     @apply h-full bg-theme_gold w-20 flex items-center justify-center;
   }
 }
-
-
-
+/* btn colors */
 .dark {
   @apply bg-theme_dark_purple text-theme_white;
 }
