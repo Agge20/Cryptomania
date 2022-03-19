@@ -3,12 +3,30 @@
     <img :src="coinData.image" :alt="coinData.name" />
     <p>{{ coinData.name }}</p>
   </td>
-  <td class="col-item">${{ coinData.current_price }}</td>
-  <td class="col-item">{{ coinData.price_change_percentage_24h }}%</td>
+  <td
+    class="col-item"
+    :class="{
+      green: coinData.price_change_percentage_24h >= 0,
+      red: coinData.price_change_percentage_24h < 0,
+    }"
+  >
+    ${{ coinData.current_price }}
+  </td>
+  <td
+    class="col-item"
+    :class="{
+      green: coinData.price_change_percentage_24h >= 0,
+      red: coinData.price_change_percentage_24h < 0,
+    }"
+  >
+    {{ coinData.price_change_percentage_24h }}%
+  </td>
   <td class="col-item">${{ coinData.high_24h }}</td>
-  <td class="col-item">${{ coinData.low_24h }}/td></td>
+  <td class="col-item">${{ coinData.low_24h }}</td>
   <td class="col-item">${{ coinData.market_cap }}</td>
-  <td class="col-item">{{ coinData.market_cap_rank }}</td>
+  <td class="col-item">
+    {{ coinData.market_cap_rank }}
+  </td>
 </template>
 
 <script>
