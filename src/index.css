@@ -7,15 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .green {
-    @apply text-theme_green;
-  }
-  .red {
-    @apply text-theme_red;
-  }
-}
-
 /* css vars(where tailwind vars can't be applied) */
 :root {
   --theme_gray: #e2e2e2;
@@ -55,10 +46,6 @@ html {
     rgba(248, 248, 248, 1) 48%
   );
 }
-/* custom tailwind classes */
-.custom-shadow {
-  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
-}
 
 .vertical-column-header {
   margin-top: 312px;
@@ -71,6 +58,12 @@ html {
   }
 }
 @layer components {
+  .green {
+    @apply text-theme_green;
+  }
+  .red {
+    @apply text-theme_red;
+  }
   /* headers */
   .header-lg {
     @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;

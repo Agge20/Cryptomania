@@ -1,25 +1,23 @@
 <template>
-  <section class="flex items-start">
-    <div
-      class="w-96 flex items-center justify-center whitespace-nowrap relative left-0 bg-transparent"
-    >
+  <section class="market">
+    <div class="market__header">
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
         :theme="{ light: true }"
         class="rotate-90 vertical-column-header"
       />
     </div>
-    <div class="bg-theme_white overflow-auto">
-      <table class="w-full table-fixed ml-2">
+    <div class="market__table">
+      <table>
         <thead>
-          <tr class="text-left">
+          <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Change</th>
             <th>High</th>
             <th>Low</th>
             <th>Marketcap</th>
-            <th class="text-right pr-4">Rank</th>
+            <th>Rank</th>
           </tr>
         </thead>
         <tbody>
@@ -60,37 +58,57 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url("../../index.css");
 table {
   min-width: 800px;
 }
 
-/*  Tailwind */
-@layer components {
-  .market-col-header {
-    @apply text-2xl leading-4;
+.market {
+  @apply flex items-start;
+  &__header {
+    @apply w-96 
+    flex 
+    items-center
+    justify-center
+    whitespace-nowrap
+    relative 
+    left-0 
+    bg-transparent;
   }
-  th:first-child {
-    @apply pl-2;
+  &__table {
+    @apply bg-theme_white overflow-auto;
+    table {
+      @apply w-full table-fixed ml-2;
+      tr:first-of-type {
+        @apply text-left;
+        // rank 
+        th:last-child {
+          @apply text-right pr-4;
+        }
+      }
+      tr {
+        @apply table-row;
+        th:first-child {
+          @apply pl-2;
+        }
+      }
+      tr:first-of-type th:first-child {
+        @apply bg-theme_white sticky left-0;
+      }
+    }
   }
+}
 
-  tr {
-    @apply table-row;
+@media screen and (max-width: 1400px) {
+  /* column header */
+  .market__header {
+    @apply hidden;
   }
+}
+@media screen and (max-width: 800px) {
   tr:first-of-type th:first-child {
-    @apply bg-theme_white sticky left-0;
-  }
-  @media screen and (max-width: 1400px) {
-    /* column header */
-    section > div:first-child {
-      @apply hidden;
-    }
-  }
-  @media screen and (max-width: 800px) {
-    tr:first-of-type th:first-child {
-      @apply pl-0;
-    }
+    @apply pl-0;
   }
 }
 </style>
