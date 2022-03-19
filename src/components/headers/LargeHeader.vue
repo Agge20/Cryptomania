@@ -1,8 +1,5 @@
 <template>
-  <h2
-    class="header-lg mb-8 mx-2"
-    :class="{ dark: theme.dark, light: theme.light }"
-  >
+  <h2 class="header-lg" :class="{ dark: theme.dark, light: theme.light }">
     {{ text.data }}
   </h2>
 </template>
@@ -13,15 +10,14 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url("../../index.css");
-
-@layer components {
-  .dark {
-    @apply text-theme_dark_purple;
-  }
-  .light {
-    @apply text-theme_white;
-  }
+<style lang="scss" scoped>
+h2 {
+  @apply mb-8 mx-2;
+}
+.dark {
+  @apply text-theme_dark_purple;
+}
+.light {
+  @apply text-theme_white;
 }
 </style>

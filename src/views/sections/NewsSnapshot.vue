@@ -1,8 +1,6 @@
 <template>
-  <section class="overflow-hidden margin-top-nav-h bg-theme_white flex">
-    <div
-      class="bg-theme_dark_purple w-96 flex items-start justify-center whitespace-nowrap first-header-wrapper"
-    >
+  <section class="news-snap">
+    <div class="news-snap__header first-header-wrapper">
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
         :theme="{ light: true }"
@@ -90,8 +88,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url("../../index.css");
+
+// this styling is not formatted to BEM needs to be fixed
+
+.news-snap {
+  @apply overflow-hidden margin-top-nav-h bg-theme_white flex;
+  &__header {
+    @apply bg-theme_dark_purple 
+    w-96 
+    flex 
+    items-start 
+    justify-center 
+    whitespace-nowrap;
+  }
+}
 
 .first-header-wrapper {
   padding-top: calc(var(--navbar-height) + 40px);
@@ -100,59 +112,57 @@ export default {
   margin-top: 160px;
 }
 
-@layer components {
-  @media screen and (max-width: 2000px) {
-    /* news card inner wrapper */
-    .news-wrapper-inner {
-      @apply flex-wrap justify-center;
-    }
+@media screen and (max-width: 2000px) {
+  /* news card inner wrapper */
+  .news-wrapper-inner {
+    @apply flex-wrap justify-center;
   }
-  @media screen and (max-width: 1600px) {
-    /* news card inner wrapper */
-    .news-wrapper-inner {
-      @apply flex-row flex-wrap justify-center;
-    }
-    /*  news cards */
-    .news-wrapper-inner div {
-      @apply w-1/2;
-    }
+}
+@media screen and (max-width: 1600px) {
+  /* news card inner wrapper */
+  .news-wrapper-inner {
+    @apply flex-row flex-wrap justify-center;
   }
-  @media screen and (max-width: 1400px) {
-    /* column header */
-    section > div:first-child {
-      @apply hidden;
-    }
-    .news-wrapper {
-      width: 100% !important;
-    }
-    .more-news-wrapper {
-      margin-left: 0px !important;
-      margin-right: 0px !important;
-    }
-    h2 {
-      display: block !important;
-    }
+  /*  news cards */
+  .news-wrapper-inner div {
+    @apply w-1/2;
+  }
+}
+@media screen and (max-width: 1400px) {
+  /* column header */
+  section > div:first-child {
+    @apply hidden;
+  }
+  .news-wrapper {
+    width: 100% !important;
+  }
+  .more-news-wrapper {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  h2 {
+    display: block !important;
+  }
 
-    /*  news cards */
-    .news-wrapper-inner div {
-      @apply w-96;
-    }
+  /*  news cards */
+  .news-wrapper-inner div {
+    @apply w-96;
   }
-  @media screen and (max-width: 980px) {
-    .news-wrapper-outer {
-      @apply mx-auto;
-    }
+}
+@media screen and (max-width: 980px) {
+  .news-wrapper-outer {
+    @apply mx-auto;
+  }
 
-    /* news card inner wrapper */
-    .news-wrapper-inner {
-      @apply flex-col items-center m-0;
-    }
+  /* news card inner wrapper */
+  .news-wrapper-inner {
+    @apply flex-col items-center m-0;
   }
-  @media screen and (max-width: 450px) {
-    /*  news cards */
-    .news-wrapper-inner div {
-      @apply m-0 mb-16 w-11/12;
-    }
+}
+@media screen and (max-width: 450px) {
+  /*  news cards */
+  .news-wrapper-inner div {
+    @apply m-0 mb-16 w-11/12;
   }
 }
 

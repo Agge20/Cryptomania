@@ -3,7 +3,7 @@
     @mouseenter="() => animateArrow(true)"
     @mouseleave="() => animateArrow(false)"
     to="/"
-    class="flex items-center justify-center my-4 py-2 px-4 bg-theme_gold text-theme_dark_purple rounded-lg font-bold font-montserrat text-xl transition hover:scale-105 duration-150"
+    class="link-button"
     >{{ text.data }}<ChevronRight :class="{ animate: animate }"
   /></router-link>
 </template>
@@ -35,6 +35,23 @@ export default {
 </script>
 
 <style scoped>
+/* Tailwind */
+
+.link-button {
+  @apply flex items-center 
+      justify-center 
+      my-4 py-2 
+      px-4 
+    bg-theme_gold 
+    text-theme_dark_purple 
+      rounded-lg 
+      font-bold 
+      font-montserrat 
+      text-xl
+      transition hover:scale-105 
+      duration-150;
+}
+
 .animate {
   animation: move-right 1s ease-out infinite;
 }

@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-center items-center">
-    <div class="w-5 mr-1">
-      <img :src="coin.image" :alt="coin.name" class="w-full" />
+  <div class="coin">
+    <div class="coin__image">
+      <img :src="coin.image" :alt="coin.name" />
     </div>
-    <span class="mr-1 text-theme_white uppercase">{{ coin.symbol }}</span>
-    <span class="mr-1 text-theme_white">${{ coin.current_price }}</span>
+    <span class="coin__symbol">{{ coin.symbol }}</span>
+    <span class="coin__price">${{ coin.current_price }}</span>
     <span
       class="mr-1"
       :class="{
@@ -23,3 +23,21 @@ export default {
   props: ["coin"],
 };
 </script>
+
+<style lang="scss" scoped>
+.coin {
+  @apply flex justify-center items-center;
+  &__image {
+    @apply w-5 mr-1;
+    img {
+      @apply w-full;
+    }
+  }
+  &__symbol {
+    @apply mr-1 text-theme_white uppercase;
+  }
+  &__price {
+    @apply mr-1 text-theme_white;
+  }
+}
+</style>
