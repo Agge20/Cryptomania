@@ -13,16 +13,28 @@
           <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Change</th>
-            <th>High</th>
-            <th>Low</th>
+            <th>
+              Change
+              <span>24H</span>
+            </th>
+            <th>
+              High
+              <span>24H</span>
+            </th>
+            <th>
+              Low
+              <span>24H</span>
+            </th>
             <th>Marketcap</th>
             <th>Rank</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="coinData in marketData">
-            <MarketItem :coinData="coinData" />
+          <tr
+            v-for="(coinData, index) in marketData"
+            :class="{ 'bg-theme_gray': index % 2 == 0 }"
+          >
+            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
           </tr>
         </tbody>
       </table>
@@ -85,12 +97,27 @@ table {
   &__table {
     @apply bg-theme_white overflow-auto;
     table {
-      @apply w-full table-fixed ml-2;
+      @apply w-full table-fixed;
+      thead {
+        tr {
+          @apply bg-theme_dark_purple text-theme_white h-24 text-2xl uppercase font-montserrat align-middle;
+          th {
+            @apply py-1;
+            span {
+              @apply block text-base font-medium;
+            }
+          }
+          th:first-child {
+            @apply pl-6;
+          }
+        }
+      }
+
       tr:first-of-type {
         @apply text-left;
         // rank
         th:last-child {
-          @apply text-left;
+          @apply text-center;
         }
       }
       tr {
@@ -100,7 +127,7 @@ table {
         }
       }
       tr:first-of-type th:first-child {
-        @apply bg-theme_white sticky left-0;
+        @apply bg-theme_dark_purple sticky left-0;
       }
     }
   }
@@ -114,15 +141,11 @@ table {
 }
 
 @media screen and (max-width: 1200px) {
-  th:last-child {
-    @apply text-right pr-12;
-  }
   .market__table {
     table {
-      tr:first-of-type {
-        // rank
-        th:last-child {
-          @apply text-right;
+      thead {
+        tr {
+          @apply bg-theme_dark_purple text-theme_white h-24 text-base uppercase font-montserrat align-middle;
         }
       }
     }
