@@ -1,4 +1,5 @@
 <template>
+  <div v-if="loading">loading...</div>
   <section class="market">
     <div class="market__header">
       <LargeHeader
@@ -32,7 +33,7 @@
         <tbody>
           <tr
             v-for="(coinData, index) in marketData"
-            :class="{ 'bg-theme_gray': index % 2 == 0 }"
+            :class="{ 'bg-theme_light_gray': index % 2 == 0 }"
           >
             <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
           </tr>
@@ -66,7 +67,6 @@ export default {
     // get market data every 20 seconds
     setInterval(() => {
       getMarketData(PAGE.value);
-      console.log("fetched market data");
     }, 20000);
 
     return {
@@ -91,8 +91,7 @@ table {
     justify-center
     whitespace-nowrap
     relative 
-    left-0 
-    bg-transparent;
+    left-0;
   }
   &__table {
     @apply bg-theme_white overflow-auto;
@@ -100,7 +99,12 @@ table {
       @apply w-full table-fixed;
       thead {
         tr {
-          @apply bg-theme_dark_purple text-theme_white h-24 text-2xl uppercase font-montserrat align-middle;
+          @apply bg-theme_dark_purple 
+          text-theme_white 
+          h-24 text-2xl 
+          uppercase 
+          font-montserrat 
+          align-middle;
           th {
             @apply py-1;
             span {

@@ -1,7 +1,7 @@
 <template>
   <td
     :class="{
-      'bg-theme_gray': indexNum % 2 == 0,
+      'bg-theme_light_gray': indexNum % 2 == 0,
       'bg-theme_white': indexNum % 2 != 0,
     }"
   >
