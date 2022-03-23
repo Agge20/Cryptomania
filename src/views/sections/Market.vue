@@ -7,6 +7,9 @@
         class="rotate-90 vertical-column-header"
       />
     </div>
+    <div>
+      <Error :msg="error" />
+    </div>
     <div v-if="loading">
       <MarketSkeleton />
     </div>
@@ -44,6 +47,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="market__pagination-wrapper">
+        <Pagination />
+      </div>
     </div>
   </section>
 </template>
@@ -55,6 +61,7 @@ import { ref } from "vue";
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import MarketItem from "../../components/market/MarketItem.vue";
+import Pagination from "../../components/pagination/Pagination.vue";
 
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
@@ -67,6 +74,7 @@ export default {
     LargeHeader,
     MarketItem,
     MarketSkeleton,
+    Pagination,
   },
   setup() {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
@@ -79,6 +87,7 @@ export default {
     return {
       marketData,
       loading,
+      error,
     };
   },
 };
@@ -148,6 +157,9 @@ table {
         }
       }
     }
+  }
+  &__pagination-wrapper {
+    @apply w-full border-2 flex justify-center items-center bg-theme_dark_purple p-6;
   }
 }
 
