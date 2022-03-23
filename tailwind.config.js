@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        theme_light_gray: "#ECECEC",
         theme_gray: "#E2E2E2",
         theme_dark_gray: "#D1D5DB",
         theme_white: "#F8F8F8",
@@ -14,6 +15,10 @@ module.exports = {
       fontFamily: {
         montserrat: ["Montserrat"],
         roboto: ["Roboto"],
+      },
+      lineHeight: {
+        11: "2.75rem",
+        12: "3rem",
       },
       width: { 128: "32rem" },
       screens: {},
