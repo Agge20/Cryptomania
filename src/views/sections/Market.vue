@@ -1,5 +1,4 @@
 <template>
-  <div v-if="loading">loading...</div>
   <section class="market">
     <div class="market__header">
       <LargeHeader
@@ -8,7 +7,10 @@
         class="rotate-90 vertical-column-header"
       />
     </div>
-    <div class="market__table">
+    <div v-if="loading">
+      <MarketSkeleton />
+    </div>
+    <div v-if="!loading" class="market__table">
       <table>
         <thead>
           <tr>
@@ -33,7 +35,10 @@
         <tbody>
           <tr
             v-for="(coinData, index) in marketData"
-            :class="{ 'bg-theme_light_gray': index % 2 == 0 }"
+            :class="{
+              'bg-theme_light_gray': index % 2 == 0,
+              'animate-pulse': loading,
+            }"
           >
             <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
           </tr>
@@ -54,23 +59,26 @@ import MarketItem from "../../components/market/MarketItem.vue";
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
 
+// skeletons
+import MarketSkeleton from "../../skeletons/MarketSkeleton.vue";
+
 export default {
   components: {
     LargeHeader,
     MarketItem,
+    MarketSkeleton,
   },
   setup() {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
     getMarketData(PAGE.value);
-
     // get market data every 20 seconds
     setInterval(() => {
       getMarketData(PAGE.value);
     }, 20000);
-
     return {
       marketData,
+      loading,
     };
   },
 };
