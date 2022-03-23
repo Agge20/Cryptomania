@@ -4,7 +4,7 @@
     <div class="market__header">
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
-        :theme="{ light: true }"
+        :theme="{ dark: true }"
         class="rotate-90 vertical-column-header"
       />
     </div>
@@ -98,6 +98,7 @@ table {
     table {
       @apply w-full table-fixed;
       thead {
+        @apply pt-4 bg-theme_dark_purple;
         tr {
           @apply bg-theme_dark_purple 
           text-theme_white 
@@ -106,9 +107,9 @@ table {
           font-montserrat 
           align-middle;
           th {
-            @apply py-1;
+            @apply py-1 align-top pt-8;
             span {
-              @apply block text-base font-medium;
+              @apply block text-base font-medium leading-3;
             }
           }
           th:first-child {
@@ -132,6 +133,11 @@ table {
       }
       tr:first-of-type th:first-child {
         @apply bg-theme_dark_purple sticky left-0;
+      }
+      tbody {
+        tr {
+          @apply hover:opacity-80 cursor-pointer;
+        }
       }
     }
   }

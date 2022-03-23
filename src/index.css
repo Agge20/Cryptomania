@@ -39,16 +39,14 @@ main {
 body,
 html {
   z-index: -10;
-  background: rgb(12, 2, 22);
+  background: var(--theme_white);
+  /*
   background: linear-gradient(
     90deg,
     rgba(12, 2, 22, 1) 47%,
-    rgba(248, 248, 248, 1) 48%
+    rgb(248, 248, 248) 47%
   );
-}
-
-.vertical-column-header {
-  margin-top: 312px;
+  */
 }
 
 @media screen and (min-width: 2250px) {

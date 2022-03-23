@@ -84,7 +84,7 @@ import QuestionMark from "../../svg/QuestionMark.vue";
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 export default {
   components: {

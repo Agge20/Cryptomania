@@ -54,15 +54,16 @@ export default {
 td {
   @apply font-roboto;
 }
+// symbol and name
 td:first-child {
-  @apply sticky left-0 h-14 flex items-center p-2 pl-6;
+  @apply sticky left-0 flex items-center p-2 pl-6;
   img {
-    @apply h-2/3;
+    max-width: 26.66px;
   }
   p {
     @apply ml-2 font-bold;
     span {
-      @apply uppercase block text-base;
+      @apply uppercase block text-xs;
     }
   }
 }
@@ -74,14 +75,11 @@ td:last-child {
   @apply my-auto;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   td:first-child {
     @apply pl-2;
     width: 120px;
     height: auto;
-    img {
-      max-width: 26.66px;
-    }
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="news-snap__header first-header-wrapper">
       <LargeHeader
         :text="{ data: 'LATEST NEWS' }"
-        :theme="{ light: true }"
+        :theme="{ dark: true }"
         class="rotate-90 first-header"
       />
     </div>
@@ -12,7 +12,7 @@
         <LargeHeader
           :text="{ data: 'LATEST NEWS' }"
           :theme="{ dark: true }"
-          class="hidden mt-8"
+          class="hidden m-8"
         />
         <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
           <NewsCard class="basis-1/4" />
@@ -96,8 +96,7 @@ export default {
 .news-snap {
   @apply overflow-hidden margin-top-nav-h bg-theme_white flex;
   &__header {
-    @apply bg-theme_dark_purple 
-    w-96 
+    @apply w-96 
     flex 
     items-start 
     justify-center 
