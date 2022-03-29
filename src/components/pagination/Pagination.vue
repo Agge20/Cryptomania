@@ -1,18 +1,23 @@
 <template>
   <div class="pagination">
     <ChevronRightWhite class="pagination__chevron pagination__chevron--left" />
-    <div class="pagination__numbers">
-      <div class="pagination__number">1</div>
-      <div class="pagination__number">2</div>
-      <div class="pagination__number">3</div>
-      <div class="pagination__number">4</div>
-      <div class="pagination__number">5</div>
+    <div class="pagination__numbers" v-for="page in pageNumbers">
+      <div
+        :key="page"
+        class="pagination__number"
+        @click="$emit('pageChange', page)"
+      >
+        {{ page }}
+      </div>
     </div>
     <ChevronRightWhite class="pagination__chevron" />
   </div>
 </template>
 
 <script>
+// vue imports
+import { ref } from "vue";
+
 // svg
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
 
@@ -21,7 +26,10 @@ export default {
     ChevronRightWhite,
   },
   setup() {
-    return {};
+    const pageNumbers = ref([1, 2, 3, 4, 5]);
+    return {
+      pageNumbers,
+    };
   },
 };
 </script>

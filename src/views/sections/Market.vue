@@ -1,5 +1,5 @@
 <template>
-  <section class="market">
+  <section class="market" ref="marketToScroll">
     <div class="market__header">
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
@@ -48,7 +48,7 @@
         </tbody>
       </table>
       <div class="market__pagination-wrapper">
-        <Pagination />
+        <Pagination @page-change="pageChange" />
       </div>
     </div>
   </section>
@@ -62,6 +62,7 @@ import { ref } from "vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import MarketItem from "../../components/market/MarketItem.vue";
 import Pagination from "../../components/pagination/Pagination.vue";
+import Error from "../../components/error/Error.vue";
 
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
@@ -75,19 +76,29 @@ export default {
     MarketItem,
     MarketSkeleton,
     Pagination,
+    Error,
   },
   setup() {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
+    const marketToScroll = ref(null);
     getMarketData(PAGE.value);
     // get market data every 20 seconds
     setInterval(() => {
       getMarketData(PAGE.value);
     }, 20000);
+    // fetch new coin data on pagination change
+    const pageChange = (pageNum) => {
+      PAGE.value = pageNum;
+      //marketToScroll.scrollIntoView({ behavior: "smooth" });
+      getMarketData(PAGE.value);
+    };
     return {
       marketData,
       loading,
       error,
+      pageChange,
+      marketToScroll,
     };
   },
 };
