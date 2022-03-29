@@ -8,7 +8,6 @@ const useGetMarketData = () => {
 
   // get data
   const getMarketData = async (page) => {
-    console.log("fetched market data");
     loading.value = true;
     // this url returns 100 coins based on page
     const URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`;
