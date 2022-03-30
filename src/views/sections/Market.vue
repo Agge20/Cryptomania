@@ -39,6 +39,7 @@
           <tbody>
             <tr
               v-for="(coinData, index) in marketData"
+              class="transition hover:scale-x-99 duration-100"
               :class="{
                 'bg-theme_light_gray': index % 2 == 0,
                 'animate-pulse': loading,
