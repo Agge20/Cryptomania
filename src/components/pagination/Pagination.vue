@@ -4,7 +4,9 @@
       v-if="lowestPageNum !== 1"
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
       @click="
-        paginate({ back: true }), $emit('pageChange', lowestPageNum), goto()
+        paginate({ back: true }),
+          $emit('pageChange', lowestPageNum),
+          scrollToTop()
       "
     />
     <div class="flex justify-center">
@@ -19,7 +21,7 @@
       <div
         class="pagination__numbers"
         v-for="(page, index) in pageNumbers"
-        @click="goto()"
+        @click="scrollToTop()"
       >
         <div
           :key="page"
@@ -36,7 +38,7 @@
           @click="
             paginate({ page: highestPageNum }),
               $emit('pageChange', highestPageNum),
-              goto()
+              scrollToTop()
           "
         >
           ...{{ highestPageNum }}
@@ -48,7 +50,9 @@
       v-if="lowestPageNum + 4 !== highestPageNum"
       class="pagination__chevron hover:cursor-pointer"
       @click="
-        paginate({ forward: true }), $emit('pageChange', lowestPageNum), goto()
+        paginate({ forward: true }),
+          $emit('pageChange', lowestPageNum),
+          scrollToTop()
       "
     />
   </div>
@@ -62,7 +66,7 @@ import { ref } from "vue";
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
 
 export default {
-  props: ["goto"],
+  props: ["scrollToTop"],
   components: {
     ChevronRightWhite,
   },
