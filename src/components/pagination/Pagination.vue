@@ -3,7 +3,7 @@
     <ChevronRightWhite
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
       :class="{ animateLeft: animateLeft }"
-      @click="paginate({ back: true })"
+      @click="paginate({ back: true }), $emit('pageChange', lowestPageNum)"
       @mouseenter="() => animateLeftArrow(true)"
       @mouseleave="() => animateLeftArrow(false)"
     />
@@ -29,8 +29,8 @@
         <div
           class="pagination__number"
           @click="
-            $emit('pageChange', highestPageNum),
-              paginate({ page: highestPageNum })
+            paginate({ page: highestPageNum }),
+              $emit('pageChange', highestPageNum)
           "
         >
           ...{{ highestPageNum }}
@@ -41,7 +41,7 @@
     <ChevronRightWhite
       class="pagination__chevron hover:cursor-pointer"
       :class="{ animateRight: animateRight }"
-      @click="paginate({ forward: true })"
+      @click="paginate({ forward: true }), $emit('pageChange', lowestPageNum)"
       @mouseenter="() => animateRightArrow(true)"
       @mouseleave="() => animateRightArrow(false)"
     />
@@ -108,12 +108,6 @@ export default {
     };
     changePage();
 
-    // check on lowestPage change
-    watchEffect(() => {
-      console.log("lowestPageChanged... ", lowestPageNum.value);
-      //context.emit("pageChange", lowestPageNum.value);
-    });
-
     // arrow chevron animation
     const animateLeftArrow = (shouldAnimate) => {
       if (shouldAnimate) {
@@ -131,13 +125,14 @@ export default {
     };
     return {
       pageNumbers,
+      lowestPageNum,
       highestPageNum,
       showPageOne,
+      animateLeft,
+      animateRight,
       paginate,
       animateLeftArrow,
       animateRightArrow,
-      animateLeft,
-      animateRight,
     };
   },
 };
