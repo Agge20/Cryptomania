@@ -2,14 +2,13 @@
   <div class="pagination">
     <ChevronRightWhite
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
-      @click="paginate(true)"
+      @click="paginate({ back: true })"
     />
     <div class="pagination__numbers" v-for="page in pageNumbers">
       <div
         :key="page"
         class="pagination__number"
-        @click="$emit('pageChange', page), toggleActive(true)"
-        :class="{ active: active }"
+        @click="$emit('pageChange', page), paginate({ page: page })"
       >
         {{ page }}
       </div>
@@ -18,23 +17,23 @@
       <div
         class="pagination__number"
         @click="
-          $emit('pageChange', highestPageNum), toggleActive(true), lastPage()
+          $emit('pageChange', highestPageNum),
+            paginate({ page: highestPageNum })
         "
-        :class="{ active: active }"
       >
         ...{{ highestPageNum }}
       </div>
     </div>
     <ChevronRightWhite
       class="pagination__chevron hover:cursor-pointer"
-      @click="paginate(false)"
+      @click="paginate({ forward: true })"
     />
   </div>
 </template>
 
 <script>
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 // svg
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
@@ -46,53 +45,55 @@ export default {
   setup() {
     const highestPageNum = ref(120);
     const lowestPageNum = ref(1);
-
-    //
-
     const pageNumbers = ref([]);
-    const active = ref(false);
 
-    const paginate = (back) => {
-      if (back) {
+    if (localStorage.getItem("lowestPageNum")) {
+      lowestPageNum.value = parseInt(localStorage.getItem("lowestPageNum"));
+    }
+
+    console.log("re-render...");
+
+    const paginate = (options) => {
+      if (options.back) {
         console.log("back ran");
         if (lowestPageNum.value > 1) {
           lowestPageNum.value--;
+          changePage();
         }
-      } else {
+      } else if (options.forward) {
         console.log("forward ran");
-        if (lowestPageNum.value + 3 !== highestPageNum.value) {
+        if (lowestPageNum.value + 4 !== highestPageNum.value) {
           lowestPageNum.value++;
+          changePage();
         }
+      } else if (options.page === highestPageNum.value) {
+        lowestPageNum.value = highestPageNum.value - 4;
+
+        changePage();
+      } else {
+        lowestPageNum.value = options.page;
+        changePage();
       }
     };
 
-    const lastPage = () => {
-      console.log("last page ran");
-      lowestPageNum.value = highestPageNum.value - 4;
-      console.log("lowestPageNum now: ", lowestPageNum.value);
-    };
-    const toggleActive = (arg) => {
-      console.log("toggle active ran");
-      active.value = arg;
-    };
-    // on lowestPageNum change
-    watchEffect(() => {
-      pageNumbers.value = [];
+    const changePage = () => {
+      console.log("lowestPageNum: ", lowestPageNum.value);
+      console.log("localhost set...");
       localStorage.setItem("lowestPageNum", lowestPageNum.value);
-      console.log("watchEffect ran... lowestPageNum: ", lowestPageNum.value);
+      pageNumbers.value = [];
+
       for (let i = lowestPageNum.value; i < lowestPageNum.value + 4; i++) {
         pageNumbers.value.push(i);
       }
-    });
+    };
+
+    changePage();
     console.log("pageNumbers: ", pageNumbers.value);
 
     return {
       pageNumbers,
-      active,
       highestPageNum,
-      lastPage,
       paginate,
-      toggleActive,
     };
   },
 };
