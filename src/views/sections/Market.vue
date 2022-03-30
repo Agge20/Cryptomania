@@ -39,6 +39,7 @@
           <tbody>
             <tr
               v-for="(coinData, index) in marketData"
+              class="transition hover:scale-x-99 duration-100"
               :class="{
                 'bg-theme_light_gray': index % 2 == 0,
                 'animate-pulse': loading,
@@ -50,7 +51,11 @@
         </table>
       </div>
       <div class="market__pagination-wrapper">
-        <Pagination @page-change="pageChange" :goto="goto" />
+        <Pagination
+          @page-change="pageChange"
+          :scrollToTop="scrollToTop"
+          :currentPage="PAGE"
+        />
       </div>
     </div>
   </section>
@@ -100,7 +105,7 @@ export default {
       getMarketData(PAGE.value);
     };
     const marketToScroll = ref("marketToScroll");
-    const goto = () => {
+    const scrollToTop = () => {
       let top = marketToScroll.value.offsetTop;
       top = top - 120;
       window.scrollTo(0, top);
@@ -112,7 +117,8 @@ export default {
       error,
       pageChange,
       marketToScroll,
-      goto,
+      scrollToTop,
+      PAGE,
     };
   },
 };
