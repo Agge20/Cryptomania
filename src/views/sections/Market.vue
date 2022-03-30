@@ -84,14 +84,19 @@ export default {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
     getMarketData(PAGE.value);
-    // get market data every 20 seconds
-    setInterval(() => {
+    // get market data every 30 seconds
+    let dataTimer = setInterval(() => {
       getMarketData(PAGE.value);
     }, 30000);
     // fetch new coin data on pagination change
     const pageChange = (pageNum) => {
       PAGE.value = pageNum;
-      //marketToScroll.scrollIntoView({ behavior: "smooth" });
+      // reset timer
+      clearInterval(dataTimer);
+      dataTimer = setInterval(() => {
+        getMarketData(PAGE.value);
+      }, 30000);
+      // get data now
       getMarketData(PAGE.value);
     };
     const marketToScroll = ref("marketToScroll");
