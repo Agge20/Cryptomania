@@ -1,7 +1,7 @@
 <template>
   <NewsSnapshot />
   <Market />
-</template>
+  </template>
 
 <script>
 // sections

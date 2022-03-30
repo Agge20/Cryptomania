@@ -1,5 +1,5 @@
 <template>
-  <section class="market">
+  <section class="market" ref="marketToScroll">
     <div class="market__header">
       <LargeHeader
         :text="{ data: 'THE MARKET' }"
@@ -13,42 +13,45 @@
     <div v-if="loading">
       <MarketSkeleton />
     </div>
-    <div v-if="!loading" class="market__table">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>
-              Change
-              <span>24H</span>
-            </th>
-            <th>
-              High
-              <span>24H</span>
-            </th>
-            <th>
-              Low
-              <span>24H</span>
-            </th>
-            <th>Marketcap</th>
-            <th>Rank</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(coinData, index) in marketData"
-            :class="{
-              'bg-theme_light_gray': index % 2 == 0,
-              'animate-pulse': loading,
-            }"
-          >
-            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
-          </tr>
-        </tbody>
-      </table>
+    <div class="market__content">
+      <div v-if="!loading" class="market__table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>
+                Change
+                <span>24H</span>
+              </th>
+              <th>
+                High
+                <span>24H</span>
+              </th>
+              <th>
+                Low
+                <span>24H</span>
+              </th>
+              <th>Marketcap</th>
+              <th>Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(coinData, index) in marketData"
+              class="transition hover:scale-x-99 duration-100"
+              :class="{
+                'bg-theme_light_gray': index % 2 == 0,
+                'animate-pulse': loading,
+              }"
+            >
+              <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="market__pagination-wrapper">
-        <Pagination />
+        <Pagination @page-change="pageChange" :goto="goto" />
       </div>
     </div>
   </section>
@@ -62,6 +65,7 @@ import { ref } from "vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import MarketItem from "../../components/market/MarketItem.vue";
 import Pagination from "../../components/pagination/Pagination.vue";
+import Error from "../../components/error/Error.vue";
 
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
@@ -75,19 +79,41 @@ export default {
     MarketItem,
     MarketSkeleton,
     Pagination,
+    Error,
   },
-  setup() {
+  setup(props, context) {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
     getMarketData(PAGE.value);
-    // get market data every 20 seconds
-    setInterval(() => {
+    // get market data every 30 seconds
+    let dataTimer = setInterval(() => {
       getMarketData(PAGE.value);
-    }, 20000);
+    }, 30000);
+    // fetch new coin data on pagination change
+    const pageChange = (pageNum) => {
+      PAGE.value = pageNum;
+      // reset timer
+      clearInterval(dataTimer);
+      dataTimer = setInterval(() => {
+        getMarketData(PAGE.value);
+      }, 30000);
+      // get data now
+      getMarketData(PAGE.value);
+    };
+    const marketToScroll = ref("marketToScroll");
+    const goto = () => {
+      let top = marketToScroll.value.offsetTop;
+      top = top - 120;
+      window.scrollTo(0, top);
+    };
+
     return {
       marketData,
       loading,
       error,
+      pageChange,
+      marketToScroll,
+      goto,
     };
   },
 };
@@ -109,6 +135,9 @@ table {
     whitespace-nowrap
     relative 
     left-0;
+  }
+  &__content {
+    @apply flex flex-col overflow-auto;
   }
   &__table {
     @apply bg-theme_white overflow-auto;
