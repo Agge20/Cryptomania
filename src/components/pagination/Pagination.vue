@@ -1,13 +1,11 @@
 <template>
   <div class="pagination">
     <ChevronRightWhite
+      v-if="lowestPageNum !== 1"
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
-      :class="{ animateLeft: animateLeft }"
       @click="
         paginate({ back: true }), $emit('pageChange', lowestPageNum), goto()
       "
-      @mouseenter="() => animateLeftArrow(true)"
-      @mouseleave="() => animateLeftArrow(false)"
     />
     <div class="flex justify-center">
       <div class="pagination__numbers" v-if="showPageOne">
@@ -26,7 +24,7 @@
         <div
           :key="page"
           class="pagination__number"
-          :class="{ active: index === 0 }"
+          :class="{ active: page === lowestPageNum }"
           @click="$emit('pageChange', page), paginate({ page: page })"
         >
           {{ page }}
@@ -47,13 +45,11 @@
     </div>
 
     <ChevronRightWhite
+      v-if="lowestPageNum + 4 !== highestPageNum"
       class="pagination__chevron hover:cursor-pointer"
-      :class="{ animateRight: animateRight }"
       @click="
         paginate({ forward: true }), $emit('pageChange', lowestPageNum), goto()
       "
-      @mouseenter="() => animateRightArrow(true)"
-      @mouseleave="() => animateRightArrow(false)"
     />
   </div>
 </template>
@@ -140,11 +136,7 @@ export default {
       lowestPageNum,
       highestPageNum,
       showPageOne,
-      animateLeft,
-      animateRight,
       paginate,
-      animateLeftArrow,
-      animateRightArrow,
     };
   },
 };
@@ -176,8 +168,6 @@ export default {
     max-width: 100vw;
     &__number {
       @apply bg-transparent text-theme_white m-0;
-      &--active {
-      }
     }
     &__chevron {
       @apply m-2;
@@ -187,31 +177,5 @@ export default {
 // vue dynamic classes
 .active {
   @apply bg-theme_gold;
-}
-
-.animateLeft {
-  animation: move-left 1s ease-out infinite;
-}
-
-.animateRight {
-  animation: move-right 1s ease-out infinite;
-}
-
-@keyframes move-left {
-  0% {
-    transform: translateX(0px) rotate(180deg) scale(1.5);
-  }
-  100% {
-    transform: translateX(-6px) rotate(180deg) scale(1.5);
-  }
-}
-
-@keyframes move-right {
-  0% {
-    transform: translateX(0px) scale(1.6);
-  }
-  100% {
-    transform: translateX(6px) scale(1.6);
-  }
 }
 </style>
