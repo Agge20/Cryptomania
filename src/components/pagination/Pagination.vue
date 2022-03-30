@@ -3,11 +3,13 @@
     <ChevronRightWhite
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
       :class="{ animateLeft: animateLeft }"
-      @click="paginate({ back: true }), $emit('pageChange', lowestPageNum)"
+      @click="
+        paginate({ back: true }), $emit('pageChange', lowestPageNum), goto()
+      "
       @mouseenter="() => animateLeftArrow(true)"
       @mouseleave="() => animateLeftArrow(false)"
     />
-    <div class="flex w-96 justify-center">
+    <div class="flex justify-center">
       <div class="pagination__numbers" v-if="showPageOne">
         <div
           class="pagination__number"
@@ -16,7 +18,11 @@
           {{ 1 }}...
         </div>
       </div>
-      <div class="pagination__numbers" v-for="page in pageNumbers">
+      <div
+        class="pagination__numbers"
+        v-for="page in pageNumbers"
+        @click="goto()"
+      >
         <div
           :key="page"
           class="pagination__number"
@@ -30,7 +36,8 @@
           class="pagination__number"
           @click="
             paginate({ page: highestPageNum }),
-              $emit('pageChange', highestPageNum)
+              $emit('pageChange', highestPageNum),
+              goto()
           "
         >
           ...{{ highestPageNum }}
@@ -41,7 +48,9 @@
     <ChevronRightWhite
       class="pagination__chevron hover:cursor-pointer"
       :class="{ animateRight: animateRight }"
-      @click="paginate({ forward: true }), $emit('pageChange', lowestPageNum)"
+      @click="
+        paginate({ forward: true }), $emit('pageChange', lowestPageNum), goto()
+      "
       @mouseenter="() => animateRightArrow(true)"
       @mouseleave="() => animateRightArrow(false)"
     />
@@ -50,16 +59,17 @@
 
 <script>
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 // svg
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
 
 export default {
+  props: ["goto"],
   components: {
     ChevronRightWhite,
   },
-  setup(props, context) {
+  setup() {
     const highestPageNum = ref(120);
     const lowestPageNum = ref(1);
     const pageNumbers = ref([]);
@@ -85,8 +95,9 @@ export default {
         }
       } else if (options.page === highestPageNum.value) {
         lowestPageNum.value = highestPageNum.value - 4;
-
         changePage();
+      } else if (options.page + 4 > highestPageNum.value) {
+        return;
       } else {
         lowestPageNum.value = options.page;
         changePage();
@@ -154,6 +165,19 @@ export default {
     @apply w-12 h-12 bg-theme_white rounded-sm m-2 flex items-center justify-center font-bold;
     &:hover {
       @apply bg-theme_gold cursor-pointer;
+    }
+  }
+}
+
+// mobile pagination
+@media screen and (max-width: 800px) {
+  .pagination {
+    max-width: 100vw;
+    &__number {
+      @apply bg-transparent text-theme_white m-0;
+    }
+    &__chevron {
+      @apply m-2;
     }
   }
 }

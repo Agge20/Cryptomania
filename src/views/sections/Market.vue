@@ -13,42 +13,44 @@
     <div v-if="loading">
       <MarketSkeleton />
     </div>
-    <div v-if="!loading" class="market__table">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>
-              Change
-              <span>24H</span>
-            </th>
-            <th>
-              High
-              <span>24H</span>
-            </th>
-            <th>
-              Low
-              <span>24H</span>
-            </th>
-            <th>Marketcap</th>
-            <th>Rank</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(coinData, index) in marketData"
-            :class="{
-              'bg-theme_light_gray': index % 2 == 0,
-              'animate-pulse': loading,
-            }"
-          >
-            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
-          </tr>
-        </tbody>
-      </table>
+    <div class="market__content">
+      <div v-if="!loading" class="market__table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>
+                Change
+                <span>24H</span>
+              </th>
+              <th>
+                High
+                <span>24H</span>
+              </th>
+              <th>
+                Low
+                <span>24H</span>
+              </th>
+              <th>Marketcap</th>
+              <th>Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(coinData, index) in marketData"
+              :class="{
+                'bg-theme_light_gray': index % 2 == 0,
+                'animate-pulse': loading,
+              }"
+            >
+              <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="market__pagination-wrapper">
-        <Pagination @page-change="pageChange" />
+        <Pagination @page-change="pageChange" :goto="goto" />
       </div>
     </div>
   </section>
@@ -78,10 +80,9 @@ export default {
     Pagination,
     Error,
   },
-  setup() {
+  setup(props, context) {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
-    const marketToScroll = ref(null);
     getMarketData(PAGE.value);
     // get market data every 20 seconds
     setInterval(() => {
@@ -93,12 +94,20 @@ export default {
       //marketToScroll.scrollIntoView({ behavior: "smooth" });
       getMarketData(PAGE.value);
     };
+    const marketToScroll = ref("marketToScroll");
+    const goto = () => {
+      let top = marketToScroll.value.offsetTop;
+      top = top - 120;
+      window.scrollTo(0, top);
+    };
+
     return {
       marketData,
       loading,
       error,
       pageChange,
       marketToScroll,
+      goto,
     };
   },
 };
@@ -120,6 +129,9 @@ table {
     whitespace-nowrap
     relative 
     left-0;
+  }
+  &__content {
+    @apply flex flex-col overflow-auto;
   }
   &__table {
     @apply bg-theme_white overflow-auto;
