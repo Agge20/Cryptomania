@@ -26,7 +26,7 @@
         <div
           :key="page"
           class="pagination__number"
-          :class="{ active: page === lowestPageNum }"
+          :class="{ active: page === currentPage }"
           @click="$emit('pageChange', page), paginate({ page: page })"
         >
           {{ page }}
@@ -35,6 +35,7 @@
       <div class="pagination__numbers">
         <div
           class="pagination__number"
+          :class="{ active: currentPage === highestPageNum }"
           @click="
             paginate({ page: highestPageNum }),
               $emit('pageChange', highestPageNum),
@@ -66,18 +67,17 @@ import { ref } from "vue";
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
 
 export default {
-  props: ["scrollToTop"],
+  props: ["scrollToTop", "currentPage"],
   components: {
     ChevronRightWhite,
   },
-  setup() {
+  setup(props) {
     const highestPageNum = ref(120);
     const lowestPageNum = ref(1);
     const pageNumbers = ref([]);
     const showPageOne = ref(false);
-    const animateLeft = ref(false);
-    const animateRight = ref(false);
 
+    console.log("currentPage in pagination component: ", props.currentPage);
     // check if user had paginated before and set lowestPageNum to that if true
     if (localStorage.getItem("lowestPageNum")) {
       lowestPageNum.value = parseInt(localStorage.getItem("lowestPageNum"));
@@ -120,21 +120,6 @@ export default {
     };
     changePage();
 
-    // arrow chevron animation
-    const animateLeftArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateLeft.value = true;
-      } else {
-        animateLeft.value = false;
-      }
-    };
-    const animateRightArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateRight.value = true;
-      } else {
-        animateRight.value = false;
-      }
-    };
     return {
       pageNumbers,
       lowestPageNum,
