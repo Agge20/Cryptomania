@@ -176,13 +176,15 @@ export default {
     max-width: 100vw;
     &__number {
       @apply bg-transparent text-theme_white m-0;
+      &--active {
+      }
     }
     &__chevron {
       @apply m-2;
     }
   }
 }
-
+// vue dynamic classes
 .active {
   @apply bg-theme_gold;
 }
