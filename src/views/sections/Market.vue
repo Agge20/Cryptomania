@@ -51,9 +51,10 @@
         </table>
       </div>
       <div class="market__pagination-wrapper">
+        <Pagination @page-change="pageChange" :scrollToTop="scrollToTop" />
         <Pagination
           @page-change="pageChange"
-          :goto="goto"
+          :scrollToTop="scrollToTop"
           :currentPage="PAGE"
         />
       </div>
@@ -105,7 +106,7 @@ export default {
       getMarketData(PAGE.value);
     };
     const marketToScroll = ref("marketToScroll");
-    const goto = () => {
+    const scrollToTop = () => {
       let top = marketToScroll.value.offsetTop;
       top = top - 120;
       window.scrollTo(0, top);
@@ -117,7 +118,7 @@ export default {
       error,
       pageChange,
       marketToScroll,
-      goto,
+      scrollToTop,
       PAGE,
     };
   },
