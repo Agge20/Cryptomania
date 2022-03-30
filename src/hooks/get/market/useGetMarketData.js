@@ -8,7 +8,6 @@ const useGetMarketData = () => {
 
   // get data
   const getMarketData = async (page) => {
-    console.log("fetched market data");
     loading.value = true;
     // this url returns 100 coins based on page
     const URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`;
@@ -28,8 +27,11 @@ const useGetMarketData = () => {
         for (let i = 0; i < marketData.value.length; i++) {
           // cut the 24_hour_change_percentage to 2 decimals
           let priceChange = marketData.value[i].price_change_percentage_24h;
-          priceChange = priceChange.toString();
-          let priceChangeSubstr = priceChange.substring(0, 4);
+          let priceChangeSubstr;
+          if (priceChange) {
+            priceChange = priceChange.toString();
+            priceChangeSubstr = priceChange.substring(0, 4);
+          }
 
           modifiedMarketData.value.push({
             ...marketData.value[i],
@@ -37,7 +39,7 @@ const useGetMarketData = () => {
           });
         }
         marketData.value = modifiedMarketData.value;
-        console.log("marketData: ", marketData.value);
+        //console.log("marketData: ", marketData.value);
       } else {
         loading.value = false;
         error.value =
