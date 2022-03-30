@@ -71,8 +71,6 @@ export default {
     const lowestPageNum = ref(1);
     const pageNumbers = ref([]);
     const showPageOne = ref(false);
-    const animateLeft = ref(false);
-    const animateRight = ref(false);
 
     // check if user had paginated before and set lowestPageNum to that if true
     if (localStorage.getItem("lowestPageNum")) {
@@ -116,21 +114,6 @@ export default {
     };
     changePage();
 
-    // arrow chevron animation
-    const animateLeftArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateLeft.value = true;
-      } else {
-        animateLeft.value = false;
-      }
-    };
-    const animateRightArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateRight.value = true;
-      } else {
-        animateRight.value = false;
-      }
-    };
     return {
       pageNumbers,
       lowestPageNum,
