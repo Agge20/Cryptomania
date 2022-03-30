@@ -1,9 +1,7 @@
 <template>
-  <div class="fixed w-screen">
-    <nav class="bg-theme_dark_purple h-20 p-5 flex lg:items-center z-10">
-      <div
-        class="h-20 absolute top-0 flex justify-center items-center uppercase text-theme_white font-montserrat font-medium text-xl z-10"
-      >
+  <div class="fixed w-screen z-50">
+    <nav class="nav">
+      <div class="nav__logo">
         <span>Cryptomania</span>
       </div>
       <!-- mobile navigation -->
@@ -19,27 +17,27 @@
         >
           <ul class="flex flex-col justify-center items-center lg:flex-row">
             <router-link :to="{ name: 'Home' }">
-              <li class="nav-links">
+              <li class="nav__link">
                 <Home />
               </li>
             </router-link>
             <router-link :to="{ name: 'Home' }">
-              <li class="nav-links">
+              <li class="nav__link">
                 <Search />
               </li>
             </router-link>
             <router-link :to="{ name: 'Home' }">
-              <li class="nav-links">
+              <li class="nav__link">
                 <News />
               </li>
             </router-link>
             <router-link :to="{ name: 'Home' }">
-              <li class="nav-links">
+              <li class="nav__link">
                 <Watchlist />
               </li>
             </router-link>
             <router-link :to="{ name: 'Home' }">
-              <li class="nav-links">
+              <li class="nav__link">
                 <QuestionMark />
               </li>
             </router-link>
@@ -57,15 +55,14 @@
       <div class="hidden lg:block mx-auto">
         <ul class="flex flex-col justify-center items-center lg:flex-row">
           <router-link :to="{ name: 'Home' }">
-            <li class="nav-links">Home</li>
+            <li class="nav__link">Home</li>
           </router-link>
-
           <router-link :to="{ name: 'Home' }">
-            <li class="nav-links">Search</li>
+            <li class="nav__link">Search</li>
           </router-link>
-          <li class="nav-links">News</li>
-          <li class="nav-links">Watchlist</li>
-          <li class="nav-links">About</li>
+          <li class="nav__link">News</li>
+          <li class="nav__link">Watchlist</li>
+          <li class="nav__link">About</li>
         </ul>
       </div>
     </nav>
@@ -87,7 +84,7 @@ import QuestionMark from "../../svg/QuestionMark.vue";
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 export default {
   components: {
@@ -132,21 +129,35 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url("../../index.css");
 
-@layer components {
-  .nav-links {
-    @apply text-theme_white uppercase font-semibold font-montserrat tracking-wide text-xl mx-6 my-2 lg:my-0 cursor-pointer transition duration-100 hover:scale-105;
+.nav {
+  @apply bg-theme_dark_purple h-20 p-5 flex lg:items-center z-10;
+  &__logo {
+    @apply h-20 absolute top-0 flex justify-center items-center uppercase text-theme_white font-montserrat font-medium text-xl z-10;
   }
-  .navbarHidden {
-    display: none !important;
+  &__link {
+    @apply text-theme_white 
+    uppercase 
+    font-semibold 
+    font-montserrat 
+    tracking-wide 
+    text-xl 
+    mx-6 
+    my-2 
+    lg:my-0 
+    cursor-pointer 
+    transition 
+    duration-100 
+    hover:scale-105;
   }
 }
 
 .expand-enter-from {
   min-width: 0;
 }
+
 .expand-enter-to {
   min-width: 80px;
 }

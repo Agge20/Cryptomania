@@ -1,6 +1,6 @@
 <template>
-  <main data-server-rendered="true">
-    <Navigation />
+  <Navigation />
+  <main data-server-rendered="true" class="flex flex-col mx-auto">
     <router-view />
   </main>
 </template>
@@ -13,8 +13,6 @@ export default {
 };
 </script>
 
-<style scoped>
-main {
-  max-width: 2000px;
-}
+<style>
+@import "./index.css";
 </style>

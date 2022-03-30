@@ -1,14 +1,8 @@
 <template>
   <!-- slider-wrapper -->
-  <div
-    class="tickertape flex justify-center items-center custom-shadow h-10 min-w-screen"
-  >
+  <div class="tickertape">
     <!-- refetch coin data after tickertape has been stopped from hover -->
-    <div
-      :key="coin.symbol"
-      class="w-64 shrink-0 inline-block p-2 font-montserrat font-medium"
-      v-for="coin in coinsData"
-    >
+    <div v-for="coin in coinsData" class="tickertape__coin">
       <TickertapeCoin :coin="coin" />
     </div>
   </div>
@@ -21,18 +15,15 @@
 // hooks
 import useGetTickerTapeCoins from "../../hooks/get/useGetTickerTapeCoins";
 
-// vue imports
-import { ref, watchEffect } from "vue";
-
 // components
 import TickertapeCoin from "./TickertapeCoin.vue";
-import DotsLoader from "../loader/DotsLoader.vue";
+
 import Error from "../error/Error.vue";
 
 export default {
   // initial prop-state decides if its the first tickertape that is rendered on page load
   props: ["initial"],
-  components: { TickertapeCoin, DotsLoader, Error },
+  components: { TickertapeCoin, Error },
   setup({ initial }) {
     // interval milliseconds
     const SPEED = 45000;
@@ -47,13 +38,17 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tickertape {
   -webkit-animation: tickertape-animation 45s linear infinite 0s;
   -moz-animation: tickertape-animation 45s linear infinite 0s;
   -o-animation: tickertape-animation 45s linear infinite 0s;
   -ms-animation: tickertape-animation 45s linear infinite 0s;
   animation: tickertape-animation 45s linear infinite 0s;
+  @apply flex justify-center items-center h-10 shadow-cryptomania;
+  &__coin {
+    @apply w-64 shrink-0 inline-block p-2 font-montserrat font-medium;
+  }
 }
 
 @keyframes tickertape-animation {

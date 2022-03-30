@@ -1,18 +1,11 @@
-/* Montserrat import from Google fonts */
+/* Montserrat font import from Google fonts */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* Roboto font import from Google fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer components {
-  .green {
-    @apply text-theme_green;
-  }
-  .red {
-    @apply text-theme_red;
-  }
-}
 
 /* css vars(where tailwind vars can't be applied) */
 :root {
@@ -21,8 +14,65 @@
   --theme_dark_purple: #0c0216;
   --theme_red: #f63659;
   --theme_green: #38c242;
+  --theme-gold: #ffba49;
+  --navbar-height: 120px;
 }
 
-.custom-shadow {
-  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+/* base styling */
+
+.background-theme-color {
+  position: absolute;
+  width: 50vw;
+  min-height: 100vh;
+  background: var(--theme_dark_purple);
+  z-index: -1;
+}
+
+main {
+  z-index: 0;
+  min-height: 100vh;
+  max-width: 2000px;
+  overflow: hidden;
+  position: relative;
+}
+
+body,
+html {
+  z-index: -10;
+  background: var(--theme_white);
+  /*
+  background: linear-gradient(
+    90deg,
+    rgba(12, 2, 22, 1) 47%,
+    rgb(248, 248, 248) 47%
+  );
+  */
+}
+
+@media screen and (min-width: 2250px) {
+  /* Link button wrapper */
+  main {
+    left: -192px;
+  }
+}
+@layer components {
+  .green {
+    @apply text-theme_green;
+  }
+  .red {
+    @apply text-theme_red;
+  }
+  /* headers */
+  .header-lg {
+    @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
+  }
+  .dark_purple_column {
+    @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
+  }
+  @media screen and (max-width: 1400px) {
+    /* hide dark purple column header for smaller devices*/
+    .dark_purple_column {
+      @apply hidden;
+    }
+  }
 }
