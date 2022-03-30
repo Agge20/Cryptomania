@@ -20,12 +20,13 @@
       </div>
       <div
         class="pagination__numbers"
-        v-for="page in pageNumbers"
+        v-for="(page, index) in pageNumbers"
         @click="goto()"
       >
         <div
           :key="page"
           class="pagination__number"
+          :class="{ active: index === 0 }"
           @click="$emit('pageChange', page), paginate({ page: page })"
         >
           {{ page }}
@@ -180,6 +181,10 @@ export default {
       @apply m-2;
     }
   }
+}
+
+.active {
+  @apply bg-theme_gold;
 }
 
 .animateLeft {
