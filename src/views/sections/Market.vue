@@ -51,7 +51,11 @@
         </table>
       </div>
       <div class="market__pagination-wrapper">
-        <Pagination @page-change="pageChange" :goto="goto" />
+        <Pagination
+          @page-change="pageChange"
+          :goto="goto"
+          :currentPage="PAGE"
+        />
       </div>
     </div>
   </section>
@@ -114,6 +118,7 @@ export default {
       pageChange,
       marketToScroll,
       goto,
+      PAGE,
     };
   },
 };
