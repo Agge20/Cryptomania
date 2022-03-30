@@ -51,7 +51,6 @@
         </table>
       </div>
       <div class="market__pagination-wrapper">
-        <Pagination @page-change="pageChange" :scrollToTop="scrollToTop" />
         <Pagination
           @page-change="pageChange"
           :scrollToTop="scrollToTop"
