@@ -160,6 +160,9 @@ export default {
 }
 @media screen and (max-width: 450px) {
   /*  news cards */
+  .news-wrapper-inner {
+    @apply items-start;
+  }
   .news-wrapper-inner div {
     @apply m-0 mb-16 w-11/12;
   }
