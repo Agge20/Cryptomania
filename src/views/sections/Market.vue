@@ -16,30 +16,10 @@
     <div class="market__content">
       <div v-if="!loading" class="market__table">
         <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>
-                Change
-                <span>24H</span>
-              </th>
-              <th>
-                High
-                <span>24H</span>
-              </th>
-              <th>
-                Low
-                <span>24H</span>
-              </th>
-              <th>Marketcap</th>
-              <th>Rank</th>
-            </tr>
-          </thead>
+          <MarketHead />
           <tbody>
             <tr
               v-for="(coinData, index) in marketData"
-              class="transition hover:scale-x-99 duration-100"
               :class="{
                 'bg-theme_light_gray': index % 2 == 0,
                 'animate-pulse': loading,
@@ -68,6 +48,7 @@ import { ref } from "vue";
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import MarketItem from "../../components/market/MarketItem.vue";
+import MarketHead from "../../components/market/MarketHead.vue";
 import Pagination from "../../components/pagination/Pagination.vue";
 import Error from "../../components/error/Error.vue";
 
@@ -81,6 +62,7 @@ export default {
   components: {
     LargeHeader,
     MarketItem,
+    MarketHead,
     MarketSkeleton,
     Pagination,
     Error,
@@ -125,11 +107,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url("../../index.css");
-table {
-  min-width: 800px;
-}
-
 .market {
   @apply flex items-start;
   &__header {
@@ -148,52 +125,21 @@ table {
     @apply bg-theme_white overflow-auto;
     table {
       @apply w-full table-fixed;
-      thead {
-        @apply pt-4 bg-theme_dark_purple;
-        tr {
-          @apply bg-theme_dark_purple 
-          text-theme_white 
-          h-24 text-2xl 
-          uppercase 
-          font-montserrat 
-          align-middle;
-          th {
-            @apply py-1 align-top pt-8;
-            span {
-              @apply block text-base font-medium leading-3;
-            }
-          }
-          th:first-child {
-            @apply pl-6;
-          }
-        }
-      }
+      min-width: 800px;
 
-      tr:first-of-type {
-        @apply text-left;
-        // rank
-        th:last-child {
-          @apply text-center;
-        }
-      }
       tr {
         @apply table-row;
-        th:first-child {
-          @apply pl-2;
-        }
       }
-      tr:first-of-type th:first-child {
-        @apply bg-theme_dark_purple sticky left-0;
-      }
+
       tbody {
         tr {
-          @apply hover:opacity-80 cursor-pointer;
+          @apply hover:opacity-80 cursor-pointer transition hover:scale-x-99 duration-100;
         }
       }
     }
   }
   &__pagination-wrapper {
-    @apply w-full border-2 flex justify-center items-center bg-theme_dark_purple p-6;
+    @apply w-full flex justify-center items-center bg-theme_dark_purple p-6;
   }
 }
 
@@ -204,26 +150,11 @@ table {
   }
 }
 
-@media screen and (max-width: 1200px) {
-  .market__table {
-    table {
-      thead {
-        tr {
-          @apply bg-theme_dark_purple text-theme_white h-24 text-base uppercase font-montserrat align-middle;
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 800px) {
   .market__table {
     table {
       @apply table-auto;
     }
-  }
-  tr:first-of-type th:first-child {
-    @apply pl-0;
   }
 }
 </style>
