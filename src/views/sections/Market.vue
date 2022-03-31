@@ -16,7 +16,7 @@
     <div class="market__content">
       <div v-if="!loading" class="market__table">
         <table>
-          <MarketHead />
+          <MarketHead @sort-by-change="sortByChange()" />
           <tbody>
             <tr
               v-for="(coinData, index) in marketData"
@@ -70,6 +70,7 @@ export default {
   setup(props, context) {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
+    const shouldAsc = ref(false);
     getMarketData(PAGE.value);
     // get market data every 30 seconds
     let dataTimer = setInterval(() => {
@@ -92,15 +93,33 @@ export default {
       top = top - 120;
       window.scrollTo(0, top);
     };
+    const sortByChange = () => {
+      shouldAsc.value = !shouldAsc.value;
+      if (marketData.value.length) {
+        marketData.value.sort((a, b) => {
+          if (a.price_change_percentage_24h > b.price_change_percentage_24h) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+
+        if (shouldAsc.value) {
+          marketData.value.reverse();
+        }
+      }
+    };
 
     return {
       marketData,
       loading,
       error,
-      pageChange,
       marketToScroll,
-      scrollToTop,
       PAGE,
+      shouldAsc,
+      sortByChange,
+      scrollToTop,
+      pageChange,
     };
   },
 };

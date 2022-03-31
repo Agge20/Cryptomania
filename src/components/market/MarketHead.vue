@@ -3,7 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Price</th>
-      <th>
+      <th @click="$emit('sort-by-change')">
         Change
         <span>24H</span>
       </th>
