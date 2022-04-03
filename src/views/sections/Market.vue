@@ -43,7 +43,7 @@
 
 <script>
 // vue imports
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
@@ -70,7 +70,8 @@ export default {
   setup(props, context) {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
-    const shouldAsc = ref(false);
+    const sortOrder = ref(1);
+    const originalData = ref([]);
     getMarketData(PAGE.value);
     // get market data every 30 seconds
     let dataTimer = setInterval(() => {
@@ -93,9 +94,17 @@ export default {
       top = top - 120;
       window.scrollTo(0, top);
     };
-    const sortByChange = () => {
-      shouldAsc.value = !shouldAsc.value;
+
+    const sortByChange = async () => {
+      /*
+        1 = original data
+        2 = descending data
+        3 = ascending data
+      */
+
       if (marketData.value.length) {
+        console.log("sortOrder value: ", sortOrder.value);
+
         marketData.value.sort((a, b) => {
           if (a.price_change_percentage_24h > b.price_change_percentage_24h) {
             return 1;
@@ -104,8 +113,24 @@ export default {
           }
         });
 
-        if (shouldAsc.value) {
-          marketData.value.reverse();
+        switch (sortOrder.value) {
+          case 1:
+            originalData.value = marketData.value;
+            break;
+          case 2:
+            marketData.value.reverse();
+            console.log("ascending...");
+            break;
+          case 3:
+            marketData.value = originalData.value;
+            console.log("original data...", originalData.value);
+
+            break;
+        }
+        if (sortOrder.value < 3) {
+          sortOrder.value++;
+        } else {
+          sortOrder.value = 1;
         }
       }
     };
@@ -116,7 +141,6 @@ export default {
       error,
       marketToScroll,
       PAGE,
-      shouldAsc,
       sortByChange,
       scrollToTop,
       pageChange,
