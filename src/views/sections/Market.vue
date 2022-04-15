@@ -67,12 +67,15 @@ export default {
     Pagination,
     Error,
   },
-  setup(props, context) {
+  setup() {
     const { getMarketData, marketData, loading, error } = useGetMarketData();
     const PAGE = ref(1);
-    const sortOrder = ref(1);
-    const originalData = ref([]);
+    const sortOrder = ref(2);
+    const sortedData = ref([]);
+    let originalData = [];
+    let didRun = false;
     getMarketData(PAGE.value);
+
     // get market data every 30 seconds
     let dataTimer = setInterval(() => {
       getMarketData(PAGE.value);
@@ -88,6 +91,18 @@ export default {
       // get data now
       getMarketData(PAGE.value);
     };
+
+    watchEffect(() => {
+      // on render
+      if (!didRun && marketData.value.length) {
+        didRun = true;
+        console.log("initial run");
+        console.log("marketData is now 1: ", marketData.value);
+
+        originalData = marketData.value;
+      }
+    });
+
     const marketToScroll = ref("marketToScroll");
     const scrollToTop = () => {
       let top = marketToScroll.value.offsetTop;
@@ -95,43 +110,39 @@ export default {
       window.scrollTo(0, top);
     };
 
-    const sortByChange = async () => {
+    const sortByChange = () => {
       /*
         1 = original data
         2 = descending data
         3 = ascending data
       */
+      sortedData.value = marketData.value;
 
-      if (marketData.value.length) {
-        console.log("sortOrder value: ", sortOrder.value);
-
-        marketData.value.sort((a, b) => {
-          if (a.price_change_percentage_24h > b.price_change_percentage_24h) {
-            return 1;
-          } else {
-            return -1;
-          }
-        });
-
-        switch (sortOrder.value) {
-          case 1:
-            originalData.value = marketData.value;
-            break;
-          case 2:
-            marketData.value.reverse();
-            console.log("ascending...");
-            break;
-          case 3:
-            marketData.value = originalData.value;
-            console.log("original data...", originalData.value);
-
-            break;
-        }
-        if (sortOrder.value < 3) {
-          sortOrder.value++;
+      sortedData.value.sort((a, b) => {
+        if (a.price_change_percentage_24h > b.price_change_percentage_24h) {
+          return 1;
         } else {
-          sortOrder.value = 1;
+          return -1;
         }
+      });
+
+      switch (sortOrder.value) {
+        // original data
+        case 1:
+          console.log("data should now be original data", originalData);
+          marketData.value = originalData;
+          break;
+        case 2:
+          marketData.value = sortedData.value;
+          break;
+        case 3:
+          marketData.value.reverse();
+          break;
+      }
+      if (sortOrder.value < 3) {
+        sortOrder.value++;
+      } else {
+        sortOrder.value = 1;
       }
     };
 
