@@ -16,7 +16,7 @@
         <div class="market__content">
             <div v-if="!loading" class="market__table">
                 <table>
-                    <MarketHead @sort-by-change="sortByChange()" />
+                    <MarketHead @sort-by-change="clickedSortByChange()" />
                     <tbody>
                         <tr
                             v-for="(coinData, index) in marketData"
@@ -58,6 +58,7 @@ import Error from "../../components/error/Error.vue";
 
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
+import useSortByChange from "../../hooks/market/useSortByChange";
 
 // skeletons
 import MarketSkeleton from "../../skeletons/MarketSkeleton.vue";
@@ -72,16 +73,17 @@ export default {
         Error,
     },
     setup() {
+        // hooks
         const { getMarketData, marketData, loading, error } =
             useGetMarketData();
+        const marketToScroll = ref("marketToScroll");
+        const { returnData: sortedChangeData, sortByChange } =
+            useSortByChange();
         const PAGE = ref(1);
-        const sortOrder = ref(2);
-        const sortedData = ref([]);
-        let originalData = [];
-        let didRun = false;
+        // fetch marketData
         getMarketData(PAGE.value);
 
-        //get market data every 30 seconds
+        // get market data every 30 seconds
         let dataTimer = setInterval(() => {
             getMarketData(PAGE.value);
         }, 30000);
@@ -98,57 +100,16 @@ export default {
             getMarketData(PAGE.value);
         };
 
-        watchEffect(() => {
-            // on render safe original data
-            if (!didRun && marketData.value.length) {
-                didRun = true;
-                console.log("initial run");
-                console.log("marketData is now 1: ", marketData.value);
-                originalData = [...marketData.value];
-            }
-        });
-
-        const marketToScroll = ref("marketToScroll");
         const scrollToTop = () => {
             let top = marketToScroll.value.offsetTop;
             top = top - 120;
             window.scrollTo(0, top);
         };
-
-        const sortByChange = () => {
-            /*
-            1 = original data
-            2 = descending data
-            3 = ascending data
-            */
-            sortedData.value = [...marketData.value];
-            sortedData.value.sort((a, b) => {
-                if (
-                    parseFloat(a.price_change_percentage_24h) >=
-                    parseFloat(b.price_change_percentage_24h)
-                ) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
-
-            switch (sortOrder.value) {
-                // original data
-                case 1:
-                    marketData.value = originalData;
-                    break;
-                case 2:
-                    marketData.value = sortedData.value.reverse();
-                    break;
-                case 3:
-                    marketData.value.reverse();
-                    break;
-            }
-            if (sortOrder.value < 3) {
-                sortOrder.value++;
-            } else {
-                sortOrder.value = 1;
+        // sort the data by change 24h
+        const clickedSortByChange = () => {
+            if (marketData.value.length > 0) {
+                sortByChange(marketData.value);
+                marketData.value = sortedChangeData.value;
             }
         };
 
@@ -158,9 +119,10 @@ export default {
             error,
             marketToScroll,
             PAGE,
-            sortByChange,
             scrollToTop,
             pageChange,
+            clickedSortByChange,
+            sortByChange,
         };
     },
 };
