@@ -17,7 +17,9 @@
                 Low
                 <span>24H</span>
             </th>
-            <th>Marketcap</th>
+            <th @click="$emit('sort-by-marketcap')" class="thead--clickable">
+                Marketcap
+            </th>
             <th>Rank</th>
         </tr>
     </thead>

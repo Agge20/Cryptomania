@@ -19,6 +19,7 @@
                     <MarketHead
                         @sort-by-change="clickedSortByChange()"
                         @sort-by-name="clickedSortByName()"
+                        @sort-by-marketcap="clickedSortByMarketcap()"
                     />
                     <tbody>
                         <tr
@@ -63,6 +64,7 @@ import Error from "../../components/error/Error.vue";
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
 import useSortByChange from "../../hooks/market/useSortByChange";
 import useSortByName from "../../hooks/market/useSortByName";
+import useSortByMarketcap from "../../hooks/market/useSortByMarketcap";
 
 // skeletons
 import MarketSkeleton from "../../skeletons/MarketSkeleton.vue";
@@ -80,19 +82,21 @@ export default {
         // hooks
         const { getMarketData, marketData, loading, error } =
             useGetMarketData();
-        const marketToScroll = ref("marketToScroll");
         const { returnData: sortedChangeData, sortByChange } =
             useSortByChange();
         const { returnData: sortedNameData, sortByName } = useSortByName();
+        const { returnData: sortedMarketcapData, sortByMarketcap } =
+            useSortByMarketcap();
 
         const PAGE = ref(1);
+        const marketToScroll = ref("marketToScroll");
         // fetch marketData
         getMarketData(PAGE.value);
 
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
             getMarketData(PAGE.value);
-        }, 5000);
+        }, 30000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
@@ -121,9 +125,15 @@ export default {
 
         const clickedSortByName = () => {
             if (marketData.value.length > 0) {
-                console.log("ran...");
                 sortByName(marketData.value);
                 marketData.value = sortedNameData.value;
+            }
+        };
+
+        const clickedSortByMarketcap = () => {
+            if (marketData.value.length > 0) {
+                sortByMarketcap(marketData.value);
+                marketData.value = sortedMarketcapData.value;
             }
         };
 
@@ -137,6 +147,7 @@ export default {
             pageChange,
             clickedSortByChange,
             clickedSortByName,
+            clickedSortByMarketcap,
         };
     },
 };
