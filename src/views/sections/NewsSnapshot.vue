@@ -24,7 +24,7 @@
                     <NewsCard class="basis-1/4" />
                 </div>
             </div>
-            <div class="h-24 flex justify-center more-news-wrapper m-24">
+            <div class="h-24 mt-20 flex justify-center more-news-wrapper">
                 <PushButton
                     :data="{ text: 'More News?', url: 'reddit.com' }"
                     :theme="{ dark: true }"
@@ -97,7 +97,7 @@ export default {
 // this styling is not formatted to BEM needs to be fixed
 
 .news-snap {
-    @apply overflow-hidden margin-top-nav-h bg-theme_white flex;
+    @apply margin-top-nav-h bg-theme_white flex;
     &__header {
         @apply w-36 
         absolute 
