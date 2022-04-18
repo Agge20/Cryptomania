@@ -15,14 +15,14 @@ import "./index.css";
 import Home from "./views/Home.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    {
-      path: "/",
-      name: "Home",
-      component: Home,
-    },
-  ],
+    history: createWebHistory(),
+    routes: [
+        {
+            path: "/",
+            name: "Home",
+            component: Home,
+        },
+    ],
 });
 
 createApp(App).use(router).use(store).mount("#app");
