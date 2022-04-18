@@ -20,7 +20,9 @@
             <th @click="$emit('sort-by-marketcap')" class="thead--clickable">
                 Marketcap
             </th>
-            <th>Rank</th>
+            <th @click="$emit('sort-by-marketcap')" class="thead--clickable">
+                Rank
+            </th>
         </tr>
     </thead>
 </template>
