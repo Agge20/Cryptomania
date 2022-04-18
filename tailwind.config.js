@@ -27,6 +27,10 @@ module.exports = {
         fadeInMedium: "fadeIn 1s ease-in",
         fadeInSlow: "fadeIn 1.5s ease-in",
       },
+      scale: {
+        98: ".98",
+        99: ".99",
+      },
       boxShadow: {
         cryptomania: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
       },

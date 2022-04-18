@@ -1,13 +1,13 @@
 <template>
   <div class="pagination">
     <ChevronRightWhite
+      v-if="lowestPageNum !== 1"
       class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
-      :class="{ animateLeft: animateLeft }"
       @click="
-        paginate({ back: true }), $emit('pageChange', lowestPageNum), goto()
+        paginate({ back: true }),
+          $emit('pageChange', lowestPageNum),
+          scrollToTop()
       "
-      @mouseenter="() => animateLeftArrow(true)"
-      @mouseleave="() => animateLeftArrow(false)"
     />
     <div class="flex justify-center">
       <div class="pagination__numbers" v-if="showPageOne">
@@ -20,12 +20,13 @@
       </div>
       <div
         class="pagination__numbers"
-        v-for="page in pageNumbers"
-        @click="goto()"
+        v-for="(page, index) in pageNumbers"
+        @click="scrollToTop()"
       >
         <div
           :key="page"
           class="pagination__number"
+          :class="{ active: page === currentPage }"
           @click="$emit('pageChange', page), paginate({ page: page })"
         >
           {{ page }}
@@ -34,10 +35,11 @@
       <div class="pagination__numbers">
         <div
           class="pagination__number"
+          :class="{ active: currentPage === highestPageNum }"
           @click="
             paginate({ page: highestPageNum }),
               $emit('pageChange', highestPageNum),
-              goto()
+              scrollToTop()
           "
         >
           ...{{ highestPageNum }}
@@ -46,13 +48,13 @@
     </div>
 
     <ChevronRightWhite
+      v-if="lowestPageNum + 4 !== highestPageNum"
       class="pagination__chevron hover:cursor-pointer"
-      :class="{ animateRight: animateRight }"
       @click="
-        paginate({ forward: true }), $emit('pageChange', lowestPageNum), goto()
+        paginate({ forward: true }),
+          $emit('pageChange', lowestPageNum),
+          scrollToTop()
       "
-      @mouseenter="() => animateRightArrow(true)"
-      @mouseleave="() => animateRightArrow(false)"
     />
   </div>
 </template>
@@ -65,18 +67,17 @@ import { ref } from "vue";
 import ChevronRightWhite from "../../svg/ChevronRightWhite.vue";
 
 export default {
-  props: ["goto"],
+  props: ["scrollToTop", "currentPage"],
   components: {
     ChevronRightWhite,
   },
-  setup() {
+  setup(props) {
     const highestPageNum = ref(120);
     const lowestPageNum = ref(1);
     const pageNumbers = ref([]);
     const showPageOne = ref(false);
-    const animateLeft = ref(false);
-    const animateRight = ref(false);
 
+    console.log("currentPage in pagination component: ", props.currentPage);
     // check if user had paginated before and set lowestPageNum to that if true
     if (localStorage.getItem("lowestPageNum")) {
       lowestPageNum.value = parseInt(localStorage.getItem("lowestPageNum"));
@@ -119,31 +120,12 @@ export default {
     };
     changePage();
 
-    // arrow chevron animation
-    const animateLeftArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateLeft.value = true;
-      } else {
-        animateLeft.value = false;
-      }
-    };
-    const animateRightArrow = (shouldAnimate) => {
-      if (shouldAnimate) {
-        animateRight.value = true;
-      } else {
-        animateRight.value = false;
-      }
-    };
     return {
       pageNumbers,
       lowestPageNum,
       highestPageNum,
       showPageOne,
-      animateLeft,
-      animateRight,
       paginate,
-      animateLeftArrow,
-      animateRightArrow,
     };
   },
 };
@@ -162,7 +144,14 @@ export default {
     @apply flex;
   }
   &__number {
-    @apply w-12 h-12 bg-theme_white rounded-sm m-2 flex items-center justify-center font-bold;
+    @apply w-12 h-12 
+    bg-theme_white 
+    rounded-sm 
+    m-2 
+    flex 
+    items-center 
+    justify-center 
+    font-bold;
     &:hover {
       @apply bg-theme_gold cursor-pointer;
     }
@@ -181,30 +170,8 @@ export default {
     }
   }
 }
-
-.animateLeft {
-  animation: move-left 1s ease-out infinite;
-}
-
-.animateRight {
-  animation: move-right 1s ease-out infinite;
-}
-
-@keyframes move-left {
-  0% {
-    transform: translateX(0px) rotate(180deg) scale(1.5);
-  }
-  100% {
-    transform: translateX(-6px) rotate(180deg) scale(1.5);
-  }
-}
-
-@keyframes move-right {
-  0% {
-    transform: translateX(0px) scale(1.6);
-  }
-  100% {
-    transform: translateX(6px) scale(1.6);
-  }
+// vue dynamic classes
+.active {
+  @apply bg-theme_gold;
 }
 </style>

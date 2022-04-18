@@ -9,38 +9,38 @@
 
 /* css vars(where tailwind vars can't be applied) */
 :root {
-  --theme_gray: #e2e2e2;
-  --theme_white: #f8f8f8;
-  --theme_dark_purple: #0c0216;
-  --theme_red: #f63659;
-  --theme_green: #38c242;
-  --theme-gold: #ffba49;
-  --navbar-height: 120px;
+    --theme_gray: #e2e2e2;
+    --theme_white: #f8f8f8;
+    --theme_dark_purple: #0c0216;
+    --theme_red: #f63659;
+    --theme_green: #38c242;
+    --theme-gold: #ffba49;
+    --navbar-height: 120px;
 }
 
 /* base styling */
 
 .background-theme-color {
-  position: absolute;
-  width: 50vw;
-  min-height: 100vh;
-  background: var(--theme_dark_purple);
-  z-index: -1;
+    position: absolute;
+    width: 50vw;
+    min-height: 100vh;
+    background: var(--theme_dark_purple);
+    z-index: -1;
 }
 
 main {
-  z-index: 0;
-  min-height: 100vh;
-  max-width: 2000px;
-  overflow: hidden;
-  position: relative;
+    z-index: 0;
+    min-height: 100vh;
+    max-width: 2000px;
+    overflow: hidden;
+    position: relative;
 }
 
 body,
 html {
-  z-index: -10;
-  background: var(--theme_white);
-  /*
+    z-index: -10;
+    background: var(--theme_white);
+    /*
   background: linear-gradient(
     90deg,
     rgba(12, 2, 22, 1) 47%,
@@ -49,30 +49,45 @@ html {
   */
 }
 
-@media screen and (min-width: 2250px) {
-  /* Link button wrapper */
-  main {
-    left: -192px;
-  }
+section {
+    max-width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5rem;
 }
-@layer components {
-  .green {
-    @apply text-theme_green;
-  }
-  .red {
-    @apply text-theme_red;
-  }
-  /* headers */
-  .header-lg {
-    @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
-  }
-  .dark_purple_column {
-    @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
-  }
-  @media screen and (max-width: 1400px) {
-    /* hide dark purple column header for smaller devices*/
-    .dark_purple_column {
-      @apply hidden;
+
+@media screen and (min-width: 1400px) {
+    /* Link button wrapper */
+    section {
+        max-width: calc(100vw - 18rem);
     }
-  }
+}
+
+@media screen and (min-width: 1844px) {
+    /* Link button wrapper */
+    section {
+        max-width: 1600px;
+    }
+}
+
+@layer components {
+    .green {
+        @apply text-theme_green;
+    }
+    .red {
+        @apply text-theme_red;
+    }
+    /* headers */
+    .header-lg {
+        @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
+    }
+    .dark_purple_column {
+        @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
+    }
+    @media screen and (max-width: 1400px) {
+        /* hide dark purple column header for smaller devices*/
+        .dark_purple_column {
+            @apply hidden;
+        }
+    }
 }

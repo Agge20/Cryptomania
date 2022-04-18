@@ -46,7 +46,6 @@ export default {
 
 <style lang="scss" scoped>
 .news-card {
-  min-width: 350px;
   max-width: 500px;
   @apply w-full 
   bg-theme_dark_purple 
@@ -117,6 +116,13 @@ export default {
     width: 95% !important;
     margin: 0 !important;
     margin-bottom: 64px !important;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  /*  news cards */
+  .news-card {
+    width: 98vw !important;
   }
 }
 </style>
