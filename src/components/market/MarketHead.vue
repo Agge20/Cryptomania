@@ -4,7 +4,9 @@
             <th @click="$emit('sort-by-name')" class="thead--clickable">
                 Name
             </th>
-            <th>Price</th>
+            <th @click="$emit('sort-by-price')" class="thead--clickable">
+                Price
+            </th>
             <th @click="$emit('sort-by-change')" class="thead--clickable">
                 Change
                 <span>24H</span>
