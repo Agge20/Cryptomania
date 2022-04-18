@@ -170,13 +170,13 @@ export default {
 .market {
     @apply flex items-start;
     &__header {
-        @apply w-96 
-    flex 
-    items-center
-    justify-center
-    whitespace-nowrap
-    relative 
-    left-0;
+        @apply w-36
+        absolute
+        left-0
+        flex 
+        items-center
+        justify-center
+        whitespace-nowrap;
     }
     &__content {
         @apply flex flex-col overflow-auto;

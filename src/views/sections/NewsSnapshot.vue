@@ -99,11 +99,13 @@ export default {
 .news-snap {
     @apply overflow-hidden margin-top-nav-h bg-theme_white flex;
     &__header {
-        @apply w-96 
-    flex 
-    items-start 
-    justify-center 
-    whitespace-nowrap;
+        @apply w-36 
+        absolute 
+        left-0
+        flex
+        items-start
+        justify-center
+        whitespace-nowrap;
     }
 }
 
