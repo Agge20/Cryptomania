@@ -20,6 +20,7 @@
                         @sort-by-change="clickedSortByChange()"
                         @sort-by-name="clickedSortByName()"
                         @sort-by-marketcap="clickedSortByMarketcap()"
+                        @sort-by-price="clickedSortByPrice()"
                     />
                     <tbody>
                         <tr
@@ -65,7 +66,7 @@ import useGetMarketData from "../../hooks/get/market/useGetMarketData";
 import useSortByChange from "../../hooks/market/useSortByChange";
 import useSortByName from "../../hooks/market/useSortByName";
 import useSortByMarketcap from "../../hooks/market/useSortByMarketcap";
-
+import useSortByPrice from "../../hooks/market/useSortByPrice";
 // skeletons
 import MarketSkeleton from "../../skeletons/MarketSkeleton.vue";
 
@@ -82,9 +83,10 @@ export default {
         // hooks
         const { getMarketData, marketData, loading, error } =
             useGetMarketData();
+        const { returnData: sortedNameData, sortByName } = useSortByName();
+        const { returnData: sortedPriceData, sortByPrice } = useSortByPrice();
         const { returnData: sortedChangeData, sortByChange } =
             useSortByChange();
-        const { returnData: sortedNameData, sortByName } = useSortByName();
         const { returnData: sortedMarketcapData, sortByMarketcap } =
             useSortByMarketcap();
 
@@ -115,18 +117,25 @@ export default {
             top = top - 120;
             window.scrollTo(0, top);
         };
+        const clickedSortByName = () => {
+            if (marketData.value.length > 0) {
+                sortByName(marketData.value);
+                marketData.value = sortedNameData.value;
+            }
+        };
+
+        const clickedSortByPrice = () => {
+            if (marketData.value.length > 0) {
+                sortByPrice(marketData.value);
+                marketData.value = sortedPriceData.value;
+            }
+        };
+
         // sort the data by change 24h
         const clickedSortByChange = () => {
             if (marketData.value.length > 0) {
                 sortByChange(marketData.value);
                 marketData.value = sortedChangeData.value;
-            }
-        };
-
-        const clickedSortByName = () => {
-            if (marketData.value.length > 0) {
-                sortByName(marketData.value);
-                marketData.value = sortedNameData.value;
             }
         };
 
@@ -145,8 +154,9 @@ export default {
             PAGE,
             scrollToTop,
             pageChange,
-            clickedSortByChange,
             clickedSortByName,
+            clickedSortByPrice,
+            clickedSortByChange,
             clickedSortByMarketcap,
         };
     },
