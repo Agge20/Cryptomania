@@ -144,7 +144,14 @@ export default {
     @apply flex;
   }
   &__number {
-    @apply w-12 h-12 bg-theme_white rounded-sm m-2 flex items-center justify-center font-bold;
+    @apply w-12 h-12 
+    bg-theme_white 
+    rounded-sm 
+    m-2 
+    flex 
+    items-center 
+    justify-center 
+    font-bold;
     &:hover {
       @apply bg-theme_gold cursor-pointer;
     }

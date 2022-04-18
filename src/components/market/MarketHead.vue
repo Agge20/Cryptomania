@@ -1,9 +1,9 @@
 <template>
-  <thead>
+  <thead class="thead">
     <tr>
       <th>Name</th>
       <th>Price</th>
-      <th>
+      <th @click="$emit('sort-by-change')" class="thead__change">
         Change
         <span>24H</span>
       </th>
@@ -26,7 +26,7 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-thead {
+.thead {
   @apply pt-4 bg-theme_dark_purple;
   tr {
     @apply bg-theme_dark_purple
@@ -44,6 +44,9 @@ thead {
     th:first-child {
       @apply pl-6;
     }
+  }
+  &__change {
+    @apply hover:text-theme_gold cursor-pointer;
   }
 }
 
@@ -65,7 +68,7 @@ tr:first-of-type th:first-child {
 }
 
 @media screen and (max-width: 1200px) {
-  thead {
+  .thead {
     tr {
       @apply bg-theme_dark_purple text-theme_white h-24 text-base uppercase font-montserrat align-middle;
     }

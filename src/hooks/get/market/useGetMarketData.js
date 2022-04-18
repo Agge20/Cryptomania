@@ -39,7 +39,7 @@ const useGetMarketData = () => {
           });
         }
         marketData.value = modifiedMarketData.value;
-        //console.log("marketData: ", marketData.value);
+        console.log("marketData: ", marketData.value);
       } else {
         loading.value = false;
         error.value =
