@@ -81,10 +81,10 @@ export default {
         let didRun = false;
         getMarketData(PAGE.value);
 
-        // get market data every 30 seconds
-        // let dataTimer = setInterval(() => {
-        //   getMarketData(PAGE.value);
-        // }, 30000);
+        //get market data every 30 seconds
+        let dataTimer = setInterval(() => {
+            getMarketData(PAGE.value);
+        }, 30000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
@@ -99,7 +99,7 @@ export default {
         };
 
         watchEffect(() => {
-            // on render
+            // on render safe original data
             if (!didRun && marketData.value.length) {
                 didRun = true;
                 console.log("initial run");
@@ -173,6 +173,7 @@ export default {
         @apply w-36
         absolute
         left-0
+        mr-0
         flex 
         items-center
         justify-center
