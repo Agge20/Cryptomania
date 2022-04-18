@@ -16,7 +16,10 @@
         <div class="market__content">
             <div v-if="!loading" class="market__table">
                 <table>
-                    <MarketHead @sort-by-change="clickedSortByChange()" />
+                    <MarketHead
+                        @sort-by-change="clickedSortByChange()"
+                        @sort-by-name="clickedSortByName()"
+                    />
                     <tbody>
                         <tr
                             v-for="(coinData, index) in marketData"
@@ -47,7 +50,7 @@
 
 <script>
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
@@ -59,6 +62,7 @@ import Error from "../../components/error/Error.vue";
 // hooks
 import useGetMarketData from "../../hooks/get/market/useGetMarketData";
 import useSortByChange from "../../hooks/market/useSortByChange";
+import useSortByName from "../../hooks/market/useSortByName";
 
 // skeletons
 import MarketSkeleton from "../../skeletons/MarketSkeleton.vue";
@@ -79,6 +83,8 @@ export default {
         const marketToScroll = ref("marketToScroll");
         const { returnData: sortedChangeData, sortByChange } =
             useSortByChange();
+        const { returnData: sortedNameData, sortByName } = useSortByName();
+
         const PAGE = ref(1);
         // fetch marketData
         getMarketData(PAGE.value);
@@ -86,7 +92,7 @@ export default {
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
             getMarketData(PAGE.value);
-        }, 30000);
+        }, 5000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
@@ -113,6 +119,14 @@ export default {
             }
         };
 
+        const clickedSortByName = () => {
+            if (marketData.value.length > 0) {
+                console.log("ran...");
+                sortByName(marketData.value);
+                marketData.value = sortedNameData.value;
+            }
+        };
+
         return {
             marketData,
             loading,
@@ -122,7 +136,7 @@ export default {
             scrollToTop,
             pageChange,
             clickedSortByChange,
-            sortByChange,
+            clickedSortByName,
         };
     },
 };
