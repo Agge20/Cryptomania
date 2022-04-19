@@ -98,7 +98,7 @@ export default {
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
             getMarketData(PAGE.value);
-        }, 30000);
+        }, 3000000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
