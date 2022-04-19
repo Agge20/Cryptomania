@@ -52,7 +52,7 @@
 
 <script>
 // vue imports
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
@@ -90,15 +90,23 @@ export default {
         const { returnData: sortedMarketcapData, sortByMarketcap } =
             useSortByMarketcap();
 
+        const savedData = ref([]);
         const PAGE = ref(1);
+        const initialData = ref([]);
         const marketToScroll = ref("marketToScroll");
         // fetch marketData
-        getMarketData(PAGE.value);
 
+        const saveInitialData = async () => {
+            await getMarketData(PAGE.value);
+            initialData.value = [...marketData.value];
+            console.log("initialData: ", initialData.value);
+        };
+
+        saveInitialData();
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
             getMarketData(PAGE.value);
-        }, 30000);
+        }, 3000000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
@@ -117,34 +125,39 @@ export default {
             top = top - 120;
             window.scrollTo(0, top);
         };
+
         const clickedSortByName = () => {
             if (marketData.value.length > 0) {
-                sortByName(marketData.value);
+                sortByName(initialData.value);
                 marketData.value = sortedNameData.value;
             }
         };
 
         const clickedSortByPrice = () => {
-            if (marketData.value.length > 0) {
-                sortByPrice(marketData.value);
+            if (initialData.value.length > 0) {
+                sortByPrice(initialData.value);
                 marketData.value = sortedPriceData.value;
             }
         };
 
         // sort the data by change 24h
         const clickedSortByChange = () => {
-            if (marketData.value.length > 0) {
-                sortByChange(marketData.value);
+            if (initialData.value.length > 0) {
+                sortByChange(initialData.value);
                 marketData.value = sortedChangeData.value;
             }
         };
 
         const clickedSortByMarketcap = () => {
-            if (marketData.value.length > 0) {
-                sortByMarketcap(marketData.value);
+            if (initialData.value.length > 0) {
+                sortByMarketcap(initialData.value);
                 marketData.value = sortedMarketcapData.value;
             }
         };
+
+        watchEffect(() => {
+            savedData.value = [...marketData.value];
+        });
 
         return {
             marketData,

@@ -5,11 +5,13 @@
             'bg-theme_white': indexNum % 2 != 0,
         }"
     >
-        <img :src="coinData.image" :alt="coinData.name" />
-        <p>
-            {{ coinData.name }}
-            <span>{{ coinData.symbol }}</span>
-        </p>
+        <div>
+            <img :src="coinData.image" :alt="coinData.name" />
+            <p>
+                {{ coinData.name }}
+                <span>{{ coinData.symbol }}</span>
+            </p>
+        </div>
     </td>
     <td
         class="col-item"
@@ -44,9 +46,6 @@
 <script>
 export default {
     props: ["coinData", "indexNum"],
-    setup() {
-        return {};
-    },
 };
 </script>
 
@@ -56,14 +55,18 @@ td {
 }
 // symbol and name
 td:first-child {
-    @apply sticky left-0 flex items-center p-2 pl-6;
-    img {
-        max-width: 26.66px;
-    }
-    p {
-        @apply ml-2 font-bold;
-        span {
-            @apply uppercase block text-xs;
+    @apply sticky left-0 items-center p-2 pl-6 table-cell;
+    div {
+        @apply flex items-center;
+        img {
+            max-width: 26.66px;
+            @apply h-full;
+        }
+        p {
+            @apply ml-2 font-bold;
+            span {
+                @apply uppercase block text-xs;
+            }
         }
     }
 }
