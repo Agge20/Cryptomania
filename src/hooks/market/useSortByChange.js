@@ -3,11 +3,13 @@ import { ref } from "vue";
 const useSortByChange = () => {
     const returnData = ref([]);
     const sortedData = ref([]);
-    const sortOrder = ref(2);
+    const ascendingData = ref([]);
+    const descendingData = ref([]);
     let originalData = [];
     let didRun = false;
 
-    const sortByChange = (data) => {
+    const sortByChange = (data, sortOrder) => {
+        console.log("sort order in sort by change: ", sortOrder);
         // on render save original data
         if (!didRun) {
             didRun = true;
@@ -29,23 +31,20 @@ const useSortByChange = () => {
                 return -1;
             }
         });
+        ascendingData.value = sortedData.value;
+        descendingData.value = [...ascendingData.value].reverse();
 
-        switch (sortOrder.value) {
+        switch (sortOrder) {
             // original data
             case 1:
                 returnData.value = originalData;
                 break;
             case 2:
-                returnData.value = sortedData.value.reverse();
+                returnData.value = descendingData.value;
                 break;
             case 3:
-                returnData.value.reverse();
+                returnData.value = ascendingData.value;
                 break;
-        }
-        if (sortOrder.value < 3) {
-            sortOrder.value++;
-        } else {
-            sortOrder.value = 1;
         }
     };
     return {
