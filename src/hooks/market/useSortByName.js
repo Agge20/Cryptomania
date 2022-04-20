@@ -8,6 +8,7 @@ const useSortByName = () => {
     const descData = ref([]);
 
     const sortByName = (data, shouldChangeAsc = true) => {
+        console.log("data: ", data);
         // on render save original data
 
         /*
@@ -19,7 +20,7 @@ const useSortByName = () => {
         sortedData.value.sort((a, b) => a.name.localeCompare(b.name));
         ascData.value = [...sortedData.value];
         descData.value = [...ascData.value].reverse();
-
+        // if user clicked name or it was the re-fetch function
         if (shouldChangeAsc) {
             if (asc.value) {
                 returnData.value = ascData.value;

@@ -17,10 +17,10 @@
             <div v-if="!loading" class="market__table">
                 <table>
                     <MarketHead
-                        @sort-by-change="clickedSortByChange()"
                         @sort-by-name="clickedSortByName()"
-                        @sort-by-marketcap="clickedSortByMarketcap()"
                         @sort-by-price="clickedSortByPrice()"
+                        @sort-by-change="clickedSortByChange()"
+                        @sort-by-marketcap="clickedSortByMarketcap()"
                     />
                     <tbody>
                         <tr
@@ -91,11 +91,9 @@ export default {
             useSortByMarketcap();
 
         const page = ref(1);
-        const initialData = ref([]);
         const marketToScroll = ref("marketToScroll");
         const dataView = ref({});
         const didRun = ref(false);
-
         // fetch marketData
 
         if (!didRun.value) {
@@ -146,15 +144,15 @@ export default {
         const clickedSortByName = (shouldChangeAsc) => {
             dataView.value.option = "name";
             if (marketData.value.length > 0) {
-                sortByName(initialData.value, shouldChangeAsc);
+                sortByName(marketData.value, shouldChangeAsc);
                 marketData.value = sortedNameData.value;
             }
         };
 
         const clickedSortByPrice = () => {
             dataView.value.option = "price";
-            if (initialData.value.length > 0) {
-                sortByPrice(initialData.value);
+            if (marketData.value.value.length > 0) {
+                sortByPrice(marketData.value.value);
                 marketData.value = sortedPriceData.value;
             }
         };
@@ -162,8 +160,8 @@ export default {
         // sort the data by change 24h
         const clickedSortByChange = () => {
             dataView.value.option = "change";
-            if (initialData.value.length > 0) {
-                sortByChange(initialData.value);
+            if (marketData.value.value.length > 0) {
+                sortByChange(marketData.value.value);
                 marketData.value = sortedChangeData.value;
             }
         };
@@ -171,8 +169,8 @@ export default {
         const clickedSortByMarketcap = () => {
             dataView.value.option = "marketcap";
 
-            if (initialData.value.length > 0) {
-                sortByMarketcap(initialData.value);
+            if (marketData.value.value.length > 0) {
+                sortByMarketcap(marketData.value.value);
                 marketData.value = sortedMarketcapData.value;
             }
         };
