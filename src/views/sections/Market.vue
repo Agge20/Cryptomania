@@ -43,7 +43,7 @@
                 <Pagination
                     @page-change="pageChange"
                     :scrollToTop="scrollToTop"
-                    :currentPage="PAGE"
+                    :currentPage="page"
                 />
             </div>
         </div>
@@ -90,34 +90,51 @@ export default {
         const { returnData: sortedMarketcapData, sortByMarketcap } =
             useSortByMarketcap();
 
-        const savedData = ref([]);
-        const PAGE = ref(1);
+        const page = ref(1);
         const initialData = ref([]);
         const marketToScroll = ref("marketToScroll");
+        const dataView = ref({});
+        const didRun = ref(false);
+
         // fetch marketData
 
-        const saveInitialData = async () => {
-            await getMarketData(PAGE.value);
-            initialData.value = [...marketData.value];
-            console.log("initialData: ", initialData.value);
-        };
-
-        saveInitialData();
+        if (!didRun.value) {
+            getMarketData(page.value);
+        }
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
-            getMarketData(PAGE.value);
-        }, 3000000);
+            getMarketData(page.value);
+
+            switch (dataView.value.option) {
+                case "name":
+                    getMarketData(page.value);
+                    clickedSortByName(false);
+                    break;
+                case "price":
+                    getMarketData(page.value);
+                    clickedSortByName(false);
+                    break;
+                case "change":
+                    getMarketData(page.value);
+                    clickedSortByChange(false);
+                    break;
+                case "marketcap":
+                    getMarketData(page.value);
+                    clickedSortByMarketcap(false);
+                    break;
+            }
+        }, 5000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
-            PAGE.value = pageNum;
+            page.value = pageNum;
             // reset timer
             clearInterval(dataTimer);
             dataTimer = setInterval(() => {
-                getMarketData(PAGE.value);
+                getMarketData(page.value);
             }, 30000);
             // get data now
-            getMarketData(PAGE.value);
+            getMarketData(page.value);
         };
 
         const scrollToTop = () => {
@@ -126,14 +143,16 @@ export default {
             window.scrollTo(0, top);
         };
 
-        const clickedSortByName = () => {
+        const clickedSortByName = (shouldChangeAsc) => {
+            dataView.value.option = "name";
             if (marketData.value.length > 0) {
-                sortByName(initialData.value);
+                sortByName(initialData.value, shouldChangeAsc);
                 marketData.value = sortedNameData.value;
             }
         };
 
         const clickedSortByPrice = () => {
+            dataView.value.option = "price";
             if (initialData.value.length > 0) {
                 sortByPrice(initialData.value);
                 marketData.value = sortedPriceData.value;
@@ -142,6 +161,7 @@ export default {
 
         // sort the data by change 24h
         const clickedSortByChange = () => {
+            dataView.value.option = "change";
             if (initialData.value.length > 0) {
                 sortByChange(initialData.value);
                 marketData.value = sortedChangeData.value;
@@ -149,22 +169,20 @@ export default {
         };
 
         const clickedSortByMarketcap = () => {
+            dataView.value.option = "marketcap";
+
             if (initialData.value.length > 0) {
                 sortByMarketcap(initialData.value);
                 marketData.value = sortedMarketcapData.value;
             }
         };
 
-        watchEffect(() => {
-            savedData.value = [...marketData.value];
-        });
-
         return {
             marketData,
             loading,
             error,
             marketToScroll,
-            PAGE,
+            page,
             scrollToTop,
             pageChange,
             clickedSortByName,

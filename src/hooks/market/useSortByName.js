@@ -7,7 +7,7 @@ const useSortByName = () => {
     const ascData = ref([]);
     const descData = ref([]);
 
-    const sortByName = (data) => {
+    const sortByName = (data, shouldChangeAsc = true) => {
         // on render save original data
 
         /*
@@ -20,12 +20,14 @@ const useSortByName = () => {
         ascData.value = [...sortedData.value];
         descData.value = [...ascData.value].reverse();
 
-        if (asc.value) {
-            returnData.value = ascData.value;
-            asc.value = false;
-        } else {
-            returnData.value = descData.value;
-            asc.value = true;
+        if (shouldChangeAsc) {
+            if (asc.value) {
+                returnData.value = ascData.value;
+                asc.value = false;
+            } else {
+                returnData.value = descData.value;
+                asc.value = true;
+            }
         }
     };
     return {
