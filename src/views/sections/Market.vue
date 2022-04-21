@@ -17,10 +17,10 @@
             <div v-if="!loading" class="market__table">
                 <table>
                     <MarketHead
-                        @sort-by-name="clickedSortByName()"
-                        @sort-by-price="clickedSortByPrice()"
-                        @sort-by-change="clickedSortByChange()"
-                        @sort-by-marketcap="clickedSortByMarketcap()"
+                        @sort-by-name="clickedSortByName(true)"
+                        @sort-by-price="clickedSortByPrice(true)"
+                        @sort-by-change="clickedSortByChange(true)"
+                        @sort-by-marketcap="clickedSortByMarketcap(true)"
                     />
                     <tbody>
                         <tr
@@ -100,28 +100,26 @@ export default {
             getMarketData(page.value);
         }
         // get market data every 30 seconds
-        let dataTimer = setInterval(() => {
-            getMarketData(page.value);
+        let dataTimer = setInterval(async () => {
+            await getMarketData(page.value);
 
+            console.log("dataView value option: ", dataView.value.option);
             switch (dataView.value.option) {
                 case "name":
-                    getMarketData(page.value);
+                    console.log("market data was fetched..");
                     clickedSortByName(false);
                     break;
                 case "price":
-                    getMarketData(page.value);
                     clickedSortByName(false);
                     break;
                 case "change":
-                    getMarketData(page.value);
                     clickedSortByChange(false);
                     break;
                 case "marketcap":
-                    getMarketData(page.value);
                     clickedSortByMarketcap(false);
                     break;
             }
-        }, 5000);
+        }, 15000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
@@ -141,36 +139,36 @@ export default {
             window.scrollTo(0, top);
         };
 
-        const clickedSortByName = (shouldChangeAsc) => {
+        const clickedSortByName = (shouldChangeDesc) => {
             dataView.value.option = "name";
             if (marketData.value.length > 0) {
-                sortByName(marketData.value, shouldChangeAsc);
+                sortByName(marketData.value, shouldChangeDesc);
                 marketData.value = sortedNameData.value;
             }
         };
 
-        const clickedSortByPrice = () => {
+        const clickedSortByPrice = (shouldChangeDesc) => {
             dataView.value.option = "price";
-            if (marketData.value.value.length > 0) {
-                sortByPrice(marketData.value.value);
+            if (marketData.value.length > 0) {
+                sortByPrice(marketData.value);
                 marketData.value = sortedPriceData.value;
             }
         };
 
         // sort the data by change 24h
-        const clickedSortByChange = () => {
+        const clickedSortByChange = (shouldChangeDesc) => {
             dataView.value.option = "change";
-            if (marketData.value.value.length > 0) {
-                sortByChange(marketData.value.value);
+            if (marketData.value.length > 0) {
+                sortByChange(marketData.value);
                 marketData.value = sortedChangeData.value;
             }
         };
 
-        const clickedSortByMarketcap = () => {
+        const clickedSortByMarketcap = (shouldChangeDesc) => {
             dataView.value.option = "marketcap";
 
-            if (marketData.value.value.length > 0) {
-                sortByMarketcap(marketData.value.value);
+            if (marketData.value.length > 0) {
+                sortByMarketcap(marketData.value);
                 marketData.value = sortedMarketcapData.value;
             }
         };
