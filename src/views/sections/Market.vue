@@ -89,6 +89,10 @@ export default {
         const didRun = ref(false);
         // fetch marketData
 
+        if (localStorage.getItem("lowestPageNum")) {
+            page.value = parseInt(localStorage.getItem("lowestPageNum"));
+        }
+
         if (!didRun.value) {
             getMarketData(page.value);
         }
