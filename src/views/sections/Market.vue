@@ -99,11 +99,10 @@ export default {
             console.log("dataView value option: ", dataView.value.option);
             switch (dataView.value.option) {
                 case "name":
-                    console.log("market data was fetched..");
                     clickedSortByName(false);
                     break;
                 case "price":
-                    clickedSortByName(false);
+                    clickedSortByPrice(false);
                     break;
                 case "change":
                     clickedSortByChange(false);
@@ -143,7 +142,7 @@ export default {
         const clickedSortByPrice = (shouldChangeDesc) => {
             dataView.value.option = "price";
             if (marketData.value.length > 0) {
-                sortByPrice(marketData.value);
+                sortByPrice(marketData.value, shouldChangeDesc);
                 marketData.value = sortedPriceData.value;
             }
         };
@@ -152,7 +151,7 @@ export default {
         const clickedSortByChange = (shouldChangeDesc) => {
             dataView.value.option = "change";
             if (marketData.value.length > 0) {
-                sortByChange(marketData.value);
+                sortByChange(marketData.value, shouldChangeDesc);
                 marketData.value = sortedChangeData.value;
             }
         };
@@ -161,7 +160,7 @@ export default {
             dataView.value.option = "marketcap";
 
             if (marketData.value.length > 0) {
-                sortByMarketcap(marketData.value);
+                sortByMarketcap(marketData.value, shouldChangeDesc);
                 marketData.value = sortedMarketcapData.value;
             }
         };
