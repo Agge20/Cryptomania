@@ -30,11 +30,7 @@
                                 'animate-pulse': loading,
                             }"
                         >
-                            <MarketItem
-                                :coinData="coinData"
-                                :key="index"
-                                :indexNum="index"
-                            />
+                            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
                         </tr>
                     </tbody>
                 </table>
@@ -81,14 +77,11 @@ export default {
     },
     setup() {
         // hooks
-        const { getMarketData, marketData, loading, error } =
-            useGetMarketData();
+        const { getMarketData, marketData, loading, error } = useGetMarketData();
         const { returnData: sortedNameData, sortByName } = useSortByName();
         const { returnData: sortedPriceData, sortByPrice } = useSortByPrice();
-        const { returnData: sortedChangeData, sortByChange } =
-            useSortByChange();
-        const { returnData: sortedMarketcapData, sortByMarketcap } =
-            useSortByMarketcap();
+        const { returnData: sortedChangeData, sortByChange } = useSortByChange();
+        const { returnData: sortedMarketcapData, sortByMarketcap } = useSortByMarketcap();
 
         const page = ref(1);
         const marketToScroll = ref("marketToScroll");
@@ -119,7 +112,7 @@ export default {
                     clickedSortByMarketcap(false);
                     break;
             }
-        }, 15000);
+        }, 8000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
