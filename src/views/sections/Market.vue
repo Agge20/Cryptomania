@@ -17,10 +17,10 @@
             <div v-if="!loading" class="market__table">
                 <table>
                     <MarketHead
-                        @sort-by-change="clickedSortByChange()"
-                        @sort-by-name="clickedSortByName()"
-                        @sort-by-marketcap="clickedSortByMarketcap()"
-                        @sort-by-price="clickedSortByPrice()"
+                        @sort-by-name="clickedSortByName(true)"
+                        @sort-by-price="clickedSortByPrice(true)"
+                        @sort-by-change="clickedSortByChange(true)"
+                        @sort-by-marketcap="clickedSortByMarketcap(true)"
                     />
                     <tbody>
                         <tr
@@ -30,11 +30,7 @@
                                 'animate-pulse': loading,
                             }"
                         >
-                            <MarketItem
-                                :coinData="coinData"
-                                :key="index"
-                                :indexNum="index"
-                            />
+                            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
                         </tr>
                     </tbody>
                 </table>
@@ -43,7 +39,7 @@
                 <Pagination
                     @page-change="pageChange"
                     :scrollToTop="scrollToTop"
-                    :currentPage="PAGE"
+                    :currentPage="page"
                 />
             </div>
         </div>
@@ -81,43 +77,52 @@ export default {
     },
     setup() {
         // hooks
-        const { getMarketData, marketData, loading, error } =
-            useGetMarketData();
+        const { getMarketData, marketData, loading, error } = useGetMarketData();
         const { returnData: sortedNameData, sortByName } = useSortByName();
         const { returnData: sortedPriceData, sortByPrice } = useSortByPrice();
-        const { returnData: sortedChangeData, sortByChange } =
-            useSortByChange();
-        const { returnData: sortedMarketcapData, sortByMarketcap } =
-            useSortByMarketcap();
+        const { returnData: sortedChangeData, sortByChange } = useSortByChange();
+        const { returnData: sortedMarketcapData, sortByMarketcap } = useSortByMarketcap();
 
-        const savedData = ref([]);
-        const PAGE = ref(1);
-        const initialData = ref([]);
+        const page = ref(1);
         const marketToScroll = ref("marketToScroll");
+        const dataView = ref({});
+        const didRun = ref(false);
         // fetch marketData
 
-        const saveInitialData = async () => {
-            await getMarketData(PAGE.value);
-            initialData.value = [...marketData.value];
-            console.log("initialData: ", initialData.value);
-        };
-
-        saveInitialData();
+        if (!didRun.value) {
+            getMarketData(page.value);
+        }
         // get market data every 30 seconds
-        let dataTimer = setInterval(() => {
-            getMarketData(PAGE.value);
-        }, 3000000);
+        let dataTimer = setInterval(async () => {
+            await getMarketData(page.value);
+
+            console.log("dataView value option: ", dataView.value.option);
+            switch (dataView.value.option) {
+                case "name":
+                    clickedSortByName(false);
+                    break;
+                case "price":
+                    clickedSortByPrice(false);
+                    break;
+                case "change":
+                    clickedSortByChange(false);
+                    break;
+                case "marketcap":
+                    clickedSortByMarketcap(false);
+                    break;
+            }
+        }, 8000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
-            PAGE.value = pageNum;
+            page.value = pageNum;
             // reset timer
             clearInterval(dataTimer);
             dataTimer = setInterval(() => {
-                getMarketData(PAGE.value);
+                getMarketData(page.value);
             }, 30000);
             // get data now
-            getMarketData(PAGE.value);
+            getMarketData(page.value);
         };
 
         const scrollToTop = () => {
@@ -126,45 +131,46 @@ export default {
             window.scrollTo(0, top);
         };
 
-        const clickedSortByName = () => {
+        const clickedSortByName = (shouldChangeDesc) => {
+            dataView.value.option = "name";
             if (marketData.value.length > 0) {
-                sortByName(initialData.value);
+                sortByName(marketData.value, shouldChangeDesc);
                 marketData.value = sortedNameData.value;
             }
         };
 
-        const clickedSortByPrice = () => {
-            if (initialData.value.length > 0) {
-                sortByPrice(initialData.value);
+        const clickedSortByPrice = (shouldChangeDesc) => {
+            dataView.value.option = "price";
+            if (marketData.value.length > 0) {
+                sortByPrice(marketData.value, shouldChangeDesc);
                 marketData.value = sortedPriceData.value;
             }
         };
 
         // sort the data by change 24h
-        const clickedSortByChange = () => {
-            if (initialData.value.length > 0) {
-                sortByChange(initialData.value);
+        const clickedSortByChange = (shouldChangeDesc) => {
+            dataView.value.option = "change";
+            if (marketData.value.length > 0) {
+                sortByChange(marketData.value, shouldChangeDesc);
                 marketData.value = sortedChangeData.value;
             }
         };
 
-        const clickedSortByMarketcap = () => {
-            if (initialData.value.length > 0) {
-                sortByMarketcap(initialData.value);
+        const clickedSortByMarketcap = (shouldChangeDesc) => {
+            dataView.value.option = "marketcap";
+
+            if (marketData.value.length > 0) {
+                sortByMarketcap(marketData.value, shouldChangeDesc);
                 marketData.value = sortedMarketcapData.value;
             }
         };
-
-        watchEffect(() => {
-            savedData.value = [...marketData.value];
-        });
 
         return {
             marketData,
             loading,
             error,
             marketToScroll,
-            PAGE,
+            page,
             scrollToTop,
             pageChange,
             clickedSortByName,
