@@ -1,5 +1,6 @@
 import { ref } from "vue";
 
+/*
 const useSortByChange = () => {
     const returnData = ref([]);
     const sortedData = ref([]);
@@ -13,11 +14,7 @@ const useSortByChange = () => {
             didRun = true;
             originalData = [...data];
         }
-        /*
-            1 = original data
-            2 = descending data
-            3 = ascending data
-        */
+
         sortedData.value = [...data];
         sortedData.value.sort((a, b) => {
             if (
@@ -46,6 +43,48 @@ const useSortByChange = () => {
             sortOrder.value++;
         } else {
             sortOrder.value = 1;
+        }
+    };
+    return {
+        returnData,
+        sortByChange,
+    };
+};
+export default useSortByChange;
+*/
+
+const useSortByChange = () => {
+    const returnData = ref([]);
+    const sortedData = ref([]);
+    const desc = ref(false);
+    const ascData = ref([]);
+    const descData = ref([]);
+
+    const sortByChange = (data, shouldChangeDesc) => {
+        // if user clicked name or it was a refetch
+        shouldChangeDesc ? (desc.value = !desc.value) : null;
+        sortedData.value = [...data];
+
+        sortedData.value.sort((a, b) => {
+            if (
+                parseFloat(a.price_change_percentage_24h) >=
+                parseFloat(b.price_change_percentage_24h)
+            ) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+
+        descData.value = [...sortedData.value];
+        ascData.value = [...descData.value].reverse();
+        // if descending data
+        if (desc.value) {
+            returnData.value = descData.value;
+        }
+        // if ascending data
+        else {
+            returnData.value = ascData.value;
         }
     };
     return {
