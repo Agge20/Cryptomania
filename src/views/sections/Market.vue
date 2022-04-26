@@ -29,11 +29,7 @@
                                 'animate-pulse': loading,
                             }"
                         >
-                            <MarketItem
-                                :coinData="coinData"
-                                :key="index"
-                                :indexNum="index"
-                            />
+                            <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
                         </tr>
                     </tbody>
                 </table>
@@ -42,7 +38,7 @@
                 <Pagination
                     @page-change="pageChange"
                     :scrollToTop="scrollToTop"
-                    :currentPage="PAGE"
+                    :currentpage="page"
                 />
             </div>
         </div>
@@ -80,34 +76,36 @@ export default {
     },
     setup() {
         // hooks
-        const { getMarketData, marketData, loading, error } =
-            useGetMarketData();
-        const { returnData: sortedChangeData, sortByChange } =
-            useSortByChange();
+        const { getMarketData, marketData, loading, error } = useGetMarketData();
+        const { returnData: sortedChangeData, sortByChange } = useSortByChange();
         const { returnData: sortedNameData, sortByName } = useSortByName();
-        const { returnData: sortedMarketcapData, sortByMarketcap } =
-            useSortByMarketcap();
+        const { returnData: sortedMarketcapData, sortByMarketcap } = useSortByMarketcap();
 
-        const PAGE = ref(1);
+        const page = ref(1);
         const marketToScroll = ref("marketToScroll");
+        if (localStorage.getItem("lowestPageNum")) {
+            console.log("localstorage thingy ran...");
+            page.value = parseInt(localStorage.getItem("lowestPageNum"));
+        }
+
         // fetch marketData
-        getMarketData(PAGE.value);
+        getMarketData(page.value);
 
         // get market data every 30 seconds
         let dataTimer = setInterval(() => {
-            getMarketData(PAGE.value);
+            getMarketData(page.value);
         }, 30000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
-            PAGE.value = pageNum;
+            page.value = pageNum;
             // reset timer
             clearInterval(dataTimer);
             dataTimer = setInterval(() => {
-                getMarketData(PAGE.value);
+                getMarketData(page.value);
             }, 30000);
             // get data now
-            getMarketData(PAGE.value);
+            getMarketData(page.value);
         };
 
         const scrollToTop = () => {
@@ -142,7 +140,7 @@ export default {
             loading,
             error,
             marketToScroll,
-            PAGE,
+            page,
             scrollToTop,
             pageChange,
             clickedSortByChange,

@@ -3,11 +3,7 @@
         <ChevronRightWhite
             v-if="lowestPageNum !== 1"
             class="pagination__chevron pagination__chevron--left hover:cursor-pointer"
-            @click="
-                paginate({ back: true }),
-                    $emit('pageChange', lowestPageNum),
-                    scrollToTop()
-            "
+            @click="paginate({ back: true }), $emit('pageChange', lowestPageNum), scrollToTop()"
         />
         <div class="flex justify-center">
             <div class="pagination__numbers" v-if="showPageOne">
@@ -18,11 +14,7 @@
                     {{ 1 }}...
                 </div>
             </div>
-            <div
-                class="pagination__numbers"
-                v-for="page in pageNumbers"
-                @click="scrollToTop()"
-            >
+            <div class="pagination__numbers" v-for="page in pageNumbers" @click="scrollToTop()">
                 <div
                     :key="page"
                     class="pagination__number"
@@ -50,11 +42,7 @@
         <ChevronRightWhite
             v-if="lowestPageNum + 4 !== highestPageNum"
             class="pagination__chevron hover:cursor-pointer"
-            @click="
-                paginate({ forward: true }),
-                    $emit('pageChange', lowestPageNum),
-                    scrollToTop()
-            "
+            @click="paginate({ forward: true }), $emit('pageChange', lowestPageNum), scrollToTop()"
         />
     </div>
 </template>
@@ -71,7 +59,7 @@ export default {
     components: {
         ChevronRightWhite,
     },
-    setup(props) {
+    setup() {
         const highestPageNum = ref(120);
         const lowestPageNum = ref(1);
         const pageNumbers = ref([]);
@@ -79,9 +67,7 @@ export default {
 
         // check if user had paginated before and set lowestPageNum to that if true
         if (localStorage.getItem("lowestPageNum")) {
-            lowestPageNum.value = parseInt(
-                localStorage.getItem("lowestPageNum")
-            );
+            lowestPageNum.value = parseInt(localStorage.getItem("lowestPageNum"));
         }
 
         const paginate = (options) => {
@@ -115,11 +101,7 @@ export default {
             }
             pageNumbers.value = [];
 
-            for (
-                let i = lowestPageNum.value;
-                i < lowestPageNum.value + 4;
-                i++
-            ) {
+            for (let i = lowestPageNum.value; i < lowestPageNum.value + 4; i++) {
                 pageNumbers.value.push(i);
             }
         };
