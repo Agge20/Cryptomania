@@ -14,10 +14,7 @@
                     :theme="{ dark: true }"
                     class="hidden m-8"
                 />
-                <div
-                    class="flex mt-12 news-wrapper-inner"
-                    ref="newsWrapperInner"
-                >
+                <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
                     <NewsCard class="basis-1/4" />
                     <NewsCard class="basis-1/4" />
                     <NewsCard class="basis-1/4" />
@@ -127,10 +124,6 @@ export default {
     .news-wrapper-inner {
         @apply flex-row flex-wrap justify-center;
     }
-    /*  news cards */
-    .news-wrapper-inner div {
-        @apply w-1/2;
-    }
 }
 @media screen and (max-width: 1400px) {
     /* column header */
@@ -138,7 +131,7 @@ export default {
         @apply hidden;
     }
     .news-wrapper {
-        width: 100% !important;
+        @apply w-full pt-12;
     }
     .more-news-wrapper {
         margin-left: 0px !important;
@@ -146,11 +139,6 @@ export default {
     }
     h2 {
         display: block !important;
-    }
-
-    /*  news cards */
-    .news-wrapper-inner div {
-        @apply w-96;
     }
 }
 @media screen and (max-width: 980px) {
