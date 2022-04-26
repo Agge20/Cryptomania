@@ -148,7 +148,7 @@ export default {
 
     /* news card inner wrapper */
     .news-wrapper-inner {
-        @apply flex-col items-center m-0;
+        @apply flex-col items-center m-0 px-6;
     }
 }
 @media screen and (max-width: 450px) {
