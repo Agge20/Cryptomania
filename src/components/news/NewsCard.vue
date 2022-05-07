@@ -64,9 +64,17 @@ export default {
     hover:outline 
     hover:outline-theme_gold 
     transition-all 
-    duration-300;
+    duration-300
+    w-full;
+
         img {
-            @apply h-full hover:scale-110 transition-all duration-300;
+            @apply h-full 
+            max-h-64 
+            w-full 
+            hover:scale-110 
+            transition-all 
+            duration-300
+            object-cover;
         }
     }
     &__content {
