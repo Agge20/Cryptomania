@@ -11,8 +11,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-    @apply mb-8 mx-2;
+.header-lg {
+    @apply mb-8 text-7xl text-center font-montserrat font-semibold uppercase;
 }
 .dark {
     @apply text-theme_dark_purple;
@@ -21,5 +21,9 @@ h2 {
     @apply text-theme_white;
 }
 
-
+@media screen and (max-width: $breakpoint-mobile) {
+    .header-lg {
+        @apply mb-8 mx-0;
+    }
+}
 </style>

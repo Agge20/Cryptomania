@@ -57,7 +57,7 @@ section {
 }
 
 section:not(.market) {
-    padding: 10px;
+    padding: 0 20px;
 }
 
 @media screen and (min-width: 1400px) {
@@ -89,10 +89,7 @@ section:not(.market) {
     .red {
         @apply text-theme_red;
     }
-    /* headers */
-    .header-lg {
-        @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
-    }
+
     .dark_purple_column {
         @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
     }
