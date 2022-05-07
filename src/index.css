@@ -56,6 +56,10 @@ section {
     margin-bottom: 5rem;
 }
 
+section:not(.market) {
+    padding: 10px;
+}
+
 @media screen and (min-width: 1400px) {
     /* Link button wrapper */
     section {
