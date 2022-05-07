@@ -102,7 +102,8 @@ export default {
         flex
         items-start
         justify-center
-        whitespace-nowrap;
+        whitespace-nowrap
+        w-full;
     }
 }
 
@@ -117,6 +118,9 @@ export default {
     /* news card inner wrapper */
     .news-wrapper-inner {
         @apply flex-wrap justify-center;
+        div:first-child {
+            @apply mt-6;
+        }
     }
 }
 @media screen and (max-width: 1600px) {
@@ -148,16 +152,16 @@ export default {
 
     /* news card inner wrapper */
     .news-wrapper-inner {
-        @apply flex-col items-center m-0 px-6;
+        @apply flex-col items-center m-0 px-0;
     }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: $breakpoint-mobile) {
     /*  news cards */
-    .news-wrapper-inner {
-        @apply items-start;
-    }
     .news-wrapper-inner div {
         @apply m-0 mb-16 w-11/12;
+    }
+    .news-wrapper-outer {
+        @apply w-full;
     }
 }
 
