@@ -115,7 +115,7 @@ export default {
                     clickedSortByMarketcap(false);
                     break;
             }
-        }, 8000);
+        }, 30000);
 
         // fetch new coin data on pagination change
         const pageChange = (pageNum) => {
