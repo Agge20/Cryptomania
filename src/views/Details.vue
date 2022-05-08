@@ -40,10 +40,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row-start-1 row-end-1 col-span-3">02</div>
-            <div class="row-start-1 row-end-1 col-span-3">03</div>
-            <div class="row-start-1 row-end-1 col-span-3">04</div>
+            <div class="row-start-1 row-end-1 col-span-3">
+                <DetailsTableSixRows />
+            </div>
 
+            <div class="row-start-1 row-end-1 col-span-3">
+                <DetailsTableSixRows />
+            </div>
+
+            <div class="row-start-1 row-end-1 col-span-3">
+                <DetailsTableSixRows />
+            </div>
             <div class="row-start-2 row-end-2 col-span-6">
                 All Gaul is divided into three parts, one of which the Belgae inhabit, the Aquitani
                 another, those who in their own language are called Celts, in our Gauls, the third.
@@ -65,8 +72,10 @@
                 Garonne to the Pyrenaean mountains and to that part of the ocean which is near
                 Spain: it looks between the setting of the sun, and the north star.
             </div>
-            <div class="row-start-2 row-end-2 col-span-3">06</div>
-            <div class="row-start-2 row-end-2 col-span-3">07</div>
+
+            <div class="row-start-2 row-end-2 col-span-3"><DetailsTableFiveRows /></div>
+
+            <div class="row-start-2 row-end-2 col-span-3"><DetailsTableFiveRows /></div>
         </div>
     </section>
 </template>
@@ -75,6 +84,10 @@
 // headers
 import Header2 from "../components/headers/Header2.vue";
 import Header4 from "../components/headers/Header4.vue";
+
+// components
+import DetailsTableSixRows from "../components/details/DetailsTableSixRows.vue";
+import DetailsTableFiveRows from "../components/details/DetailsTableFiveRows.vue";
 
 // icons
 import Star from "../svg/Star.vue";
@@ -85,6 +98,8 @@ export default {
     components: {
         Header2,
         Header4,
+        DetailsTableSixRows,
+        DetailsTableFiveRows,
         Star,
         ThumbUp,
         ThumbDown,
@@ -99,9 +114,9 @@ export default {
 .details {
     @apply w-full;
     &__grid {
-        @apply grid grid-rows-2 grid-cols-12 gap-4;
+        @apply grid grid-rows-2 grid-cols-12 gap-8;
         > div {
-            border: solid red 2px;
+            //border: solid red 2px;
         }
     }
     &__tl {
