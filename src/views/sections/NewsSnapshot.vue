@@ -94,7 +94,7 @@ export default {
 // this styling is not formatted to BEM needs to be fixed
 
 .news-snap {
-    @apply margin-top-nav-h bg-theme_white flex;
+    @apply bg-theme_white flex;
     &__header {
         @apply w-36 
         absolute 
