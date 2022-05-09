@@ -199,7 +199,7 @@ export default {
 
 <style lang="scss" scoped>
 .market {
-    @apply flex items-start;
+    @apply flex items-start w-full;
     &__header {
         @apply w-36
         absolute
