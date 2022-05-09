@@ -29,6 +29,7 @@
                                 'bg-theme_light_gray': index % 2 == 0,
                                 'animate-pulse': loading,
                             }"
+                            @click="goToCoin(coinData.id)"
                         >
                             <MarketItem :coinData="coinData" :key="index" :indexNum="index" />
                         </tr>
@@ -48,7 +49,8 @@
 
 <script>
 // vue imports
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
@@ -87,8 +89,16 @@ export default {
         const marketToScroll = ref("marketToScroll");
         const dataView = ref({});
         const didRun = ref(false);
-        // fetch marketData
+        const router = useRouter();
+        const route = useRoute();
 
+        function goToCoin(id) {
+            router.push({
+                path: `/details/${id}`,
+            });
+        }
+
+        // fetch marketData
         if (localStorage.getItem("lowestPageNum")) {
             page.value = parseInt(localStorage.getItem("lowestPageNum"));
         }
@@ -175,6 +185,7 @@ export default {
             error,
             marketToScroll,
             page,
+            goToCoin,
             scrollToTop,
             pageChange,
             clickedSortByName,
