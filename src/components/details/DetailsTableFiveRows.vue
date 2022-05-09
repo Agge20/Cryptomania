@@ -2,24 +2,24 @@
     <table>
         <tbody>
             <tr class="bg-theme_light_gray">
-                <td>Type</td>
-                <td>Cryptocurrency</td>
+                <td>{{ data[0].td_left }}</td>
+                <td>{{ data[0].td_right }}</td>
             </tr>
             <tr>
-                <td>Change</td>
-                <td class="text-theme_green">+$2434</td>
+                <td>{{ data[1].td_left }}</td>
+                <td>{{ data[1].td_right }}</td>
             </tr>
             <tr class="bg-theme_light_gray">
-                <td>Marketcap</td>
-                <td>$123821319831</td>
+                <td>{{ data[2].td_left }}</td>
+                <td>{{ data[2].td_right }}</td>
             </tr>
             <tr>
-                <td>Fully diluted</td>
-                <td>$2123821319831</td>
+                <td>{{ data[3].td_left }}</td>
+                <td>{{ data[3].td_right }}</td>
             </tr>
             <tr class="bg-theme_light_gray">
-                <td>Total volume</td>
-                <td>$2123821319831</td>
+                <td>{{ data[4].td_left }}</td>
+                <td>{{ data[4].td_right }}</td>
             </tr>
         </tbody>
     </table>
