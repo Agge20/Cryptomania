@@ -7,7 +7,7 @@
             </tr>
             <tr>
                 <td>{{ data[1].td_left }}</td>
-                <td>{{ data[1].td_right }}</td>
+                <td :class="{ red: isNegative(data[1].td_right) }">{{ data[1].td_right }}</td>
             </tr>
             <tr class="bg-theme_light_gray">
                 <td>{{ data[2].td_left }}</td>
@@ -33,7 +33,12 @@
 export default {
     props: ["data"],
     setup() {
-        return {};
+        const isNegative = (num) => {
+            num.replace("\\p{Punct}+", "");
+            console.log("isNegative ran...", num);
+            return num < 0;
+        };
+        return { isNegative };
     },
 };
 </script>

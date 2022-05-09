@@ -1,9 +1,12 @@
 <template>
     <div class="fixed w-screen z-50">
         <nav class="nav">
-            <div class="nav__logo">
-                <span>Cryptomania</span>
-            </div>
+            <router-link :to="{ name: 'Home' }">
+                <div class="nav__logo">
+                    <span>Cryptomania</span>
+                </div>
+            </router-link>
+
             <!-- mobile navigation -->
             <transition
                 name="expand"
