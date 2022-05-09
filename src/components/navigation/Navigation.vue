@@ -48,7 +48,7 @@
                 </div>
             </transition>
             <div class="nav__right-wrapper">
-                <router-link :to="{ name: 'Home' }">
+                <router-link v-if="!store.state.user" :to="{ name: 'Register_and_login' }">
                     <User class="text-theme_white mr-2" />
                 </router-link>
                 <div class="nav__burger" @click="toggleNavbar">
@@ -113,7 +113,6 @@ export default {
 
         // vuex
         console.log("user in navigation: ", store.state.user);
-        store.commit("setUser", "august");
 
         // functions
         const toggleNavbar = () => {
@@ -134,6 +133,7 @@ export default {
         };
         return {
             showNavbar,
+            store,
             toggleNavbar,
             expansionOngoing,
             expansionDone,
