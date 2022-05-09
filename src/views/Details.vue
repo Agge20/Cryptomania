@@ -6,7 +6,10 @@
             <div class="details__tl details__td-wrapper">
                 <div class="details__tl-meta">
                     <span>
-                        <Star />
+                        <Star
+                            @click="addFavorite(coinData.id)"
+                            class="cursor-pointer hover:text-theme_gold"
+                        />
                     </span>
                     <span v-if="coinData.market_cap_rank"> #{{ coinData.market_cap_rank }} </span>
                     <span v-if="coinData.hashing_algorithm">{{ coinData.hashing_algorithm }}</span>
@@ -228,6 +231,7 @@ import ThumbDown from "../svg/ThumbDown.vue";
 
 // hooks
 import useGetCoinData from "../hooks/get/details/useGetCoinData.js";
+import useAddFavorite from "../hooks/add/user/useAddFavorite";
 
 // loaders
 import RollerLoaderVue from "../components/loader/RollerLoader.vue";
@@ -247,7 +251,7 @@ export default {
     setup() {
         // hooks
         const { getCoinData, coinData, loading, error } = useGetCoinData();
-
+        const { addFavorite } = useAddFavorite();
         // vue router
         const route = useRoute();
 
@@ -270,6 +274,7 @@ export default {
             error,
             coinData,
             returnDateFunc,
+            addFavorite,
         };
     },
 };

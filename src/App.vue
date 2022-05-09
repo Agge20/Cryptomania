@@ -1,15 +1,29 @@
 <template>
-  <Navigation />
-  <main data-server-rendered="true" class="flex flex-col mx-auto">
-    <router-view />
-  </main>
+    <Navigation v-if="authIsReady" />
+    <main data-server-rendered="true" class="flex flex-col mx-auto">
+        <router-view v-if="authIsReady" />
+        <RollerLoader v-if="!authIsReady" :color="{ dark: true }" class="m-auto" />
+    </main>
 </template>
 
 <script>
+// vue imports
+import { computed } from "vue";
+import { useStore } from "vuex";
+
+// components
 import Navigation from "./components/navigation/Navigation.vue";
+import RollerLoader from "./components/loader/RollerLoader.vue";
 
 export default {
-  components: { Navigation },
+    components: { Navigation, RollerLoader },
+    setup() {
+        const store = useStore();
+
+        return {
+            authIsReady: computed(() => store.state.authIsReady),
+        };
+    },
 };
 </script>
 
