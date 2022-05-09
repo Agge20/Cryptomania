@@ -47,13 +47,16 @@
                     </ul>
                 </div>
             </transition>
-            <div
-                class="w-12 text-theme_white absolute top-4 right-2 transition duration-150 cursor-pointer lg:hidden z-20"
-                @click="toggleNavbar"
-            >
-                <Burger v-if="!showNavbar" />
-                <Close v-if="showNavbar" />
+            <div class="nav__right-wrapper">
+                <router-link :to="{ name: 'Home' }">
+                    <User class="text-theme_white mr-2" />
+                </router-link>
+                <div class="nav__burger" @click="toggleNavbar">
+                    <Burger v-if="!showNavbar" />
+                    <Close v-if="showNavbar" />
+                </div>
             </div>
+
             <!-- lg navigation -->
             <div class="hidden lg:block mx-auto">
                 <ul class="flex flex-col justify-center items-center lg:flex-row">
@@ -82,12 +85,14 @@ import Search from "../../svg/Search.vue";
 import News from "../../svg/News.vue";
 import Watchlist from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
+import User from "../../svg/User.vue";
 
 // components
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
 // vue imports
 import { ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
     components: {
@@ -99,13 +104,19 @@ export default {
         Watchlist,
         QuestionMark,
         TickertapeWrapper,
+        User,
     },
 
     setup() {
         const showNavbar = ref(false);
+        const store = useStore();
 
+        // vuex
+        console.log("user in navigation: ", store.state.user);
+        store.commit("setUser", "august");
+
+        // functions
         const toggleNavbar = () => {
-            console.log("showNavbar: ", showNavbar.value);
             showNavbar.value = !showNavbar.value;
         };
 
@@ -154,6 +165,21 @@ export default {
     transition 
     duration-100 
     hover:scale-105;
+    }
+    &__right-wrapper {
+        @apply absolute 
+        top-4 
+        right-2
+        flex
+        items-center;
+    }
+    &__burger {
+        @apply w-12 
+        text-theme_white 
+        transition 
+        duration-150 
+        cursor-pointer 
+        lg:hidden z-20;
     }
 }
 
