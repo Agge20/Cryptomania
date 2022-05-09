@@ -1,18 +1,21 @@
 <template>
-    <h2 class="header-lg" :class="{ dark: theme.dark, light: theme.light }">
+    <h4 class="header-4" :class="{ dark: theme.dark, light: theme.light, no_mb: !mb.option }">
         {{ text.data }}
-    </h2>
+    </h4>
 </template>
 
 <script>
 export default {
-    props: ["text", "animate", "theme"],
+    props: ["text", "theme", "mb"],
 };
 </script>
 
 <style lang="scss" scoped>
-.header-lg {
-    @apply mb-8 text-7xl text-center font-montserrat font-semibold uppercase;
+.header-4 {
+    @apply mb-8 text-2xl text-center font-montserrat font-medium;
+}
+.no_mb {
+    @apply mb-0;
 }
 .dark {
     @apply text-theme_dark_purple;

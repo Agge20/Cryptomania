@@ -13,6 +13,7 @@ import "./index.css";
 
 // route views
 import Home from "./views/Home.vue";
+import Details from "./views/Details.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -21,6 +22,11 @@ const router = createRouter({
             path: "/",
             name: "Home",
             component: Home,
+        },
+        {
+            path: "/details/:id",
+            name: "Details",
+            component: Details,
         },
     ],
 });

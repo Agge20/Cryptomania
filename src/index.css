@@ -18,6 +18,11 @@
     --navbar-height: 120px;
 }
 
+/* components */
+.vertical-column-header {
+    margin-top: 305px;
+}
+
 /* base styling */
 
 .background-theme-color {
@@ -34,6 +39,7 @@ main {
     max-width: 2000px;
     overflow: hidden;
     position: relative;
+    padding-top: var(--navbar-height);
 }
 
 body,
@@ -50,27 +56,19 @@ html {
 }
 
 section {
-    max-width: 100vw;
+    max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 5rem;
 }
 
+.section-wide {
+    max-width: 1800px;
+    margin-top: 80px;
+}
+
 section:not(.market) {
-    padding: 10px;
-}
-
-@media screen and (min-width: 1400px) {
-    /* Link button wrapper */
-    section {
-        max-width: calc(100vw - 18rem);
-    }
-}
-
-@media screen and (min-width: 1844px) {
-    section {
-        max-width: 1600px;
-    }
+    padding: 0 20px;
 }
 
 @media screen and (max-width: 450px) {
@@ -89,10 +87,7 @@ section:not(.market) {
     .red {
         @apply text-theme_red;
     }
-    /* headers */
-    .header-lg {
-        @apply text-7xl text-center font-montserrat font-semibold uppercase my-2;
-    }
+
     .dark_purple_column {
         @apply pt-96 w-96 whitespace-nowrap fixed top-28 left-0 h-screen bg-theme_dark_purple;
     }

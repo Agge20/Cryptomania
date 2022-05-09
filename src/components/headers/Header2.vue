@@ -1,18 +1,18 @@
 <template>
-    <h2 class="header-lg" :class="{ dark: theme.dark, light: theme.light }">
+    <h2 class="header-2" :class="{ dark: theme.dark, light: theme.light }">
         {{ text.data }}
     </h2>
 </template>
 
 <script>
 export default {
-    props: ["text", "animate", "theme"],
+    props: ["text", "theme"],
 };
 </script>
 
 <style lang="scss" scoped>
-.header-lg {
-    @apply mb-8 text-7xl text-center font-montserrat font-semibold uppercase;
+.header-2 {
+    @apply mb-8 text-5xl text-center font-montserrat font-semibold;
 }
 .dark {
     @apply text-theme_dark_purple;

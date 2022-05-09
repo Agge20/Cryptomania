@@ -12,7 +12,7 @@
                 <LargeHeader
                     :text="{ data: 'LATEST NEWS' }"
                     :theme="{ dark: true }"
-                    class="hidden m-8"
+                    class="hidden pt-5"
                 />
                 <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
                     <NewsCard class="basis-1/4" />
@@ -94,7 +94,7 @@ export default {
 // this styling is not formatted to BEM needs to be fixed
 
 .news-snap {
-    @apply margin-top-nav-h bg-theme_white flex;
+    @apply bg-theme_white flex;
     &__header {
         @apply w-36 
         absolute 
@@ -102,13 +102,12 @@ export default {
         flex
         items-start
         justify-center
-        whitespace-nowrap
-        w-full;
+        whitespace-nowrap;
     }
 }
 
 .first-header-wrapper {
-    padding-top: calc(var(--navbar-height) + 40px);
+    padding-top: calc(var(--navbar-height) + 60px);
 }
 .first-header {
     margin-top: 160px;
@@ -118,15 +117,14 @@ export default {
     /* news card inner wrapper */
     .news-wrapper-inner {
         @apply flex-wrap justify-center;
-        div:first-child {
-            @apply mt-6;
-        }
     }
 }
 @media screen and (max-width: 1600px) {
     /* news card inner wrapper */
     .news-wrapper-inner {
-        @apply flex-row flex-wrap justify-center;
+        @apply flex-row 
+        flex-wrap 
+        justify-center;
     }
 }
 @media screen and (max-width: 1400px) {
@@ -157,8 +155,13 @@ export default {
 }
 @media screen and (max-width: $breakpoint-mobile) {
     /*  news cards */
-    .news-wrapper-inner div {
-        @apply m-0 mb-16 w-11/12;
+    .news-wrapper-inner {
+        div {
+            @apply m-0 mb-16;
+        }
+        div:first-child {
+            @apply mt-6;
+        }
     }
     .news-wrapper-outer {
         @apply w-full;
