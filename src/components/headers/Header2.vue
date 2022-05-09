@@ -12,7 +12,8 @@ export default {
 
 <style lang="scss" scoped>
 .header-2 {
-    @apply mb-8 text-5xl text-center font-montserrat font-semibold;
+    font-size: clamp(1rem, 2rem, 2rem);
+    @apply mb-8 text-center font-montserrat font-semibold;
 }
 .dark {
     @apply text-theme_dark_purple;
