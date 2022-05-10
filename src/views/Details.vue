@@ -9,13 +9,13 @@
         <div class="flex flex-row justify-start flex-wrap">
             <div class="details__tl details__td-wrapper">
                 <div class="details__tl-meta">
-                    <span v-if="!isFavorite">
+                    <span v-if="!isFavorite && store.state.user">
                         <StarFilled
                             @click="clickedAddFavorite"
                             class="cursor-pointer text-theme_white hover:text-theme_gold"
                         />
                     </span>
-                    <span v-if="isFavorite">
+                    <span v-if="isFavorite && store.state.user">
                         <StarFilled
                             @click="clickedDeleteFavorite"
                             class="cursor-pointer text-theme_gold hover:text-theme_white"
@@ -228,6 +228,8 @@
 // vue imports
 import { watchEffect } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+
 // headers
 import Header2 from "../components/headers/Header2.vue";
 
@@ -270,6 +272,7 @@ export default {
 
         // vue router
         const route = useRoute();
+        const store = useStore();
 
         getCoinData(route.params.id);
         watchEffect(() => {
@@ -310,6 +313,7 @@ export default {
             isFavorite,
             clickedAddFavorite,
             clickedDeleteFavorite,
+            store,
             returnDateFunc,
         };
     },
