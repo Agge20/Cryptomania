@@ -23,7 +23,7 @@ export default {
 
 @media screen and (max-width: $breakpoint-mobile) {
     .header-lg {
-        @apply mb-8 mx-0;
+        @apply mb-8 mx-0 text-5xl;
     }
 }
 </style>

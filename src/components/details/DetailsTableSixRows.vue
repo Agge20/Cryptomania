@@ -35,7 +35,6 @@ export default {
     setup() {
         const isNegative = (num) => {
             num.replace("\\p{Punct}+", "");
-            console.log("isNegative ran...", num);
             return num < 0;
         };
         return { isNegative };

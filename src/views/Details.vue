@@ -1,12 +1,25 @@
 <template>
-    <RollerLoaderVue v-if="loading" :color="{ dark: true }" class="mx-auto my-auto" />
+    <RollerLoaderVue
+        v-if="loading || checkFavLoading"
+        :color="{ dark: true }"
+        class="mx-auto my-auto"
+    />
     <Error v-if="error" :msg="error" class="mx-auto my-auto" />
-    <section class="details section-wide" v-if="!loading && !error">
+    <section class="details section-wide" v-if="!loading && !error && !checkFavLoading">
         <div class="flex flex-row justify-start flex-wrap">
             <div class="details__tl details__td-wrapper">
                 <div class="details__tl-meta">
-                    <span>
-                        <Star />
+                    <span v-if="!isFavorite">
+                        <StarFilled
+                            @click="clickedAddFavorite"
+                            class="cursor-pointer text-theme_white hover:text-theme_gold"
+                        />
+                    </span>
+                    <span v-if="isFavorite">
+                        <StarFilled
+                            @click="clickedDeleteFavorite"
+                            class="cursor-pointer text-theme_gold hover:text-theme_white"
+                        />
                     </span>
                     <span v-if="coinData.market_cap_rank"> #{{ coinData.market_cap_rank }} </span>
                     <span v-if="coinData.hashing_algorithm">{{ coinData.hashing_algorithm }}</span>
@@ -213,6 +226,7 @@
 
 <script>
 // vue imports
+import { watchEffect } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 // headers
 import Header2 from "../components/headers/Header2.vue";
@@ -222,12 +236,15 @@ import DetailsTableSixRows from "../components/details/DetailsTableSixRows.vue";
 import DetailsTableFiveRows from "../components/details/DetailsTableFiveRows.vue";
 
 // icons
-import Star from "../svg/Star.vue";
+import StarFilled from "../svg/StarFilled.vue";
 import ThumbUp from "../svg/ThumbUp.vue";
 import ThumbDown from "../svg/ThumbDown.vue";
 
 // hooks
 import useGetCoinData from "../hooks/get/details/useGetCoinData.js";
+import useAddFavorite from "../hooks/add/user/useAddFavorite";
+import useDeleteUserFavorite from "../hooks/delete/user/useDeleteUserFavorite";
+import useCheckIfFavorite from "../hooks/get/details/useCheckIfFavorite";
 
 // loaders
 import RollerLoaderVue from "../components/loader/RollerLoader.vue";
@@ -238,7 +255,7 @@ export default {
         Header2,
         DetailsTableSixRows,
         DetailsTableFiveRows,
-        Star,
+        StarFilled,
         ThumbUp,
         ThumbDown,
         RollerLoaderVue,
@@ -247,11 +264,30 @@ export default {
     setup() {
         // hooks
         const { getCoinData, coinData, loading, error } = useGetCoinData();
+        const { addFavorite } = useAddFavorite();
+        const { deleteUserFavorite } = useDeleteUserFavorite();
+        const { checkIfFavorite, isFavorite, loading: checkFavLoading } = useCheckIfFavorite();
 
         // vue router
         const route = useRoute();
 
         getCoinData(route.params.id);
+        watchEffect(() => {
+            if (coinData.value) {
+                checkIfFavorite(coinData.value.id);
+            }
+            console.log("isFavorite: ", isFavorite.value);
+        });
+
+        const clickedAddFavorite = async () => {
+            await addFavorite(coinData.value.id);
+            await checkIfFavorite(coinData.value.id);
+        };
+
+        const clickedDeleteFavorite = async () => {
+            await deleteUserFavorite(coinData.value.id);
+            await checkIfFavorite(coinData.value.id);
+        };
 
         // format date function
         const returnDateFunc = (date) => {
@@ -267,8 +303,13 @@ export default {
 
         return {
             loading,
+            checkIfFavorite,
+            checkFavLoading,
             error,
             coinData,
+            isFavorite,
+            clickedAddFavorite,
+            clickedDeleteFavorite,
             returnDateFunc,
         };
     },

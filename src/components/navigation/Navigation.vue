@@ -34,9 +34,9 @@
                                 <News />
                             </li>
                         </router-link>
-                        <router-link :to="{ name: 'Home' }">
+                        <router-link :to="{ name: 'Watchlist' }">
                             <li class="nav__link">
-                                <Watchlist />
+                                <WatchlistIcon />
                             </li>
                         </router-link>
                         <router-link :to="{ name: 'Home' }">
@@ -47,13 +47,16 @@
                     </ul>
                 </div>
             </transition>
-            <div
-                class="w-12 text-theme_white absolute top-4 right-2 transition duration-150 cursor-pointer lg:hidden z-20"
-                @click="toggleNavbar"
-            >
-                <Burger v-if="!showNavbar" />
-                <Close v-if="showNavbar" />
+            <div class="nav__right-wrapper">
+                <router-link v-if="!store.state.user" :to="{ name: 'Register_and_login' }">
+                    <User class="text-theme_white mr-2" />
+                </router-link>
+                <div class="nav__burger" @click="toggleNavbar">
+                    <Burger v-if="!showNavbar" />
+                    <Close v-if="showNavbar" />
+                </div>
             </div>
+
             <!-- lg navigation -->
             <div class="hidden lg:block mx-auto">
                 <ul class="flex flex-col justify-center items-center lg:flex-row">
@@ -64,7 +67,10 @@
                         <li class="nav__link">Search</li>
                     </router-link>
                     <li class="nav__link">News</li>
-                    <li class="nav__link">Watchlist</li>
+                    <router-link :to="{ name: 'Watchlist' }">
+                        <li class="nav__link">Watchlist</li>
+                    </router-link>
+
                     <li class="nav__link">About</li>
                 </ul>
             </div>
@@ -80,14 +86,19 @@ import Close from "../../svg/Close.vue";
 import Home from "../../svg/Home.vue";
 import Search from "../../svg/Search.vue";
 import News from "../../svg/News.vue";
-import Watchlist from "../../svg/Watchlist.vue";
+import WatchlistIcon from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
+import User from "../../svg/User.vue";
 
 // components
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 
+// views
+import Watchlist from "../../views/Watchlist.vue";
+
 // vue imports
 import { ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
     components: {
@@ -96,16 +107,22 @@ export default {
         Home,
         Search,
         News,
+        WatchlistIcon,
         Watchlist,
         QuestionMark,
         TickertapeWrapper,
+        User,
     },
 
     setup() {
         const showNavbar = ref(false);
+        const store = useStore();
 
+        // vuex
+        console.log("user in navigation: ", store.state.user);
+
+        // functions
         const toggleNavbar = () => {
-            console.log("showNavbar: ", showNavbar.value);
             showNavbar.value = !showNavbar.value;
         };
 
@@ -123,6 +140,7 @@ export default {
         };
         return {
             showNavbar,
+            store,
             toggleNavbar,
             expansionOngoing,
             expansionDone,
@@ -154,6 +172,21 @@ export default {
     transition 
     duration-100 
     hover:scale-105;
+    }
+    &__right-wrapper {
+        @apply absolute 
+        top-4 
+        right-2
+        flex
+        items-center;
+    }
+    &__burger {
+        @apply w-12 
+        text-theme_white 
+        transition 
+        duration-150 
+        cursor-pointer 
+        lg:hidden z-20;
     }
 }
 
