@@ -34,9 +34,9 @@
                                 <News />
                             </li>
                         </router-link>
-                        <router-link :to="{ name: 'Home' }">
+                        <router-link :to="{ name: 'Watchlist' }">
                             <li class="nav__link">
-                                <Watchlist />
+                                <WatchlistIcon />
                             </li>
                         </router-link>
                         <router-link :to="{ name: 'Home' }">
@@ -67,7 +67,10 @@
                         <li class="nav__link">Search</li>
                     </router-link>
                     <li class="nav__link">News</li>
-                    <li class="nav__link">Watchlist</li>
+                    <router-link :to="{ name: 'Watchlist' }">
+                        <li class="nav__link">Watchlist</li>
+                    </router-link>
+
                     <li class="nav__link">About</li>
                 </ul>
             </div>
@@ -83,12 +86,15 @@ import Close from "../../svg/Close.vue";
 import Home from "../../svg/Home.vue";
 import Search from "../../svg/Search.vue";
 import News from "../../svg/News.vue";
-import Watchlist from "../../svg/Watchlist.vue";
+import WatchlistIcon from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 import User from "../../svg/User.vue";
 
 // components
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
+
+// views
+import Watchlist from "../../views/Watchlist.vue";
 
 // vue imports
 import { ref } from "vue";
@@ -101,6 +107,7 @@ export default {
         Home,
         Search,
         News,
+        WatchlistIcon,
         Watchlist,
         QuestionMark,
         TickertapeWrapper,

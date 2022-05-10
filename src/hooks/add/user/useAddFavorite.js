@@ -13,9 +13,7 @@ const useAddFavorite = () => {
 
         try {
             error.value = null;
-            console.log("try ran...");
-            console.log(store.state.user);
-            const res = await setDoc(
+            await setDoc(
                 doc(db, "users", store.state.user.uid),
                 {
                     favorites: arrayUnion(coinId),

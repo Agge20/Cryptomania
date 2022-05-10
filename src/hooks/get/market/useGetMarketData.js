@@ -26,8 +26,7 @@ const useGetMarketData = () => {
 
                 for (let i = 0; i < marketData.value.length; i++) {
                     // cut the 24_hour_change_percentage to 2 decimals
-                    let priceChange =
-                        marketData.value[i].price_change_percentage_24h;
+                    let priceChange = marketData.value[i].price_change_percentage_24h;
                     let priceChangeSubstr;
                     if (priceChange) {
                         priceChange = priceChange.toString();
@@ -42,8 +41,7 @@ const useGetMarketData = () => {
                 marketData.value = modifiedMarketData.value;
             } else {
                 loading.value = false;
-                error.value =
-                    "We apologize as we could unfortunately not fetch the data.";
+                error.value = "We apologize as we could unfortunately not fetch the data.";
             }
         } catch (err) {
             loading.value = false;

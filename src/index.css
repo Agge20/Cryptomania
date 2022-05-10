@@ -62,12 +62,16 @@ section {
     margin-bottom: 5rem;
 }
 
+section h2:first-child {
+    margin-top: 4rem;
+}
+
 .section-wide {
     max-width: 1800px;
     margin-top: 80px;
 }
 
-section:not(.market) {
+section:not(.market, .watchlist) {
     padding: 0 20px;
 }
 

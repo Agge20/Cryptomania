@@ -90,7 +90,6 @@ export default {
         const dataView = ref({});
         const didRun = ref(false);
         const router = useRouter();
-        const route = useRoute();
 
         function goToCoin(id) {
             router.push({
