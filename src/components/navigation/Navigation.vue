@@ -34,7 +34,7 @@
                                 <News />
                             </li>
                         </router-link>
-                        <router-link :to="{ name: 'Watchlist' }">
+                        <router-link :to="{ name: 'Watchlist' }" v-if="store.state.user">
                             <li class="nav__link">
                                 <WatchlistIcon />
                             </li>
@@ -50,6 +50,9 @@
             <div class="nav__right-wrapper">
                 <router-link v-if="!store.state.user" :to="{ name: 'Register_and_login' }">
                     <User class="text-theme_white mr-2" />
+                </router-link>
+                <router-link v-if="store.state.user" :to="{ name: 'Profile' }">
+                    <User class="text-theme_gold mr-2" />
                 </router-link>
                 <div class="nav__burger" @click="toggleNavbar">
                     <Burger v-if="!showNavbar" />
@@ -67,7 +70,7 @@
                         <li class="nav__link">Search</li>
                     </router-link>
                     <li class="nav__link">News</li>
-                    <router-link :to="{ name: 'Watchlist' }">
+                    <router-link :to="{ name: 'Watchlist' }" v-if="store.state.user">
                         <li class="nav__link">Watchlist</li>
                     </router-link>
 

@@ -16,6 +16,7 @@ import Home from "./views/Home.vue";
 import Details from "./views/Details.vue";
 import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
+import Profile from "./views/Profile.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -39,6 +40,11 @@ const router = createRouter({
             path: "/watchlist",
             name: "Watchlist",
             component: Watchlist,
+        },
+        {
+            path: "/profile",
+            name: "Profile",
+            component: Profile,
         },
     ],
 });

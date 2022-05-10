@@ -35,6 +35,8 @@
 // vue imports
 import { watchEffect, ref } from "@vue/runtime-core";
 
+// firebase
+
 // components
 import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";

@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
 
 const useCheckIfFavorite = () => {
