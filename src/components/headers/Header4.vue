@@ -1,12 +1,12 @@
 <template>
-    <h4 class="header-4" :class="{ dark: theme.dark, light: theme.light, no_mb: !mb.option }">
+    <h4 class="header-4" :class="{ dark: theme.dark, light: theme.light }">
         {{ text.data }}
     </h4>
 </template>
 
 <script>
 export default {
-    props: ["text", "theme", "mb"],
+    props: ["text", "theme"],
 };
 </script>
 
@@ -14,9 +14,7 @@ export default {
 .header-4 {
     @apply mb-8 text-2xl text-center font-montserrat font-medium;
 }
-.no_mb {
-    @apply mb-0;
-}
+
 .dark {
     @apply text-theme_dark_purple;
 }

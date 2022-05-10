@@ -12,7 +12,8 @@
                 />
                 <Label :for="'password'" :data="'Password'" :theme="{ dark: true }" />
                 <input type="password" name="password" v-model="loginPassword" />
-                <button type="submit">Login</button>
+                <Button :text="'Login'" />
+
                 <Error v-if="loginError" :msg="loginError" />
             </form>
         </div>
@@ -28,7 +29,7 @@
                 />
                 <Label :for="'password'" :data="'Password'" :theme="{ dark: true }" />
                 <input type="password" name="password" v-model="registerPassword" />
-                <button type="submit">Register</button>
+                <Button :text="'Register'" />
                 <Error v-if="registerError" :msg="registerError" />
             </form>
         </div>
@@ -47,12 +48,14 @@ import Label from "../components/headers/Label.vue";
 
 // components
 import Error from "../components/error/Error.vue";
+import Button from "../components/buttons/Button.vue";
 
 export default {
     components: {
         LargeHeader,
         Label,
         Error,
+        Button,
     },
     setup() {
         const loginError = ref(null);
@@ -139,17 +142,6 @@ form {
         &:focus {
             @apply border-2 border-theme_gold outline-none;
         }
-    }
-    button {
-        @apply rounded 
-        p-2 
-        font-montserrat 
-        font-bold 
-        border-theme_dark_purple 
-        border-4 
-        bg-theme_gold 
-        text-2xl 
-        mt-4;
     }
 }
 </style>
