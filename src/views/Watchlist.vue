@@ -65,11 +65,36 @@ export default {
         const { returnData: sortedChangeData, sortByChange } = useSortByChange();
         const { returnData: sortedMarketcapData, sortByMarketcap } = useSortByMarketcap();
 
-        const dataView = ref({});
         const router = useRouter();
+
+        const didRun = ref(false);
+        const dataView = ref({});
 
         // get user favorites
         getUserFavorites();
+
+        if (!didRun.value) {
+            getUserFavorites();
+        }
+        // get market data every 30 seconds
+        setInterval(async () => {
+            await getUserFavorites();
+
+            switch (dataView.value.option) {
+                case "name":
+                    clickedSortByName(false);
+                    break;
+                case "price":
+                    clickedSortByPrice(false);
+                    break;
+                case "change":
+                    clickedSortByChange(false);
+                    break;
+                case "marketcap":
+                    clickedSortByMarketcap(false);
+                    break;
+            }
+        }, 5000);
 
         function goToCoin(id) {
             router.push({

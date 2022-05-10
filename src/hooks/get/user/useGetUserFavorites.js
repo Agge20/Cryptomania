@@ -20,11 +20,11 @@ const useGetUserFavorites = () => {
 
             // if user favorites ids have been fetched
             if (res.exists()) {
-                let favoritesObj = res.data();
-                let URLParams = "";
+                let userData = res.data();
+                let URLParams = "https://api.coingecko.com/api/v3/ping";
                 let URL;
-                for (let i = 0; i < favoritesObj.favorites.length; i++) {
-                    URLParams = URLParams + `${favoritesObj.favorites[i]}%2C%20`;
+                for (let i = 0; i < userData.favorites.length; i++) {
+                    URLParams = URLParams + `${userData.favorites[i]}%2C%20`;
                 }
 
                 // fetch the favorite coins from api
