@@ -62,8 +62,11 @@ section {
     margin-bottom: 5rem;
 }
 
-section h2:first-child {
+section h2 {
     margin-top: 4rem;
+}
+section .vertical-column-header {
+    margin-top: 10rem;
 }
 
 .section-wide {

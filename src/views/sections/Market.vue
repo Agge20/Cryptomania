@@ -4,7 +4,7 @@
             <LargeHeader
                 :text="{ data: 'THE MARKET' }"
                 :theme="{ dark: true }"
-                class="rotate-90 vertical-column-header"
+                class="rotate-90 vertical-column-header mt-0"
             />
         </div>
         <div>
@@ -204,9 +204,6 @@ export default {
         absolute
         left-0
         mr-0
-        flex 
-        items-center
-        justify-center
         whitespace-nowrap;
     }
     &__content {
