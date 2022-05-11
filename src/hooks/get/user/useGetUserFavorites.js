@@ -21,8 +21,8 @@ const useGetUserFavorites = () => {
             // if user favorites ids have been fetched
             if (res.exists()) {
                 let userData = res.data();
-                let URLParams = "https://api.coingecko.com/api/v3/ping";
-                let URL;
+                let URLParams = "";
+                let URL = "https://api.coingecko.com/api/v3/ping";
                 for (let i = 0; i < userData.favorites.length; i++) {
                     URLParams = URLParams + `${userData.favorites[i]}%2C%20`;
                 }
@@ -30,6 +30,7 @@ const useGetUserFavorites = () => {
                 // fetch the favorite coins from api
                 try {
                     URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${URLParams}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+                    console.log("URL: ", URL);
                     const res = await fetch(URL);
                     const data = await res.json();
                     if (res.ok) {

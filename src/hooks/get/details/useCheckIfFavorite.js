@@ -31,6 +31,8 @@ const useCheckIfFavorite = () => {
                 } else {
                     isFavorite.value = false;
                 }
+            } else {
+                loading.value = false;
             }
         } catch (err) {
             error.value = err;
