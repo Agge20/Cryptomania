@@ -17,6 +17,8 @@ import Details from "./views/Details.vue";
 import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
 import Profile from "./views/Profile.vue";
+import Posts from "./views/Posts.vue";
+import CreatePost from "./views/CreatePost.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -45,6 +47,16 @@ const router = createRouter({
             path: "/profile",
             name: "Profile",
             component: Profile,
+        },
+        {
+            path: "/posts",
+            name: "Posts",
+            component: Posts,
+        },
+        {
+            path: "/create-post",
+            name: "Create_post",
+            component: CreatePost,
         },
     ],
 });
