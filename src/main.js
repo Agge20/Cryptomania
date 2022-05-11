@@ -18,6 +18,7 @@ import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
 import Profile from "./views/Profile.vue";
 import Posts from "./views/Posts.vue";
+import Post from "./views/Post.vue";
 import CreatePost from "./views/CreatePost.vue";
 
 const router = createRouter({
@@ -52,6 +53,11 @@ const router = createRouter({
             path: "/posts",
             name: "Posts",
             component: Posts,
+        },
+        {
+            path: "/posts/post/:id",
+            name: "Post",
+            component: Post,
         },
         {
             path: "/create-post",

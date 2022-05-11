@@ -1,8 +1,8 @@
 <template>
-    <section>
+    <section v-if="store.state.user">
         <LargeHeader :text="{ data: 'Create Post' }" :theme="{ dark: true }" />
 
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent="handleLogin" v-if="!loading">
             <Label :for="'title'" :data="'Title'" :theme="{ dark: true }" />
             <input type="text" name="title" v-model="titleInput" />
             <Label :for="'password'" :data="'Text Editor'" :theme="{ dark: true }" />
@@ -41,7 +41,14 @@
                 </div>
             </div>
 
-            <Button v-if="selectedCategory && titleInput.length > 0" :text="'CREATE POST'" />
+            <Button
+                v-if="selectedCategory && titleInput.length > 0 && !loading"
+                :text="'CREATE POST'"
+                @click="handleCreatePost"
+            />
+
+            <RollerLoader v-if="loading" :color="{ dark: true }" class="m-auto" />
+            <Popup v-if="error" :msg="'Could not create post...'" :error="true" />
         </form>
     </section>
 </template>
@@ -50,6 +57,10 @@
 // vue imports
 import { watchEffect, ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+// hooks
+import useAddPost from "../hooks/add/posts/useAddPost";
 
 // components
 import Label from "../components/headers/Label.vue";
@@ -57,6 +68,8 @@ import Error from "../components/error/Error.vue";
 import Button from "../components/buttons/Button.vue";
 import LargeHeader from "../components/headers/LargeHeader.vue";
 import Editor from "../components/editor/Editor.vue";
+import Popup from "../components/modal/Popup.vue";
+import RollerLoader from "../components/loader/RollerLoader.vue";
 
 export default {
     components: {
@@ -65,21 +78,25 @@ export default {
         Button,
         LargeHeader,
         Editor,
+        Popup,
+        RollerLoader,
     },
 
     setup() {
         // vuex
         const store = useStore();
+        // router
+        const router = useRouter();
+        // hooks
+        const { addPost, error, loading, postId } = useAddPost();
 
         const selectedCategory = ref("");
         const titleInput = ref("");
-        const textInput = ref("");
         const searchInput = ref("");
         const content = ref("<h2>This is a title</h2>");
         const finds = ref([]);
         // watch the search input and loop through the stale data and find matches
         watchEffect(() => {
-            console.log("editor content is now: ", content.value);
             finds.value = [];
             for (let i = 0; i < store.state.staleMarketData.length; i++) {
                 for (let y = 0; y < store.state.staleMarketData[i].length; y++) {
@@ -94,7 +111,25 @@ export default {
             }
         });
 
-        return { searchInput, titleInput, textInput, finds, selectedCategory, content };
+        // create post function
+        const handleCreatePost = async () => {
+            await addPost(titleInput.value, content.value, selectedCategory.value.id);
+            if (!error.value && !loading.value) {
+                router.push(`/posts/post/${postId.value}`);
+            }
+        };
+
+        return {
+            searchInput,
+            titleInput,
+            finds,
+            selectedCategory,
+            content,
+            error,
+            loading,
+            store,
+            handleCreatePost,
+        };
     },
 };
 </script>

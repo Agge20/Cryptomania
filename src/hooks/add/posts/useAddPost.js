@@ -1,35 +1,47 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
-import { doc, setDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
+import { uid } from "uid";
 
-const useAddFavorite = () => {
+const useAddPost = () => {
     const error = ref(null);
     const loading = ref(null);
     const store = useStore();
-    // get data
-    const addFavorite = async (coinId) => {
-        loading.value = true;
+    const postId = ref(null);
 
-        try {
-            error.value = null;
-            await setDoc(
-                doc(db, "users", store.state.user.uid),
-                {
-                    favorites: arrayUnion(coinId),
-                },
-                { merge: true }
-            );
-        } catch (err) {
-            loading.value = false;
-            error.value = err;
-            console.log(err);
-        }
+    // get data
+    const addPost = async (title, textContent, coinId) => {
+        loading.value = true;
+        error.value = null;
+        postId.value = uid();
+
+        // create the post
+        await setDoc(doc(db, "posts", postId.value), {
+            id: postId.value,
+            authorId: store.state.user.uid,
+            title,
+            textContent,
+            coinId,
+            likes: 0,
+            comments: [],
+        })
+            .then(() => {
+                loading.value = false;
+                error.value = false;
+            })
+            .catch((err) => {
+                error.value = err;
+                loading.value = false;
+            });
     };
 
     return {
-        addFavorite,
+        addPost,
+        loading,
+        error,
+        postId,
     };
 };
 
-export default useAddFavorite;
+export default useAddPost;
