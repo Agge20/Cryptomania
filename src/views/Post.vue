@@ -75,7 +75,7 @@ section {
     justify-between 
     w-full;
     &__title {
-        @apply text-5xl text-theme_gold mb-2 font-montserrat font-semibold mt-0;
+        @apply text-5xl text-theme_gold mb-4 font-montserrat font-semibold mt-0;
     }
     &__content {
         @apply text-theme_white font-roboto;
