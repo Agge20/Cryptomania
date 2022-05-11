@@ -16,6 +16,10 @@ import Home from "./views/Home.vue";
 import Details from "./views/Details.vue";
 import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
+import Profile from "./views/Profile.vue";
+import Posts from "./views/Posts.vue";
+import Post from "./views/Post.vue";
+import CreatePost from "./views/CreatePost.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -39,6 +43,26 @@ const router = createRouter({
             path: "/watchlist",
             name: "Watchlist",
             component: Watchlist,
+        },
+        {
+            path: "/profile",
+            name: "Profile",
+            component: Profile,
+        },
+        {
+            path: "/posts",
+            name: "Posts",
+            component: Posts,
+        },
+        {
+            path: "/posts/post/:id",
+            name: "Post",
+            component: Post,
+        },
+        {
+            path: "/create-post",
+            name: "Create_post",
+            component: CreatePost,
         },
     ],
 });
