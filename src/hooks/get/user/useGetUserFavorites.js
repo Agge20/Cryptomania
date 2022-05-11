@@ -22,28 +22,34 @@ const useGetUserFavorites = () => {
             if (res.exists()) {
                 let userData = res.data();
                 let URLParams = "";
-                let URL = "https://api.coingecko.com/api/v3/ping";
-                for (let i = 0; i < userData.favorites.length; i++) {
-                    URLParams = URLParams + `${userData.favorites[i]}%2C%20`;
-                }
+                let URL;
 
-                // fetch the favorite coins from api
-                try {
-                    URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${URLParams}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
-                    console.log("URL: ", URL);
-                    const res = await fetch(URL);
-                    const data = await res.json();
-                    if (res.ok) {
-                        favoritesData.value = data;
-                        loading.value = false;
-                        error.value = null;
-                    } else {
-                        loading.value = false;
-                        error.value = "We apologize as we could unfortunately not fetch the data.";
+                // if user has no favorites
+                if (userData.favorites.length) {
+                    for (let i = 0; i < userData.favorites.length; i++) {
+                        URLParams = URLParams + `${userData.favorites[i]}%2C%20`;
                     }
-                } catch (err) {
+                    URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${URLParams}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+                    // fetch the favorite coins from api
+                    try {
+                        console.log("URL: ", URL);
+                        const res = await fetch(URL);
+                        const data = await res.json();
+                        if (res.ok) {
+                            favoritesData.value = data;
+                            loading.value = false;
+                            error.value = null;
+                        } else {
+                            loading.value = false;
+                            error.value =
+                                "We apologize as we could unfortunately not fetch the data.";
+                        }
+                    } catch (err) {
+                        loading.value = false;
+                        error.value = err;
+                    }
+                } else {
                     loading.value = false;
-                    error.value = err;
                 }
             } else {
                 loading.value = false;
