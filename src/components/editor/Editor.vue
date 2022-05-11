@@ -33,12 +33,7 @@
             >
                 paragraph
             </button>
-            <button
-                @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-                :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-            >
-                h1
-            </button>
+
             <button
                 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
                 :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
@@ -81,18 +76,7 @@
             >
                 ordered list
             </button>
-            <button
-                @click="editor.chain().focus().toggleCodeBlock().run()"
-                :class="{ 'is-active': editor.isActive('codeBlock') }"
-            >
-                code block
-            </button>
-            <button
-                @click="editor.chain().focus().toggleBlockquote().run()"
-                :class="{ 'is-active': editor.isActive('blockquote') }"
-            >
-                blockquote
-            </button>
+
             <button @click="editor.chain().focus().setHorizontalRule().run()">
                 horizontal rule
             </button>
@@ -167,7 +151,12 @@ export default {
     &__menu {
         @apply border-b-2 border-theme_dark_purple p-2;
         button {
-            @apply p-2 m-1 shadow-md rounded-lg border-2 border-theme_dark_purple;
+            @apply p-2 
+            m-1 
+            shadow-md 
+            rounded-lg 
+            border-2 
+            border-theme_gold;
         }
     }
     &__content {

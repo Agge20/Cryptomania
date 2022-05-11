@@ -18,7 +18,7 @@ import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
 import Profile from "./views/Profile.vue";
 import Posts from "./views/Posts.vue";
-import Post from "./views/Post.vue";
+import PostPage from "./views/PostPage.vue";
 import CreatePost from "./views/CreatePost.vue";
 
 const router = createRouter({
@@ -56,8 +56,8 @@ const router = createRouter({
         },
         {
             path: "/posts/post/:id",
-            name: "Post",
-            component: Post,
+            name: "PostPage",
+            component: PostPage,
         },
         {
             path: "/create-post",
