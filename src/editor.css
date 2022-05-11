@@ -1,12 +1,19 @@
 /* SCSS or Tailwind styling not being applied for some reason. Only pure css working */
 
 .editor__content {
-    background-color: white;
+    background-color: var(--theme_white);
 }
 
 .ProseMirror {
     min-height: 350px;
     padding: 1rem;
+    background-color: var(--theme_light_gray);
+}
+
+.ProseMirror:focus-visible {
+    outline: solid var(--theme-gold) 2px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .editor__content h1,
@@ -75,4 +82,26 @@ h6 {
     width: 85%;
     height: 3px;
     background-color: var(--theme_white);
+}
+
+.editor__content ol {
+    list-style-type: decimal;
+}
+
+.editor__content ul {
+    list-style-type: initial;
+}
+
+.post__content li {
+    margin-left: 1rem;
+}
+
+.post__content ol {
+    list-style-type: decimal;
+    color: var(--theme_white);
+}
+
+.post__content ul {
+    list-style-type: initial;
+    color: var(--theme_white);
 }

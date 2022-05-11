@@ -1,6 +1,6 @@
 <template>
     <section class="posts">
-        <router-link :to="{ name: 'Create_post' }">
+        <router-link :to="{ name: 'Create_post' }" class="flex justify-center">
             <PushButton
                 :data="{ text: 'Create Post', url: 'reddit.com' }"
                 :theme="{ dark: true }"

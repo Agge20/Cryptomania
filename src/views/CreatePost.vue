@@ -135,6 +135,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+    @apply flex flex-col items-center;
+}
+
 form {
     @apply flex flex-col p-12 pt-0 w-full max-w-2xl;
     input,

@@ -11,6 +11,7 @@
 /* css vars(where tailwind vars can't be applied) */
 :root {
     --theme_gray: #e2e2e2;
+    --theme_light_gray: #ececec;
     --theme_white: #f8f8f8;
     --theme_dark_purple: #0c0216;
     --theme_red: #f63659;
