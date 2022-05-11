@@ -5,11 +5,16 @@
         <form @submit.prevent="handleLogin">
             <Label :for="'title'" :data="'Title'" :theme="{ dark: true }" />
             <input type="text" name="title" v-model="titleInput" />
-            <Label :for="'password'" :data="'Text Content'" :theme="{ dark: true }" />
-            <textarea v-model="textInput"></textarea>
+            <Label :for="'password'" :data="'Text Editor'" :theme="{ dark: true }" />
+
+            <Editor v-model="content" />
+
             <Label :for="'category'" :data="'Coin Category:'" :theme="{ dark: true }" />
             <div>
-                <div class="flex items-center bg-theme_dark_purple p-2 text-white rounded-sm mb-2">
+                <div
+                    v-if="selectedCategory"
+                    class="flex items-center bg-theme_dark_purple p-2 text-white rounded-sm mb-2"
+                >
                     <img class="w-5 h-5 mr-2" :src="selectedCategory.image" alt="" />
                     <p>{{ selectedCategory.name }}</p>
                 </div>
@@ -51,6 +56,7 @@ import Label from "../components/headers/Label.vue";
 import Error from "../components/error/Error.vue";
 import Button from "../components/buttons/Button.vue";
 import LargeHeader from "../components/headers/LargeHeader.vue";
+import Editor from "../components/editor/Editor.vue";
 
 export default {
     components: {
@@ -58,20 +64,22 @@ export default {
         Error,
         Button,
         LargeHeader,
+        Editor,
     },
+
     setup() {
         // vuex
         const store = useStore();
 
         const selectedCategory = ref("");
-
         const titleInput = ref("");
         const textInput = ref("");
         const searchInput = ref("");
+        const content = ref("<h2>This is a title</h2>");
         const finds = ref([]);
         // watch the search input and loop through the stale data and find matches
         watchEffect(() => {
-            console.log("selected category now: ", selectedCategory.value);
+            console.log("editor content is now: ", content.value);
             finds.value = [];
             for (let i = 0; i < store.state.staleMarketData.length; i++) {
                 for (let y = 0; y < store.state.staleMarketData[i].length; y++) {
@@ -86,7 +94,7 @@ export default {
             }
         });
 
-        return { searchInput, titleInput, textInput, finds, selectedCategory };
+        return { searchInput, titleInput, textInput, finds, selectedCategory, content };
     },
 };
 </script>
