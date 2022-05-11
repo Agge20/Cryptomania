@@ -20,6 +20,7 @@ const useAddPost = () => {
         await setDoc(doc(db, "posts", postId.value), {
             id: postId.value,
             authorId: store.state.user.uid,
+            authorUsername: store.state.user.email,
             title,
             textContent,
             coinId,
