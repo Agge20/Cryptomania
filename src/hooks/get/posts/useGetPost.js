@@ -10,7 +10,6 @@ const useGetPost = () => {
     const postData = ref({});
 
     const getPost = async (postId) => {
-        console.log("get post ran...");
         const docRef = doc(db, "posts", postId);
         try {
             loading.value = true;
