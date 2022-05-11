@@ -257,11 +257,11 @@ export default {
         Header2,
         DetailsTableSixRows,
         DetailsTableFiveRows,
+        RollerLoaderVue,
+        Error,
         StarFilled,
         ThumbUp,
         ThumbDown,
-        RollerLoaderVue,
-        Error,
     },
     setup() {
         // hooks
@@ -276,7 +276,8 @@ export default {
 
         getCoinData(route.params.id);
         watchEffect(() => {
-            if (coinData.value) {
+            if (coinData.value && store.state.user) {
+                console.log("blu ran");
                 checkIfFavorite(coinData.value.id);
             }
             console.log("isFavorite: ", isFavorite.value);

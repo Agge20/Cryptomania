@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { createStore } from "vuex";
 
 // firebase imports
@@ -80,6 +80,10 @@ const unsub = onAuthStateChanged(auth, (user) => {
     store.commit("setAuthIsReady", true);
     store.commit("setUser", user);
     unsub();
+});
+
+watchEffect(() => {
+    console.log("user state changed: ", store.state.user);
 });
 
 const intialFunctions = async () => {
