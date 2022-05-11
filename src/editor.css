@@ -82,6 +82,7 @@ h6 {
     width: 85%;
     height: 3px;
     background-color: var(--theme_white);
+    margin: 1rem 0;
 }
 
 .editor__content ol {

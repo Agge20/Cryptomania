@@ -1,71 +1,39 @@
 <template>
-    <Popup v-if="error" :msg="error" :error="true" />
-    <RollerLoader v-if="loading" :color="{ dark: true }" class="m-auto" />
-
-    <section v-if="!loading && postData">
-        <div class="post">
+    <div class="post">
+        <div>
             <div>
-                <div>
-                    <p>{{ postData.userId }}</p>
-                </div>
-                <h2 class="post__title">{{ postData.title }}</h2>
-                <div class="post__content" v-html="postData.textContent"></div>
+                <p>{{ postData.userId }}</p>
             </div>
-            <div class="post__sidebar">
-                <div class="post__sidebar-votes">
-                    <ThumbUp />
-                    <ThumbDown />
-                </div>
-                <Chat class="post__sidebar-comments" />
-            </div>
+            <h2 class="post__title">{{ postData.title }}</h2>
+            <div class="post__content" v-html="postData.textContent"></div>
         </div>
-    </section>
+        <div class="post__sidebar">
+            <div class="post__sidebar-votes">
+                <ThumbUp />
+                <ThumbDown />
+            </div>
+            <Chat class="post__sidebar-comments" />
+        </div>
+    </div>
 </template>
 
 <script>
-// vue imports
-import { useRoute } from "vue-router";
-
 // svg
-import ThumbUp from "../svg/ThumbUp.vue";
-import ThumbDown from "../svg/ThumbDown.vue";
-import Chat from "../svg/Chat.vue";
-
-// hooks
-import useGetPost from "../hooks/get/posts/useGetPost";
-
-// components
-import RollerLoader from "../components/loader/RollerLoader.vue";
-import Popup from "../components/modal/Popup.vue";
+import ThumbUp from "../../svg/ThumbUp.vue";
+import ThumbDown from "../../svg/ThumbDown.vue";
+import Chat from "../../svg/Chat.vue";
 
 export default {
+    props: ["postData"],
     components: {
         ThumbUp,
         ThumbDown,
         Chat,
-        RollerLoader,
-        Popup,
-    },
-    setup() {
-        const route = useRoute();
-        // hook
-        const { getPost, postData, loading, error } = useGetPost();
-
-        getPost(route.params.id);
-
-        return {
-            postData,
-            loading,
-            error,
-        };
     },
 };
 </script>
 
 <style lang="scss" scoped>
-section {
-    @apply pt-6;
-}
 .post {
     @apply max-w-3xl 
     bg-theme_dark_purple 

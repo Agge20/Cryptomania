@@ -1,31 +1,53 @@
 <template>
-    <section class="posts">
-        <router-link :to="{ name: 'Create_post' }" class="flex justify-center">
+    <Popup v-if="error" :msg="error" :error="true" />
+    <RollerLoader v-if="loading" :color="{ dark: true }" class="m-auto" />
+
+    <section class="posts" v-if="!loading && postsData">
+        <router-link :to="{ name: 'Create_post' }" class="flex justify-center mb-12">
             <PushButton
                 :data="{ text: 'Create Post', url: 'reddit.com' }"
                 :theme="{ dark: true }"
             />
         </router-link>
+        <div v-for="post in postsData" class="posts__wrapper">
+            <Post :postData="post" />
+        </div>
     </section>
 </template>
 
 <script>
-// vue imports
-import { useRouter } from "vue-router";
-
 // components
+import Post from "../components/posts/Post.vue";
 import LargeHeader from "../components/headers/LargeHeader.vue";
 import PushButton from "../components/buttons/PushButton.vue";
+import RollerLoader from "../components/loader/RollerLoader.vue";
+import Popup from "../components/modal/Popup.vue";
+
+// hooks
+import useGetPosts from "../hooks/get/posts/useGetPosts";
+import { watchEffect } from "@vue/runtime-core";
 
 export default {
     components: {
+        Post,
         LargeHeader,
         PushButton,
+        RollerLoader,
+        Popup,
     },
     setup() {
-        const router = useRouter();
+        const { getPosts, postsData, loading, error } = useGetPosts();
 
-        return {};
+        getPosts();
+
+        watchEffect(() => {
+            if (postsData.length) console.log("postData: ", postsData);
+        });
+        return {
+            postsData,
+            loading,
+            error,
+        };
     },
 };
 </script>
@@ -33,5 +55,10 @@ export default {
 <style lang="scss" scoped>
 .posts {
     @apply mt-16;
+    &__wrapper {
+        .post {
+            @apply mb-12;
+        }
+    }
 }
 </style>
