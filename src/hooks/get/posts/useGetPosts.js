@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import { db } from "../../../firebase/index.js";
 
@@ -12,8 +12,9 @@ const useGetPosts = () => {
     const getPosts = async () => {
         try {
             loading.value = true;
+            const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
-            onSnapshot(collection(db, "posts"), (docs) => {
+            onSnapshot(q, (docs) => {
                 postsData.value = [];
                 docs.forEach((doc) => {
                     postsData.value.push(doc.data());

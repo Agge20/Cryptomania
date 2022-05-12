@@ -3,7 +3,12 @@
         <div class="post" v-if="!loading">
             <div>
                 <div class="post__meta">
-                    <p class="post__meta-username">{{ postData.authorUsername }}:</p>
+                    <div class="flex flex-col">
+                        <span class="text-theme_white text-xs italic"
+                            >({{ format(postData.timestamp.toDate(), "yyyy-MM-dd") }})</span
+                        >
+                        <p class="post__meta-username">{{ postData.authorUsername }}:</p>
+                    </div>
                     <button
                         v-if="store.state.user && store.state.user.uid === postData.authorId"
                         @click="handleDeletePost"
@@ -54,12 +59,15 @@
                         DELETE
                     </button>
                     <span class="comments__comment-username">{{ comment.authorUsername }}:</span>
+                    <span class="text-theme_white text-xs italic mb-2"
+                        >{{ formatDistanceToNow(comment.timestamp.toDate()) }} ago</span
+                    >
                     <p>{{ comment.comment }}</p>
                 </div>
             </div>
             <form @submit.prevent="handleCreateComment" v-if="store.state.user">
                 <Label :for="'write-comment'" :data="'Write a comment'" :theme="{ light: true }" />
-                <textarea name="write-comment" v-model="commentData"></textarea>
+                <textarea name="write-comment" v-model="commentData" maxlength="120"></textarea>
                 <div>
                     <Button :text="'SEND COMMENT'" type="submit" />
                 </div>
@@ -73,6 +81,9 @@
 import { onUnmounted, ref } from "vue";
 // vuex
 import { useStore } from "vuex";
+
+// date-fns
+import { formatDistanceToNow, format } from "date-fns";
 
 // hooks
 import useVotePost from "../../hooks/add/posts/useVotePost";
@@ -174,6 +185,8 @@ export default {
             handleDeletePost,
             handleDeleteComment,
             toggleComments,
+            formatDistanceToNow,
+            format,
         };
     },
 };
@@ -271,6 +284,7 @@ export default {
             text-sm 
             rounded-md
             flex
+            mb-2
             items-center
             hover:bg-theme_white 
             hover:text-theme_red;

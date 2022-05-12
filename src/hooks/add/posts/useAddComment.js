@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
 import { uid } from "uid";
 
@@ -14,6 +14,7 @@ const useAddComment = () => {
         const commentId = uid();
         loading.value = true;
         error.value = null;
+        let newDate = new Date();
 
         // update the post
         await updateDoc(doc(db, "posts", postId), {
@@ -21,6 +22,7 @@ const useAddComment = () => {
                 commentId,
                 authorId: store.state.user.uid,
                 authorUsername: store.state.user.email,
+                timestamp: newDate,
                 comment: commentData,
             }),
         })
