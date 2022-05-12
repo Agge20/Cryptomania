@@ -1,13 +1,14 @@
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
 
 const useCheckIfVoted = () => {
     // vuex
     const store = useStore();
-
+    const route = useRoute();
     // hooks
     const error = ref(null);
     const loading = ref(null);
@@ -18,34 +19,37 @@ const useCheckIfVoted = () => {
         const docRef = doc(db, "users", store.state.user.uid);
         try {
             loading.value = true;
-            const res = await getDoc(docRef);
 
-            if (res.exists()) {
-                const userData = res.data();
-                console.log("userData: ", userData);
+            onSnapshot(docRef, (doc) => {
                 loading.value = false;
                 error.value = null;
+                const userData = doc.data();
 
-                // check if user has voted for this specific post before
-                for (let i = 0; i < userData.votedPosts.length; i++) {
-                    // user has either disliked or liked the post
-                    if (userData.votedPosts[i].postId === postId) {
-                        if (userData.votedPosts[i].liked === true) {
-                            votedLiked.value = true;
-                        } else {
-                            votedDisliked.value = true;
+                if (userData.votedPosts) {
+                    // check if user has voted for this specific post before
+                    for (let i = 0; i < userData.votedPosts.length; i++) {
+                        // user has either disliked or liked the post
+                        if (userData.votedPosts[i].postId === postId) {
+                            if (userData.votedPosts[i].liked === true) {
+                                votedLiked.value = true;
+                                votedDisliked.value = false;
+                            } else {
+                                votedDisliked.value = true;
+                                votedLiked.value = false;
+                            }
                         }
                     }
                 }
-            } else {
-                loading.value = false;
-            }
+            });
         } catch (err) {
             error.value = err;
             loading.value = false;
         }
     };
 
+    watchEffect(() => {
+        console.log("route changed: ", route);
+    });
     return {
         checkIfVoted,
         votedLiked,

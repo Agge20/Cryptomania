@@ -28,13 +28,17 @@
 
 <script>
 // vue imports
-import { ref } from "vue";
+import { onUnmounted } from "vue";
 // vuex
 import { useStore } from "vuex";
 
 // hooks
 import useVotePost from "../../hooks/add/posts/useVotePost";
 import useCheckIfVoted from "../../hooks/get/posts/useCheckIfVoted";
+
+import { doc, onSnapshot } from "firebase/firestore";
+
+import { db } from "../../firebase/index.js";
 
 // svg
 import ThumbUp from "../../svg/ThumbUp.vue";
@@ -53,9 +57,13 @@ export default {
 
         // hooks
         const { votePost } = useVotePost();
-        const { checkIfVoted, votedLiked, votedDisliked, loading, error } = useCheckIfVoted();
-
+        const { checkIfVoted, loading, error, votedLiked, votedDisliked } = useCheckIfVoted();
         checkIfVoted(props.postData.id);
+
+        // check user data
+        const unsub = onSnapshot(doc(db, "users", store.state.user.uid), (docs) => {
+            checkIfVoted(props.postData.id);
+        });
 
         const handleVote = async (shouldIncrement) => {
             if (shouldIncrement) {
@@ -65,13 +73,15 @@ export default {
             }
         };
 
+        // unsub from snapShot
+        onUnmounted(() => unsub());
+
         return {
             store,
-            votedLiked,
-            votedDisliked,
             loading,
             error,
-
+            votedLiked,
+            votedDisliked,
             handleVote,
         };
     },
