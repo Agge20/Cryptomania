@@ -2,8 +2,15 @@
     <div class="mb-12">
         <div class="post" v-if="!loading">
             <div>
-                <div>
-                    <p>{{ postData.userId }}</p>
+                <div class="post__meta">
+                    <p class="post__meta-username">{{ postData.authorUsername }}:</p>
+                    <button
+                        v-if="store.state.user && store.state.user.uid === postData.authorId"
+                        @click="handleDeletePost"
+                        class="post__meta-delete"
+                    >
+                        DELETE POST
+                    </button>
                 </div>
                 <h2 class="post__title">{{ postData.title }}</h2>
                 <div class="post__content" v-html="postData.textContent"></div>
@@ -63,7 +70,7 @@
 
 <script>
 // vue imports
-import { onUnmounted, ref, watchEffect } from "vue";
+import { onUnmounted, ref } from "vue";
 // vuex
 import { useStore } from "vuex";
 
@@ -72,6 +79,7 @@ import useVotePost from "../../hooks/add/posts/useVotePost";
 import useCheckIfVoted from "../../hooks/get/posts/useCheckIfVoted";
 import useAddComment from "../../hooks/add/posts/useAddComment";
 import useDeleteComment from "../../hooks/delete/posts/useDeleteComment";
+import useDeletePost from "../../hooks/delete/posts/useDeletePost";
 
 // firebase
 import { doc, onSnapshot } from "firebase/firestore";
@@ -103,16 +111,13 @@ export default {
         const commentData = ref("");
         let unsub;
 
-        watchEffect(() => {
-            console.log("this is commentData: ", commentData.value);
-        });
-
         // hooks
         const {
             deleteComment,
             loading: deleteCommentLoading,
             error: deleteCommentError,
         } = useDeleteComment();
+        const { deletePost, loading: deletePostLoading, error: deletePostError } = useDeletePost();
         const { addComment, loading: loadingAddingComment, creatingCommentError } = useAddComment();
         const { votePost } = useVotePost();
         const { checkIfVoted, loading, error, votedLiked, votedDisliked } = useCheckIfVoted();
@@ -141,6 +146,10 @@ export default {
             deleteComment(props.postData.id, commentId);
         };
 
+        const handleDeletePost = () => {
+            deletePost(props.postData.id);
+        };
+
         const handleVote = async (shouldIncrement) => {
             if (shouldIncrement) {
                 await votePost(props.postData.id, true);
@@ -162,6 +171,7 @@ export default {
             commentData,
             handleVote,
             handleCreateComment,
+            handleDeletePost,
             handleDeleteComment,
             toggleComments,
         };
@@ -178,6 +188,25 @@ export default {
     flex 
     justify-between 
     w-full;
+    &__meta {
+        @apply flex flex-wrap items-center  mb-2;
+        &-username {
+            @apply text-theme_white font-roboto text-sm mr-2;
+        }
+        &-delete {
+            @apply p-2 
+            text-theme_white 
+            bg-theme_red 
+            font-bold 
+            text-sm 
+            rounded-md
+            flex
+            items-center
+            hover:bg-theme_white 
+            hover:text-theme_red;
+        }
+    }
+
     &__title {
         @apply text-5xl text-theme_gold mb-4 font-montserrat font-semibold mt-0;
     }
