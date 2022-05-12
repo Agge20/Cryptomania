@@ -47,9 +47,6 @@ const useCheckIfVoted = () => {
         }
     };
 
-    watchEffect(() => {
-        console.log("route changed: ", route);
-    });
     return {
         checkIfVoted,
         votedLiked,
