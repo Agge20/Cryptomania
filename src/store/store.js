@@ -8,6 +8,8 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
 } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../firebase/index.js";
 
 const didRun = ref(false);
 
@@ -34,9 +36,15 @@ const store = createStore({
     actions: {
         async register(context, payload) {
             const res = await createUserWithEmailAndPassword(auth, payload.email, payload.password);
+            // create the user document
+
             // if user was registered
             if (res) {
                 context.commit("setUser", res.user);
+                await setDoc(doc(db, "users", res.user.uid), {
+                    favorites: [],
+                    votedPosts: [],
+                });
             } else {
                 throw new Error("could not register user");
             }

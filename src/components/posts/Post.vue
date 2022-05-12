@@ -1,5 +1,5 @@
 <template>
-    <div class="post">
+    <div class="post" v-if="!loading">
         <div>
             <div>
                 <p>{{ postData.userId }}</p>
@@ -8,9 +8,18 @@
             <div class="post__content" v-html="postData.textContent"></div>
         </div>
         <div class="post__sidebar">
-            <div class="post__sidebar-votes">
-                <ThumbUp />
-                <ThumbDown />
+            <div class="post__sidebar-votes" v-if="store.state.user">
+                <ThumbUp
+                    @click="handleVote(true)"
+                    :class="{ green: votedLiked }"
+                    class="cursor-pointer hover:text-theme_green"
+                />
+                <span class="flex justify-center items-center my-2">{{ postData.likes }}</span>
+                <ThumbDown
+                    @click="handleVote(false)"
+                    :class="{ red: votedDisliked }"
+                    class="cursor-pointer hover:text-theme_red"
+                />
             </div>
             <Chat class="post__sidebar-comments" />
         </div>
@@ -18,6 +27,15 @@
 </template>
 
 <script>
+// vue imports
+import { ref } from "vue";
+// vuex
+import { useStore } from "vuex";
+
+// hooks
+import useVotePost from "../../hooks/add/posts/useVotePost";
+import useCheckIfVoted from "../../hooks/get/posts/useCheckIfVoted";
+
 // svg
 import ThumbUp from "../../svg/ThumbUp.vue";
 import ThumbDown from "../../svg/ThumbDown.vue";
@@ -29,6 +47,33 @@ export default {
         ThumbUp,
         ThumbDown,
         Chat,
+    },
+    setup(props) {
+        const store = useStore();
+
+        // hooks
+        const { votePost } = useVotePost();
+        const { checkIfVoted, votedLiked, votedDisliked, loading, error } = useCheckIfVoted();
+
+        checkIfVoted(props.postData.id);
+
+        const handleVote = async (shouldIncrement) => {
+            if (shouldIncrement) {
+                await votePost(props.postData.id, true);
+            } else {
+                await votePost(props.postData.id, false);
+            }
+        };
+
+        return {
+            store,
+            votedLiked,
+            votedDisliked,
+            loading,
+            error,
+
+            handleVote,
+        };
     },
 };
 </script>
@@ -54,9 +99,6 @@ export default {
             @apply text-theme_white;
             svg {
                 @apply h-8 w-9;
-                &:first-child {
-                    @apply mb-4;
-                }
             }
         }
         &-comments {

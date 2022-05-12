@@ -10,12 +10,10 @@ const useGetPosts = () => {
     const postsData = ref([]);
 
     const getPosts = async () => {
-        const querySnapshot = await getDocs(collection(db, "cities"));
-
         try {
             loading.value = true;
-            const querySnapshot = await getDocs(collection(db, "posts"));
-            querySnapshot.forEach((doc) => {
+            const postsSnap = await getDocs(collection(db, "posts"));
+            postsSnap.forEach((doc) => {
                 postsData.value.push(doc.data());
             });
 
