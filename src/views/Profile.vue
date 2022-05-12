@@ -1,10 +1,12 @@
 <template>
     <section class="profile" v-if="store.state.user">
+        <!--
         <img
             class="profile__image"
-            src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            src=""
             alt="profile-page"
         />
+        -->
         <div class="profile__content">
             <div>
                 <Header4 :text="{ data: 'Welcome,' }" :theme="{ dark: true }" />
@@ -17,11 +19,15 @@
             </div>
             <Button :text="'Logout'" @click="signOutNow" />
         </div>
+        <div v-for="post in postsData" class="posts__wrapper">
+            <Post :postData="post" />
+        </div>
     </section>
 </template>
 
 <script>
 // vue imports
+import { onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -30,12 +36,17 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase/index";
 
 // components
+import Post from "../components/posts/Post.vue";
 import Header2 from "../components/headers/Header2.vue";
 import Header4 from "../components/headers/Header4.vue";
 import Button from "../components/buttons/Button.vue";
 
+// hooks
+import useGetUserPosts from "../hooks/get/posts/useGetUserPosts";
+
 export default {
     components: {
+        Post,
         Header2,
         Header4,
         Button,
@@ -43,9 +54,11 @@ export default {
     setup() {
         const store = useStore();
         const router = useRouter();
+        const { getPosts, error, loading, postsData, unsubFromSnapshot } = useGetUserPosts();
+
+        getPosts();
 
         const signOutNow = () => {
-            console.log("signoutran");
             signOut(auth)
                 .then(() => {
                     store.commit("setUser", null);
@@ -56,14 +69,20 @@ export default {
                 });
         };
 
-        return { store, signOutNow };
+        // unsubsribe to snapShot on unmount
+        onUnmounted(() => {
+            if (postsData.value.length) {
+                unsubFromSnapshot();
+            }
+        });
+        return { store, signOutNow, postsData };
     },
 };
 </script>
 
 <style lang="scss" scoped>
 .profile {
-    @apply flex items-start justify-center mt-16 w-full;
+    @apply flex flex-col items-center justify-center mt-16 w-full;
     * {
         @apply m-2;
     }
