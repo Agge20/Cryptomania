@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div>
+        <div class="max-w-sm">
             <LargeHeader :text="{ data: 'Login' }" :theme="{ dark: true }" />
             <form @submit.prevent="handleLogin">
                 <Label :for="'email'" :data="'Email'" :theme="{ dark: true }" />
@@ -13,11 +13,10 @@
                 <Label :for="'password'" :data="'Password'" :theme="{ dark: true }" />
                 <input type="password" name="password" v-model="loginPassword" />
                 <Button :text="'Login'" />
-
-                <Error v-if="loginError" :msg="loginError" />
+                <Popup v-if="loginError" :msg="`${loginError}`" :error="true" />
             </form>
         </div>
-        <div>
+        <div class="max-w-sm">
             <LargeHeader :text="{ data: 'Register' }" :theme="{ dark: true }" />
             <form @submit.prevent="handleRegister">
                 <Label :for="'email'" :data="'Email'" :theme="{ dark: true }" />
@@ -30,7 +29,7 @@
                 <Label :for="'password'" :data="'Password'" :theme="{ dark: true }" />
                 <input type="password" name="password" v-model="registerPassword" />
                 <Button :text="'Register'" />
-                <Error v-if="registerError" :msg="registerError" />
+                <Popup v-if="registerError" :msg="`${registerError}`" :error="true" />
             </form>
         </div>
     </section>
@@ -49,6 +48,7 @@ import Label from "../components/headers/Label.vue";
 // components
 import Error from "../components/error/Error.vue";
 import Button from "../components/buttons/Button.vue";
+import Popup from "../components/modal/Popup.vue";
 
 export default {
     components: {
@@ -56,6 +56,7 @@ export default {
         Label,
         Error,
         Button,
+        Popup,
     },
     setup() {
         const loginError = ref(null);
@@ -87,17 +88,26 @@ export default {
                 registerError.value = err.message;
             }
         };
-        const handleLogin = () => {
+        const handleLogin = async () => {
             try {
-                store.dispatch("login", {
-                    email: loginEmail.value,
-                    password: loginPassword.value,
-                });
-                loginEmail.value = "";
-                loginPassword.value = "";
-                router.push("/profile");
+                await store
+                    .dispatch("login", {
+                        email: loginEmail.value,
+                        password: loginPassword.value,
+                    })
+                    .then((value) => {
+                        if (value === "ok") {
+                            loginEmail.value = "";
+                            loginPassword.value = "";
+                            router.push("/profile");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             } catch (err) {
-                registerError.value = err.message;
+                console.log("catch ran...");
+                loginError.value = err.message;
             }
         };
 

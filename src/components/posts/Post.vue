@@ -9,6 +9,11 @@
                 <div class="post__content" v-html="postData.textContent"></div>
             </div>
             <div class="post__sidebar">
+                <div class="post__sidebar-votes" v-if="!store.state.user">
+                    <ThumbUp class="cursor-pointer" />
+                    <span class="flex justify-center items-center my-2">{{ postData.likes }}</span>
+                    <ThumbDown class="cursor-pointer" />
+                </div>
                 <div class="post__sidebar-votes" v-if="store.state.user">
                     <ThumbUp
                         @click="handleVote(true)"
@@ -35,7 +40,7 @@
             <div v-for="comment in postData.comments" class="comments__wrapper">
                 <div class="comments__comment">
                     <button
-                        v-if="store.state.user.uid === comment.authorId"
+                        v-if="store.state.user && store.state.user.uid === comment.authorId"
                         class="comments__comment-delete"
                         @click="handleDeleteComment(comment.commentId)"
                     >
@@ -45,7 +50,7 @@
                     <p>{{ comment.comment }}</p>
                 </div>
             </div>
-            <form @submit.prevent="handleCreateComment">
+            <form @submit.prevent="handleCreateComment" v-if="store.state.user">
                 <Label :for="'write-comment'" :data="'Write a comment'" :theme="{ light: true }" />
                 <textarea name="write-comment" v-model="commentData"></textarea>
                 <div>
@@ -96,6 +101,7 @@ export default {
         const store = useStore();
         const showComments = ref(false);
         const commentData = ref("");
+        let unsub;
 
         watchEffect(() => {
             console.log("this is commentData: ", commentData.value);
@@ -110,12 +116,17 @@ export default {
         const { addComment, loading: loadingAddingComment, creatingCommentError } = useAddComment();
         const { votePost } = useVotePost();
         const { checkIfVoted, loading, error, votedLiked, votedDisliked } = useCheckIfVoted();
-        checkIfVoted(props.postData.id);
 
-        // check user data
-        const unsub = onSnapshot(doc(db, "users", store.state.user.uid), (docs) => {
+        // if we have an user check if he has voted
+        if (store.state.user) {
             checkIfVoted(props.postData.id);
-        });
+        }
+        // check user data
+        if (store.state.user) {
+            unsub = onSnapshot(doc(db, "users", store.state.user.uid), (docs) => {
+                checkIfVoted(props.postData.id);
+            });
+        }
 
         const toggleComments = () => {
             showComments.value = !showComments.value;
@@ -174,9 +185,9 @@ export default {
         @apply text-theme_white font-roboto;
     }
     &__sidebar {
-        @apply w-20 flex flex-col justify-between items-center pl-2;
+        @apply w-20 flex flex-col justify-between items-end pl-2;
         &-votes {
-            @apply text-theme_white;
+            @apply text-theme_white mb-2;
             svg {
                 @apply h-8 w-9;
             }

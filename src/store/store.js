@@ -35,27 +35,41 @@ const store = createStore({
     // to run async-functions code, (here we destructure the payload)
     actions: {
         async register(context, payload) {
-            const res = await createUserWithEmailAndPassword(auth, payload.email, payload.password);
-            // create the user document
-
-            // if user was registered
-            if (res) {
-                context.commit("setUser", res.user);
-                await setDoc(doc(db, "users", res.user.uid), {
-                    favorites: [],
-                    votedPosts: [],
-                });
-            } else {
-                throw new Error("could not register user");
+            try {
+                const res = await createUserWithEmailAndPassword(
+                    auth,
+                    payload.email,
+                    payload.password
+                );
+                // if user was registered
+                if (res) {
+                    context.commit("setUser", res.user);
+                    await setDoc(doc(db, "users", res.user.uid), {
+                        favorites: [],
+                        votedPosts: [],
+                    });
+                } else {
+                    throw new Error("could not register user...");
+                }
+            } catch (err) {
+                throw new Error(err);
             }
+            // create the user document
         },
         async login(context, payload) {
-            const res = await signInWithEmailAndPassword(auth, payload.email, payload.password);
-            // if user was logged in
-            if (res) {
-                context.commit("setUser", res.user);
-            } else {
-                throw new Error("could not login user");
+            try {
+                const res = await signInWithEmailAndPassword(auth, payload.email, payload.password);
+                // if user was logged in
+                console.log("RES: ", res);
+                if (res.user) {
+                    context.commit("setUser", res.user);
+                    return "ok";
+                } else {
+                    console.log("res in store: ", res);
+                    throw new Error("could not login user");
+                }
+            } catch (err) {
+                throw new Error(err);
             }
         },
         async setStaleMarketData(context) {
