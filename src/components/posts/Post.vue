@@ -22,9 +22,9 @@
             </div>
             <div class="post__sidebar">
                 <div class="post__sidebar-votes" v-if="!store.state.user">
-                    <ThumbUp class="cursor-pointer" />
+                    <ThumbUp />
                     <span class="flex justify-center items-center my-2">{{ postData.likes }}</span>
-                    <ThumbDown class="cursor-pointer" />
+                    <ThumbDown />
                 </div>
                 <div class="post__sidebar-votes" v-if="store.state.user">
                     <ThumbUp
@@ -120,7 +120,6 @@ export default {
         const store = useStore();
         const showComments = ref(false);
         const commentData = ref("");
-        let unsub;
 
         // hooks
         const {
@@ -139,9 +138,11 @@ export default {
         }
         // check user data
         if (store.state.user) {
-            unsub = onSnapshot(doc(db, "users", store.state.user.uid), (docs) => {
+            const unsub = onSnapshot(doc(db, "users", store.state.user.uid), (docs) => {
                 checkIfVoted(props.postData.id);
             });
+            // unsub from snapShot
+            onUnmounted(() => unsub());
         }
 
         const toggleComments = () => {
@@ -168,9 +169,6 @@ export default {
                 await votePost(props.postData.id, false);
             }
         };
-
-        // unsub from snapShot
-        onUnmounted(() => unsub());
 
         return {
             store,
@@ -254,7 +252,9 @@ export default {
     flex
     flex-col
     items-start
-    p-6;
+    p-6
+    overflow-y-scroll;
+    max-height: 750px;
     form {
         @apply w-full;
         textarea {
