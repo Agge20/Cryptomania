@@ -22,7 +22,7 @@ export default {
         mt-32
         p-6;
     h3 {
-        @apply text-theme_white text-3xl font-montserrat text-center;
+        @apply text-theme_white text-xl font-montserrat text-center;
     }
 }
 </style>

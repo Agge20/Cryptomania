@@ -2,7 +2,7 @@
     <div class="fixed w-screen z-50">
         <nav class="nav">
             <router-link :to="{ name: 'Home' }">
-                <div class="nav__logo">
+                <div v-if="!showSearch" class="nav__logo">
                     <span>Cryptomania</span>
                 </div>
             </router-link>
@@ -25,7 +25,7 @@
                             </li>
                         </router-link>
 
-                        <router-link :to="{ name: 'Home' }">
+                        <router-link :to="{ name: 'News' }">
                             <li class="nav__link">
                                 <News />
                             </li>
@@ -93,8 +93,9 @@
                     <router-link :to="{ name: 'Home' }">
                         <li class="nav__link">Home</li>
                     </router-link>
-
-                    <li class="nav__link">News</li>
+                    <router-link :to="{ name: 'News' }">
+                        <li class="nav__link">News</li>
+                    </router-link>
                     <router-link :to="{ name: 'Watchlist' }" v-if="store.state.user">
                         <li class="nav__link">Watchlist</li>
                     </router-link>
