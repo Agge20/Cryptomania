@@ -50,7 +50,7 @@
 <script>
 // vue imports
 import { ref } from "vue";
-import { useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 // components
 import LargeHeader from "../../components/headers/LargeHeader.vue";
