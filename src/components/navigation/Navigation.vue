@@ -2,7 +2,7 @@
     <div class="fixed w-screen z-50">
         <nav class="nav">
             <router-link :to="{ name: 'Home' }">
-                <div class="nav__logo">
+                <div v-if="!showSearch" class="nav__logo">
                     <span>Cryptomania</span>
                 </div>
             </router-link>
@@ -24,12 +24,8 @@
                                 <Home />
                             </li>
                         </router-link>
-                        <router-link :to="{ name: 'Home' }">
-                            <li class="nav__link">
-                                <Search />
-                            </li>
-                        </router-link>
-                        <router-link :to="{ name: 'Home' }">
+
+                        <router-link :to="{ name: 'News' }">
                             <li class="nav__link">
                                 <News />
                             </li>
@@ -41,13 +37,44 @@
                         </router-link>
                         <router-link :to="{ name: 'Posts' }">
                             <li class="nav__link">
-                                <QuestionMark />
+                                <Document />
                             </li>
                         </router-link>
                     </ul>
                 </div>
             </transition>
-            <div class="nav__right-wrapper">
+            <div class="nav__right-wrapper z-20">
+                <CloseCircle
+                    v-if="showSearch"
+                    class="text-theme_white cursor-pointer"
+                    @click="showSearch = !showSearch"
+                />
+
+                <Search
+                    v-if="!showSearch"
+                    class="text-theme_white cursor-pointer h-10 w-10"
+                    @click="showSearch = !showSearch"
+                />
+                <div v-if="showSearch" class="flex flex-col mx-2 mt-1">
+                    <input
+                        v-model="searchInput"
+                        class="border-2 border-theme_gold focus:outline-none rounded-sm"
+                    />
+                    <div v-if="finds" class="shadow-md border-l-2 bg-theme_white">
+                        <div
+                            @click="
+                                () => {
+                                    handleCoinRedirect(find.id);
+                                }
+                            "
+                            v-for="find in finds.slice(0, 5)"
+                            class="hover:bg-theme_light_gray flex items-center justify-start p-2 cursor-pointer"
+                        >
+                            <img class="w-8 h-8 mr-2" :src="find.image" alt="" />
+                            <p>{{ find.name }}</p>
+                        </div>
+                    </div>
+                </div>
                 <router-link v-if="!store.state.user" :to="{ name: 'Register_and_login' }">
                     <User class="text-theme_white mr-2 transition hover:scale-105" />
                 </router-link>
@@ -66,10 +93,9 @@
                     <router-link :to="{ name: 'Home' }">
                         <li class="nav__link">Home</li>
                     </router-link>
-                    <router-link :to="{ name: 'Home' }">
-                        <li class="nav__link">Search</li>
+                    <router-link :to="{ name: 'News' }">
+                        <li class="nav__link">News</li>
                     </router-link>
-                    <li class="nav__link">News</li>
                     <router-link :to="{ name: 'Watchlist' }" v-if="store.state.user">
                         <li class="nav__link">Watchlist</li>
                     </router-link>
@@ -87,12 +113,14 @@
 // svg imports
 import Burger from "../../svg/Burger.vue";
 import Close from "../../svg/Close.vue";
+import CloseCircle from "../../svg/CloseCircle.vue";
 import Home from "../../svg/Home.vue";
-import Search from "../../svg/Search.vue";
+import Document from "../../svg/Document.vue";
 import News from "../../svg/News.vue";
 import WatchlistIcon from "../../svg/Watchlist.vue";
 import QuestionMark from "../../svg/QuestionMark.vue";
 import User from "../../svg/User.vue";
+import Search from "../../svg/Search.vue";
 
 // components
 import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
@@ -101,16 +129,19 @@ import TickertapeWrapper from "../tickertape/TickertapeWrapper.vue";
 import Watchlist from "../../views/Watchlist.vue";
 
 // vue imports
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
     components: {
         Burger,
         Close,
+        CloseCircle,
         Home,
-        Search,
+        Document,
         News,
+        Search,
         WatchlistIcon,
         Watchlist,
         QuestionMark,
@@ -119,8 +150,14 @@ export default {
     },
 
     setup() {
-        const showNavbar = ref(false);
+        // vuex
         const store = useStore();
+        //vue router
+        const router = useRouter();
+        const showNavbar = ref(false);
+        const searchInput = ref("");
+        const showSearch = ref(false);
+        const finds = ref([]);
 
         // functions
         const toggleNavbar = () => {
@@ -139,13 +176,38 @@ export default {
         const expansionReturning = (el) => {
             el.children[0].style.display = "none";
         };
+
+        const handleCoinRedirect = (coinId) => {
+            router.push(`/details/${coinId}`);
+            showSearch.value = false;
+        };
+
+        watchEffect(() => {
+            finds.value = [];
+            for (let i = 0; i < store.state.staleMarketData.length; i++) {
+                for (let y = 0; y < store.state.staleMarketData[i].length; y++) {
+                    if (
+                        store.state.staleMarketData[i][y].id.includes(
+                            searchInput.value.toLowerCase()
+                        )
+                    ) {
+                        finds.value.push(store.state.staleMarketData[i][y]);
+                    }
+                }
+            }
+        });
+
         return {
             showNavbar,
             store,
+            searchInput,
+            showSearch,
+            finds,
             toggleNavbar,
             expansionOngoing,
             expansionDone,
             expansionReturning,
+            handleCoinRedirect,
         };
     },
 };
@@ -179,7 +241,7 @@ export default {
         top-4 
         right-2
         flex
-        items-center;
+        items-start;
     }
     &__burger {
         @apply w-12 

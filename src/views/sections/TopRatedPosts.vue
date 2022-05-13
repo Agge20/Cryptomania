@@ -7,15 +7,15 @@
             <LargeHeader
                 :text="{ data: 'TOP POSTS' }"
                 :theme="{ dark: true }"
-                class="rotate-90 vertical-column-header mt-0"
+                class="vertical-column-header rotate-90 mt-0"
             />
         </div>
-        <router-link :to="{ name: 'Create_post' }" class="flex justify-center mb-12">
-            <PushButton
-                :data="{ text: 'Create Post', url: 'reddit.com' }"
-                :theme="{ dark: true }"
-            />
-        </router-link>
+        <LargeHeader
+            :text="{ data: 'TOP POSTS' }"
+            :theme="{ dark: true }"
+            class="posts__header--normal"
+        />
+
         <div v-for="post in postsData" class="posts__wrapper">
             <Post :postData="post" />
         </div>
@@ -66,17 +66,33 @@ export default {
 
 <style lang="scss" scoped>
 .posts {
-    @apply mt-16;
+    @apply mt-16  min-h-xl;
     &__header {
         @apply w-36
         absolute
         left-0
         mr-0
         whitespace-nowrap;
+        &--normal {
+            @apply mb-16 mx-auto hidden;
+        }
     }
     &__wrapper {
         .post {
             @apply mb-12;
+        }
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .posts {
+        @apply mt-0;
+        &__header {
+            @apply rotate-90 
+            mt-0;
+            &--normal {
+                @apply block;
+            }
         }
     }
 }

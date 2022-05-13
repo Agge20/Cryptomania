@@ -4,6 +4,7 @@
         <router-view v-if="authIsReady" />
         <RollerLoader v-if="!authIsReady" :color="{ dark: true }" class="m-auto" />
     </main>
+    <Footer />
 </template>
 
 <script>
@@ -14,9 +15,10 @@ import { useStore } from "vuex";
 // components
 import Navigation from "./components/navigation/Navigation.vue";
 import RollerLoader from "./components/loader/RollerLoader.vue";
+import Footer from "./components/footer/Footer.vue";
 
 export default {
-    components: { Navigation, RollerLoader },
+    components: { Navigation, RollerLoader, Footer },
     setup() {
         const store = useStore();
 

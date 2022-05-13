@@ -7,27 +7,28 @@
             :class="{ border_animation_leave: playLeaveBorder }"
             class="news-card__img"
         >
-            <img
-                src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-            />
+            <img :src="article.image" />
         </div>
         <!-- content -->
         <div class="news-card__content">
-            <h3>Nifty News: Olympic Games Beijing 2022 edition</h3>
+            <h3>{{ article.title }}</h3>
             <p>
-                The news from TMX Group arrives as cryptocurrencies are increasingly gaining
-                interest from investors and companies.
+                {{ article.desc }}
             </p>
             <div class="news-card__btn">
-                <LinkButton :text="{ data: 'Read More' }" />
+                <a :href="article.url">Read more?</a>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+// vue imports
+import { ref } from "vue";
+
+// components
 import LinkButton from "../buttons/LinkButton.vue";
+
 export default {
     props: ["article"],
     setup() {
@@ -88,6 +89,18 @@ export default {
     }
     &__btn {
         width: 65%;
+        @apply flex items-center 
+      justify-center 
+      my-4 py-2 
+      px-4 
+    bg-theme_gold 
+    text-theme_dark_purple 
+      rounded-lg 
+      font-bold 
+      font-montserrat 
+      text-xl
+      transition hover:scale-105 
+      duration-150;
     }
 }
 

@@ -3,7 +3,11 @@
     <RollerLoader v-if="loading" :color="{ dark: true }" class="m-auto" />
 
     <section class="posts" v-if="!loading && postsData">
-        <router-link :to="{ name: 'Create_post' }" class="flex justify-center mb-12">
+        <router-link
+            v-if="store.state.user"
+            :to="{ name: 'Create_post' }"
+            class="flex justify-center mb-12"
+        >
             <PushButton
                 :data="{ text: 'Create Post', url: 'reddit.com' }"
                 :theme="{ dark: true }"
@@ -16,6 +20,9 @@
 </template>
 
 <script>
+// vue imports
+import { useStore } from "vuex";
+
 // components
 import Post from "../components/posts/Post.vue";
 import LargeHeader from "../components/headers/LargeHeader.vue";
@@ -35,6 +42,8 @@ export default {
         Popup,
     },
     setup() {
+        const store = useStore();
+
         const { getPosts, postsData, loading, error } = useGetPosts();
 
         getPosts();
@@ -43,6 +52,7 @@ export default {
             postsData,
             loading,
             error,
+            store,
         };
     },
 };

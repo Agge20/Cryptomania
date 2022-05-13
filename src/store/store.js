@@ -11,7 +11,11 @@ import {
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/index.js";
 
-const didRun = ref(false);
+// hooks
+import useGetNews from "../hooks/get/news/useGetNews.js";
+
+const didRunStaleMarketData = ref(false);
+const didRunStaleNewsData = ref(false);
 
 const store = createStore({
     // global state
@@ -19,6 +23,7 @@ const store = createStore({
         user: null,
         authIsReady: false,
         staleMarketData: [],
+        staleNewsData: [],
     },
     // to change/update/mutate state
     mutations: {
@@ -30,6 +35,9 @@ const store = createStore({
         },
         setStaleMarketData(state, payload) {
             state.staleMarketData = payload;
+        },
+        setStaleNewsData(state, payload) {
+            state.staleNewsData = payload;
         },
     },
     // to run async-functions code, (here we destructure the payload)
@@ -65,7 +73,6 @@ const store = createStore({
                     context.commit("setUser", res.user);
                     return "ok";
                 } else {
-                    console.log("res in store: ", res);
                     throw new Error("could not login user");
                 }
             } catch (err) {
@@ -73,8 +80,7 @@ const store = createStore({
             }
         },
         async setStaleMarketData(context) {
-            if (!didRun.value) {
-                console.log("setStaleMarketData ran");
+            if (!didRunStaleMarketData.value) {
                 let massData = [];
                 // fetch data once initially(used where fresh data is not required)
                 for (let i = 1; i < 6; i++) {
@@ -94,6 +100,16 @@ const store = createStore({
                 context.commit("setStaleMarketData", massData);
             }
         },
+        async setStaleNewsData(context) {
+            const { getNewsSnapshot, newsSnapshot, loading, error } = useGetNews();
+            if (!didRunStaleNewsData.value) {
+                await getNewsSnapshot();
+
+                if (!loading.value && !error.value) {
+                    context.commit("setStaleNewsData", newsSnapshot.value);
+                }
+            }
+        },
     },
 });
 
@@ -104,13 +120,10 @@ const unsub = onAuthStateChanged(auth, (user) => {
     unsub();
 });
 
-watchEffect(() => {
-    console.log("user state changed: ", store.state.user);
-});
-
 const intialFunctions = async () => {
     try {
         await store.dispatch("setStaleMarketData");
+        await store.dispatch("setStaleNewsData");
     } catch (err) {
         console.log(err);
     }
