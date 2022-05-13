@@ -113,7 +113,14 @@ export default {
 
         // create post function
         const handleCreatePost = async () => {
-            await addPost(titleInput.value, content.value, selectedCategory.value.id);
+            console.log("selectedCategory:  ", selectedCategory.value);
+            await addPost(
+                titleInput.value,
+                content.value,
+                selectedCategory.value.id,
+                selectedCategory.value.name,
+                selectedCategory.value.image
+            );
             if (!error.value && !loading.value) {
                 router.push(`/posts/`);
             }
