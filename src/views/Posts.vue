@@ -25,7 +25,6 @@ import Popup from "../components/modal/Popup.vue";
 
 // hooks
 import useGetPosts from "../hooks/get/posts/useGetPosts";
-import { watchEffect } from "@vue/runtime-core";
 
 export default {
     components: {

@@ -202,7 +202,10 @@ export default {
     justify-between 
     w-full;
     &__meta {
-        @apply flex flex-wrap items-center  mb-2;
+        @apply flex flex-wrap items-center;
+        * {
+            @apply mb-2;
+        }
         &-username {
             @apply text-theme_white font-roboto text-sm mr-2;
         }
