@@ -55,7 +55,12 @@
             </div>
         </div>
         <div class="comments" v-if="showComments">
-            <Header4 :text="{ data: 'Comments' }" :theme="{ light: true }" />
+            <div class="flex items-start">
+                <Header4 :text="{ data: 'Comments' }" :theme="{ light: true }" />
+                <p class="text-theme_white ml-2 mt-1 font-roboto">
+                    ({{ postData.comments.length }})
+                </p>
+            </div>
             <div v-for="comment in postData.comments" class="comments__wrapper">
                 <div class="comments__comment">
                     <button
@@ -229,10 +234,17 @@ export default {
     }
 
     &__title {
-        @apply text-5xl text-theme_gold font-montserrat font-semibold mt-0 mb-6;
+        @apply text-5xl 
+        text-theme_gold 
+        font-montserrat 
+        font-semibold 
+        mt-0 
+        mb-6 break-words;
+        word-break: break-word;
     }
     &__content {
-        @apply text-theme_white font-roboto;
+        @apply text-theme_white font-roboto break-words;
+        word-break: break-word;
     }
     &__sidebar {
         @apply w-20 flex flex-col justify-between items-end pl-2;
