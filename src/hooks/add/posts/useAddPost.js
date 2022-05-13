@@ -11,7 +11,7 @@ const useAddPost = () => {
     const postId = ref(null);
 
     // get data
-    const addPost = async (title, textContent, coinId) => {
+    const addPost = async (title, textContent, coinId, coinName, coinImage) => {
         loading.value = true;
         error.value = null;
         postId.value = uid();
@@ -24,6 +24,8 @@ const useAddPost = () => {
             title,
             textContent,
             coinId,
+            coinName,
+            coinImage: coinImage,
             likes: 0,
             timestamp: serverTimestamp(),
             comments: [],

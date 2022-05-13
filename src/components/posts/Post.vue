@@ -17,7 +17,14 @@
                         DELETE POST
                     </button>
                 </div>
+                <div class="flex flex-wrap items-center mb-1">
+                    <p class="text-theme_white text-base font-roboto mr-2">
+                        {{ postData.coinName }}
+                    </p>
+                    <img :src="postData.coinImage" alt="{{postData.coinTitle}}" class="h-5 w-5" />
+                </div>
                 <h2 class="post__title">{{ postData.title }}</h2>
+
                 <div class="post__content" v-html="postData.textContent"></div>
             </div>
             <div class="post__sidebar">
@@ -222,7 +229,7 @@ export default {
     }
 
     &__title {
-        @apply text-5xl text-theme_gold mb-4 font-montserrat font-semibold mt-0;
+        @apply text-5xl text-theme_gold font-montserrat font-semibold mt-0 mb-6;
     }
     &__content {
         @apply text-theme_white font-roboto;
