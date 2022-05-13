@@ -15,7 +15,6 @@ const useDeleteComment = () => {
     const filteredCommentData = ref([]);
 
     const deleteComment = async (postId, commentId) => {
-        console.log("comment id : ", commentId);
         const docRef = doc(db, "posts", postId);
         const res = await getDoc(docRef);
 
@@ -28,7 +27,6 @@ const useDeleteComment = () => {
             for (let i = 0; i < postData.comments.length; i++) {
                 if (postData.comments[i].commentId !== commentId) {
                     filteredCommentData.value.push(postData.comments[i]);
-                    console.log("lorem: ", postData.comments[i]);
                 }
             }
 

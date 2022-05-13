@@ -273,14 +273,17 @@ export default {
         // vue router
         const route = useRoute();
         const store = useStore();
-
         getCoinData(route.params.id);
         watchEffect(() => {
             if (coinData.value && store.state.user) {
-                console.log("blu ran");
                 checkIfFavorite(coinData.value.id);
             }
-            console.log("isFavorite: ", isFavorite.value);
+        });
+
+        watchEffect(() => {
+            if (route.params.id) {
+                getCoinData(route.params.id);
+            }
         });
 
         const clickedAddFavorite = async () => {

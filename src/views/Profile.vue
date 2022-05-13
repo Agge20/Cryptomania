@@ -1,23 +1,12 @@
 <template>
     <section class="profile" v-if="store.state.user">
-        <!--
-        <img
-            class="profile__image"
-            src=""
-            alt="profile-page"
-        />
-        -->
         <div class="profile__content">
             <div>
                 <Header4 :text="{ data: 'Welcome,' }" :theme="{ dark: true }" />
 
                 <Header2 :text="{ data: store.state.user.email }" :theme="{ dark: true }" />
             </div>
-            <div>
-                <p>BTC:</p>
-                <p>djsajdsadiua90d8a07dsa67d6a7d6a786da78d56a65dada9867da</p>
-            </div>
-            <Button :text="'Logout'" @click="signOutNow" />
+            <Button class="mx-auto block" :text="'Logout'" @click="signOutNow" />
         </div>
         <div v-for="post in postsData" class="posts__wrapper">
             <Post :postData="post" />

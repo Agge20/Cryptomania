@@ -16,10 +16,21 @@ import Home from "./views/Home.vue";
 import Details from "./views/Details.vue";
 import RegisterAndLogin from "./views/RegisterAndLogin.vue";
 import Watchlist from "./views/Watchlist.vue";
+import News from "./views/News.vue";
 import Profile from "./views/Profile.vue";
 import Posts from "./views/Posts.vue";
 import PostPage from "./views/PostPage.vue";
 import CreatePost from "./views/CreatePost.vue";
+
+// route guard
+const requireAuth = (to, from, next) => {
+    let user = store.state.user;
+    if (!user) {
+        next({ name: "Home" });
+    } else {
+        next();
+    }
+};
 
 const router = createRouter({
     history: createWebHistory(),
@@ -43,11 +54,18 @@ const router = createRouter({
             path: "/watchlist",
             name: "Watchlist",
             component: Watchlist,
+            beforeEnter: requireAuth,
+        },
+        {
+            path: "/news",
+            name: "News",
+            component: News,
         },
         {
             path: "/profile",
             name: "Profile",
             component: Profile,
+            beforeEnter: requireAuth,
         },
         {
             path: "/posts",
@@ -63,6 +81,7 @@ const router = createRouter({
             path: "/create-post",
             name: "Create_post",
             component: CreatePost,
+            beforeEnter: requireAuth,
         },
     ],
 });

@@ -1,5 +1,6 @@
 <template>
-    <section class="news-snap">
+    <RollerLoader v-if="!newsData" :color="{ dark: true }" class="mx-auto my-12" />
+    <section v-if="newsData" class="news-snap">
         <div class="news-snap__header first-header-wrapper">
             <LargeHeader
                 :text="{ data: 'LATEST NEWS' }"
@@ -15,17 +16,13 @@
                     class="hidden pt-5"
                 />
                 <div class="flex mt-12 news-wrapper-inner" ref="newsWrapperInner">
-                    <NewsCard class="basis-1/4" />
-                    <NewsCard class="basis-1/4" />
-                    <NewsCard class="basis-1/4" />
-                    <NewsCard class="basis-1/4" />
+                    <NewsCard v-for="article in newsData" class="basis-1/4" :article="article" />
                 </div>
             </div>
-            <div class="h-24 mt-20 flex justify-center more-news-wrapper">
-                <PushButton
-                    :data="{ text: 'More News?', url: 'reddit.com' }"
-                    :theme="{ dark: true }"
-                />
+            <div v-if="newsData.length" class="more-news-wrapper">
+                <router-link :to="{ name: 'News' }">
+                    <PushButton :data="{ text: 'More News?' }" :theme="{ dark: true }"
+                /></router-link>
             </div>
         </div>
     </section>
@@ -34,6 +31,7 @@
 <script>
 // vue imports
 import { watchEffect, ref } from "@vue/runtime-core";
+import { useStore } from "vuex";
 
 // firebase
 
@@ -42,12 +40,10 @@ import NewsCard from "../../components/news/NewsCard.vue";
 import LargeHeader from "../../components/headers/LargeHeader.vue";
 import LinkButton from "../../components/buttons/LinkButton.vue";
 import PushButton from "../../components/buttons/PushButton.vue";
+import RollerLoader from "../../components/loader/RollerLoader.vue";
 
 // loaders
 import DotsLoader from "../../components/loader/DotsLoader.vue";
-
-// hooks
-import useGetNews from "../../hooks/get/news/useGetNews";
 
 export default {
     components: {
@@ -56,23 +52,18 @@ export default {
         DotsLoader,
         LinkButton,
         PushButton,
+        RollerLoader,
     },
     setup() {
-        const { newsSnapshot, getNewsSnapshot, loading, error } = useGetNews();
+        const store = useStore();
         const newsData = ref([]);
-        const fakeNewsData = ref([1, 2, 3, 4, 5, 6]);
-
-        // fetch news-snapshot data
-        /*
-    DISABLED: getNewsSnapshot();
-    */
 
         watchEffect(() => {
             // when news data i fetched
-            if (newsSnapshot.value.length) {
+            if (store.state.staleNewsData) {
                 // push one article from each news source
-                newsSnapshot.value.forEach((article, index) => {
-                    if (index < 6) {
+                store.state.staleNewsData.forEach((article, index) => {
+                    if (index < 4) {
                         newsData.value.push(article);
                     } else {
                         return;
@@ -82,9 +73,7 @@ export default {
         });
         return {
             newsData,
-            fakeNewsData,
-            loading,
-            error,
+            store,
         };
     },
 };
@@ -96,7 +85,7 @@ export default {
 // this styling is not formatted to BEM needs to be fixed
 
 .news-snap {
-    @apply bg-theme_white flex;
+    @apply bg-theme_white flex min-h-3xl w-full;
     &__header {
         @apply w-36 
         absolute 
@@ -108,11 +97,15 @@ export default {
     }
 }
 
+.more-news-wrapper {
+    @apply h-24 mt-20 flex justify-center items-center w-full;
+}
+
 .first-header-wrapper {
     padding-top: calc(var(--navbar-height) + 60px);
 }
 .first-header {
-    margin-top: 160px;
+    margin-top: 240px;
 }
 
 @media screen and (max-width: 2000px) {

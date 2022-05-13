@@ -13,6 +13,8 @@ module.exports = {
                 theme_green: "#38C242",
             },
             minHeight: {
+                xsss: "10rem",
+                xss: "15rem",
                 xs: "20rem",
                 sm: "24rem",
                 md: "28rem",
