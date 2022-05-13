@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
 import { uid } from "uid";
 
@@ -25,6 +25,7 @@ const useAddPost = () => {
             textContent,
             coinId,
             likes: 0,
+            timestamp: serverTimestamp(),
             comments: [],
         })
             .then(() => {

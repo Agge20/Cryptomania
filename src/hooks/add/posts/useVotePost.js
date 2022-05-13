@@ -1,47 +1,94 @@
-import { ref } from "vue";
+// vuex
 import { useStore } from "vuex";
-import { doc, setDoc } from "firebase/firestore";
+
+import {
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    increment,
+    arrayUnion,
+    arrayRemove,
+} from "firebase/firestore";
 import { db } from "../../../firebase/index.js";
-import { uid } from "uid";
 
-const useAddPost = () => {
-    const error = ref(null);
-    const loading = ref(null);
+const useVotePost = () => {
     const store = useStore();
-    const postId = ref(null);
 
-    // get data
-    const addPost = async (postId) => {
-        loading.value = true;
-        error.value = null;
+    const votePost = async (postId, shouldIncrement) => {
+        // refs
+        const userDocRef = doc(db, "users", store.state.user.uid);
+        const postRef = doc(db, "posts", postId);
 
-        // create the post
-        await setDoc(doc(db, "posts", postId.value), {
-            id: postId.value,
-            authorId: store.state.user.uid,
-            authorUsername: store.state.user.email,
-            title,
-            textContent,
-            coinId,
-            likes: 0,
-            comments: [],
-        })
-            .then(() => {
-                loading.value = false;
-                error.value = false;
-            })
-            .catch((err) => {
-                error.value = err;
-                loading.value = false;
-            });
+        const userDocument = (await getDoc(userDocRef)).data();
+
+        if (shouldIncrement) {
+            let alreadyLiked = false;
+            // check if user has already liked this post
+            if (userDocument.votedPosts) {
+                for (let i = 0; i < userDocument.votedPosts.length; i++) {
+                    if (userDocument.votedPosts[i].postId === postId) {
+                        if (userDocument.votedPosts[i].liked === true) {
+                            alreadyLiked = true;
+                        }
+                    }
+                }
+            }
+
+            // if user has NOT already liked this post
+            if (!alreadyLiked) {
+                await updateDoc(postRef, {
+                    likes: increment(1),
+                });
+
+                await updateDoc(userDocRef, {
+                    votedPosts: arrayRemove({
+                        postId: postId,
+                        liked: false,
+                    }),
+                });
+                await updateDoc(userDocRef, {
+                    votedPosts: arrayUnion({
+                        postId: postId,
+                        liked: true,
+                    }),
+                });
+            }
+        } else {
+            let alreadyLiked = false;
+            // check if user has already liked this post
+            if (userDocument.votedPosts) {
+                for (let i = 0; i < userDocument.votedPosts.length; i++) {
+                    if (userDocument.votedPosts[i].postId === postId) {
+                        if (userDocument.votedPosts[i].liked !== true) {
+                            alreadyLiked = true;
+                        }
+                    }
+                }
+            }
+
+            // if user has NOT already liked this post
+            if (!alreadyLiked) {
+                await updateDoc(postRef, {
+                    likes: increment(-1),
+                });
+                await updateDoc(userDocRef, {
+                    votedPosts: arrayRemove({
+                        postId: postId,
+                        liked: true,
+                    }),
+                });
+                await updateDoc(userDocRef, {
+                    votedPosts: arrayUnion({
+                        postId: postId,
+                        liked: false,
+                    }),
+                });
+            }
+        }
     };
 
-    return {
-        addPost,
-        loading,
-        error,
-        postId,
-    };
+    return { votePost };
 };
 
-export default useAddPost;
+export default useVotePost;

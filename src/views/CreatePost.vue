@@ -4,7 +4,7 @@
 
         <form @submit.prevent="handleLogin" v-if="!loading">
             <Label :for="'title'" :data="'Title'" :theme="{ dark: true }" />
-            <input type="text" name="title" v-model="titleInput" />
+            <input type="text" name="title" v-model="titleInput" maxlength="32" />
             <Label :for="'password'" :data="'Text Editor'" :theme="{ dark: true }" />
 
             <Editor v-model="content" />
