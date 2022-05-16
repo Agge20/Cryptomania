@@ -104,6 +104,7 @@ export default {
                     })
                     .catch((err) => {
                         console.log(err);
+                        loginError.value = err;
                     });
             } catch (err) {
                 console.log("catch ran...");
