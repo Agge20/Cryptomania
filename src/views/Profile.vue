@@ -95,6 +95,10 @@ export default {
     }
 }
 
+.post__wrapper {
+    @apply w-full;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
     .profile {
         @apply flex-col  items-start;
